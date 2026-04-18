@@ -1,2 +1,2 @@
 # shubh-portfolio-26
-This is design portfolio site of shubh design for 2026.
+This is a design portfolio site of Shubh Design for 2026.

@@ -29,18 +29,18 @@ export default function Home() {
       {/* Background Gradients */}
       <div
         style={styles.gradientCircleOne}
-        className="w-[30rem] h-[30rem] rounded-full blur-3xl opacity-30 absolute z-0"
+        className="w-120 h-120 rounded-full blur-3xl opacity-30 absolute z-0"
       ></div>
       <div
         style={styles.gradientCircleTwo}
-        className="w-[50rem] h-[50rem] rounded-full blur-3xl opacity-20 absolute z-0"
+        className="w-200 h-200 rounded-full blur-3xl opacity-20 absolute z-0"
       ></div>
       <div
         style={styles.gradientCircleThree}
-        className="w-[50rem] h-[50rem] rounded-full blur-3xl opacity-20 absolute z-0"
+        className="w-200 h-200 rounded-full blur-3xl opacity-20 absolute z-0"
       ></div>
 
-      <div className="max-w-[1200px] mx-auto z-10 relative">
+      <div className="max-w-300 mx-auto z-10 relative">
         <Hero />
         
         <div id="work">
@@ -58,7 +58,7 @@ export default function Home() {
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-12">Let's build a better system.</h2>
           
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 mb-20">
-            <a href="mailto:hello@shubh.design" className="text-3xl md:text-5xl font-light text-accent-light hover:text-white transition-colors duration-300 tracking-wide">
+            <a href="mailto:hello@shubh.design" className="text-3xl md:text-5xl font-light text-gray-100 hover:text-white transition-colors duration-300 tracking-wide">
               hello@shubh.design
             </a>
             <div className="flex items-center gap-8 text-lg text-gray-400 font-medium">

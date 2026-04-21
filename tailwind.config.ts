@@ -15,6 +15,11 @@ const config: Config = {
           blue: "#3B82F6", 
         },
       },
+      spacing: {
+        "120": "30rem",
+        "200": "50rem",
+        "300": "1200px",
+      },
     },
   },
   plugins: [],

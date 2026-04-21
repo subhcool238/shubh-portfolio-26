@@ -1,0 +1,100 @@
+@import url('https://fonts.cdnfonts.com/css/metropolis-2');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Metropolis", sans-serif;
+  --color-stone-950: #0c0a09;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-stone-950);
+    color: white;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  /* Apply cursor hiding only on devices with fine pointers (desktops) */
+  @media (pointer: fine) {
+    *, a, button {
+      cursor: none !important;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+/* Blob Animation */
+@keyframes blob {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+}
+
+.animate-blob {
+  animation: blob 8s ease-in-out infinite alternate;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+/* Exact Cursor CSS from Github */
+.cursor {
+  z-index: 10000;
+  width: 40px; 
+  height: 40px;
+  border-radius: 100%; 
+  border: 1px solid white; 
+  transition: all 200ms ease-out; 
+  position: fixed; 
+  pointer-events: none; 
+}
+
+.cursor2 {
+  z-index: 10000;
+  width: 10px; 
+  height: 10px;
+  border-radius: 100%; 
+  background-color: white; 
+  opacity: 0.9; 
+  position: fixed; 
+  transform: translate(-50%, -50%); 
+  pointer-events: none; 
+}
+
+.cursor3 {
+  z-index: 10000;
+  width: 55px; 
+  height: 55px;
+  border-radius: 100%; 
+  border: 1px solid white; 
+  transition: all 200ms ease-out; 
+  position: fixed; 
+  pointer-events: none; 
+}
+
+.hover {
+  /* background-color: red;  */
+}
+
+.cursorinnerhover {
+  width: 50px; 
+  height: 50px; 
+}

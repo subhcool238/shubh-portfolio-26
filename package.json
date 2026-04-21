@@ -1,0 +1,37 @@
+{
+  "name": "shubh-portfolio-26",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.0",
+    "@splinetool/react-spline": "^4.1.0",
+    "@types/three": "^0.184.0",
+    "@vapi-ai/web": "^2.5.2",
+    "autoprefixer": "^10.5.0",
+    "gsap": "^3.15.0",
+    "lucide-react": "^1.8.0",
+    "next": "16.2.4",
+    "postcss": "^8.5.10",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "three": "^0.184.0",
+    "use-scramble": "^2.2.15"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5"
+  }
+}

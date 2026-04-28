@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { MoveRight } from "lucide-react";
 
 export default function About() {
   return (
-    <section className="py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5 relative overflow-hidden">
+    <section id="about" className="py-32 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5 relative overflow-hidden">
       {/* Background Subtle Glow */}
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[100px] -translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 
@@ -23,13 +24,13 @@ export default function About() {
           </p>
           
           <div className="pt-4">
-            <button className="group flex items-center gap-3 text-sm tracking-widest text-accent-light hover:text-white transition-colors duration-300">
+            <Link href="/about" className="group flex items-center gap-3 text-sm tracking-widest text-accent-light hover:text-white transition-colors duration-300">
               <span className="relative overflow-hidden">
-                <span className="inline-block group-hover:-translate-y-full transition-transform duration-300 ease-in-out">View Full Resume</span>
-                <span className="absolute left-0 top-full inline-block group-hover:-translate-y-full transition-transform duration-300 ease-in-out">View Full Resume</span>
+                <span className="inline-block group-hover:-translate-y-full transition-transform duration-300 ease-in-out">View Full Profile</span>
+                <span className="absolute left-0 top-full inline-block group-hover:-translate-y-full transition-transform duration-300 ease-in-out">View Full Profile</span>
               </span>
               <MoveRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300 ease-in-out" />
-            </button>
+            </Link>
           </div>
         </div>
       </div>

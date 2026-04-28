@@ -12,6 +12,8 @@ const styles = {
   },
 };
 
+import Agent from "./Agent";
+
 function TextScrambleComponent() {
   const textIndex = useRef(0);
   const skills = [
@@ -68,8 +70,8 @@ export default function Hero() {
             </p>
           </div>
         </div>
-        <div className="w-1/3 hidden lg:flex justify-end">
-          {/* Spline Blob is now rendered globally by Agent.tsx and positioned here */}
+        <div className="w-full lg:w-1/3 hidden lg:flex justify-end items-center relative h-[400px]">
+          <Agent />
         </div>
       </div>
       <div className="text-2xl text-center absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 
 const MouseCursor = () => {
@@ -9,13 +10,23 @@ const MouseCursor = () => {
   const textRef = useRef<HTMLSpanElement>(null);
   const progressCircleRef = useRef<SVGCircleElement>(null);
   
-  const [isVisible, setIsVisible] = useState(false);
+  // Mouse position refs (no re-renders on every frame)
+  const mousePos = useRef({ x: 0, y: 0 });
+  const dotPos = useRef({ x: 0, y: 0 });
+  const ringPos = useRef({ x: 0, y: 0 });
+  const rafId = useRef<number>(0);
+  
+  const [isVisible, setIsVisible] = useState(true);
   const [cursorText, setCursorText] = useState("");
-  const [cursorState, setCursorState] = useState<"default" | "hover" | "text" | "scroll">("default");
+  const [cursorState, setCursorState] = useState<"default" | "hover" | "text">("default");
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  // Use Next.js pathname for reliable route detection
+  const pathname = usePathname();
+  const isCaseStudy = pathname.includes('/case-study');
+
+  // Scroll progress tracker
   useEffect(() => {
-    // Scroll progress tracker for case study pages
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -24,32 +35,46 @@ const MouseCursor = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Init
+    handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // The core animation loop — uses requestAnimationFrame + lerp for buttery smoothness
+  const animate = useCallback(() => {
+    if (!dotRef.current || !ringRef.current) {
+      rafId.current = requestAnimationFrame(animate);
+      return;
+    }
+
+    // Dot follows mouse almost instantly (lerp factor 0.9)
+    dotPos.current.x += (mousePos.current.x - dotPos.current.x) * 0.9;
+    dotPos.current.y += (mousePos.current.y - dotPos.current.y) * 0.9;
+
+    // Ring trails with heavy damping (lerp factor 0.12) — this creates the premium lag
+    ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.12;
+    ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.12;
+
+    dotRef.current.style.left = `${dotPos.current.x}px`;
+    dotRef.current.style.top = `${dotPos.current.y}px`;
+
+    ringRef.current.style.left = `${ringPos.current.x}px`;
+    ringRef.current.style.top = `${ringPos.current.y}px`;
+
+    rafId.current = requestAnimationFrame(animate);
+  }, []);
+
   useEffect(() => {
-    if (!dotRef.current || !ringRef.current || !textRef.current) return;
+    rafId.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId.current);
+  }, [animate]);
 
-    // Center elements on their x/y coordinates
-    gsap.set(dotRef.current, { xPercent: -50, yPercent: -50 });
-    gsap.set(ringRef.current, { xPercent: -50, yPercent: -50 });
-
-    // Inner dot tracks instantly
-    const dotX = gsap.quickTo(dotRef.current, "x", { duration: 0.05, ease: "none" });
-    const dotY = gsap.quickTo(dotRef.current, "y", { duration: 0.05, ease: "none" });
-
-    // Outer ring trails with a spring-like delay
-    const ringX = gsap.quickTo(ringRef.current, "x", { duration: 0.2, ease: "power3.out" });
-    const ringY = gsap.quickTo(ringRef.current, "y", { duration: 0.2, ease: "power3.out" });
-
+  // Mouse events
+  useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isVisible) setIsVisible(true);
-      dotX(e.clientX);
-      dotY(e.clientY);
-      ringX(e.clientX);
-      ringY(e.clientY);
+      mousePos.current.x = e.clientX;
+      mousePos.current.y = e.clientY;
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -69,19 +94,12 @@ const MouseCursor = () => {
         return;
       }
 
-      // On case study pages, default state still shows the scroll loader
-      // but we no longer set a separate "scroll" cursorState for non-hoverable areas.
-      // The scroll SVG is always visible on case-study pages via isCaseStudy flag.
-
       setCursorState("default");
       setCursorText("");
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseover", handleMouseOver);
-
-    // Run once on mount to establish correct state based on URL
-    handleMouseOver({ target: document.body } as unknown as MouseEvent);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -94,13 +112,10 @@ const MouseCursor = () => {
     if (!dotRef.current || !ringRef.current || !textRef.current) return;
 
     if (cursorState === "text") {
-      // Large solid circle with text
       gsap.to(ringRef.current, {
         width: 110,
         height: 110,
         backgroundColor: "rgba(255, 255, 255, 1)",
-        border: "0px solid rgba(255,255,255,0)",
-        mixBlendMode: "normal", // Disable difference so it's a solid white circle
         duration: 0.3,
         ease: "power2.out"
       });
@@ -113,13 +128,10 @@ const MouseCursor = () => {
       gsap.to(dotRef.current, { opacity: 0, scale: 0, duration: 0.2 });
       
     } else if (cursorState === "hover") {
-      // Expanded hollow ring for links
       gsap.to(ringRef.current, {
         width: 60,
         height: 60,
         backgroundColor: "rgba(255, 255, 255, 0)",
-        border: "1px solid rgba(255,255,255,0.5)",
-        mixBlendMode: "difference",
         duration: 0.3,
         ease: "power2.out"
       });
@@ -127,13 +139,10 @@ const MouseCursor = () => {
       gsap.to(dotRef.current, { opacity: 1, scale: 1, duration: 0.2 });
       
     } else {
-      // Default state — small compact ring
       gsap.to(ringRef.current, {
-        width: 28,
-        height: 28,
+        width: 40,
+        height: 40,
         backgroundColor: "rgba(255, 255, 255, 0)",
-        border: "1px solid rgba(255,255,255,0.3)",
-        mixBlendMode: "difference",
         duration: 0.3,
         ease: "power2.out"
       });
@@ -142,21 +151,17 @@ const MouseCursor = () => {
     }
   }, [cursorState]);
 
-  // Detect if we're on a case-study page
-  const [isCaseStudy, setIsCaseStudy] = useState(false);
+  // Update SVG stroke offset based on scroll progress (only on project/case-study pages)
   useEffect(() => {
-    setIsCaseStudy(window.location.pathname.includes('/case-study'));
-  }, []);
-
-  // Update SVG stroke offset based on scroll progress
-  useEffect(() => {
-    if (progressCircleRef.current && isCaseStudy) {
-      const radius = 39;
+    if (progressCircleRef.current) {
+      const radius = 18;
       const circumference = 2 * Math.PI * radius;
-      const offset = circumference - scrollProgress * circumference;
+      const offset = isCaseStudy
+        ? circumference - scrollProgress * circumference
+        : 0; // Fully filled ring on non-project pages
       gsap.to(progressCircleRef.current, {
         strokeDashoffset: offset,
-        duration: 0.1,
+        duration: 0.15,
         ease: "none"
       });
     }
@@ -167,37 +172,41 @@ const MouseCursor = () => {
       {/* Inner Dot */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[10001] hidden md:block mix-blend-difference"
+        className="fixed pointer-events-none z-[10001] hidden md:block"
         style={{
-          width: "8px", // Matches screenshot inner dot size
+          left: 0,
+          top: 0,
+          width: "8px",
           height: "8px",
+          borderRadius: "50%",
           backgroundColor: "white",
+          transform: "translate(-50%, -50%)",
           opacity: isVisible ? 1 : 0,
-          transition: "opacity 0.3s ease"
         }}
       />
       
       {/* Outer Trailing Ring */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[10000] flex items-center justify-center overflow-hidden hidden md:flex mix-blend-difference"
+        className="fixed pointer-events-none z-[10000] hidden md:flex items-center justify-center overflow-hidden"
         style={{
-          width: "28px",
-          height: "28px",
-          border: "1px solid rgba(255,255,255,0.3)",
+          left: 0,
+          top: 0,
+          width: "40px",
+          height: "40px",
+          borderRadius: "50%",
+          transform: "translate(-50%, -50%)",
           opacity: isVisible ? 1 : 0,
-          transition: "opacity 0.3s ease"
         }}
       >
-        {/* SVG Scroll Progress Loader */}
+        {/* SVG Scroll Progress Ring */}
         <svg 
-          viewBox="0 0 80 80"
-          className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" 
-          style={{ opacity: isCaseStudy ? 1 : 0, transition: "opacity 0.3s" }}
+          viewBox="0 0 40 40"
+          className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
         >
           {/* Faint background track */}
           <circle 
-            cx="40" cy="40" r="39" 
+            cx="20" cy="20" r="18" 
             fill="none" 
             stroke="rgba(255,255,255,0.15)" 
             strokeWidth="1" 
@@ -205,12 +214,12 @@ const MouseCursor = () => {
           {/* Active progress fill */}
           <circle 
             ref={progressCircleRef}
-            cx="40" cy="40" r="39" 
+            cx="20" cy="20" r="18" 
             fill="none" 
             stroke="white" 
-            strokeWidth="2"
-            strokeDasharray={2 * Math.PI * 39}
-            strokeDashoffset={2 * Math.PI * 39}
+            strokeWidth="1.5"
+            strokeDasharray={2 * Math.PI * 18}
+            strokeDashoffset={2 * Math.PI * 18}
             strokeLinecap="round"
           />
         </svg>

@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import MouseCursor from "./components/MouseCursor";
 import "./globals.css";
+import Navbar from "./components/Navbar";
+
+import SynChat from "./components/SynChat";
+
+import { ThemeProvider } from "./components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Shubhanshu | Portfolio",
@@ -13,10 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className="font-sans antialiased bg-stone-950 text-white selection:bg-blue-500 selection:text-white">
-        <MouseCursor />
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className="font-sans antialiased bg-background text-on-background transition-colors duration-300" suppressHydrationWarning>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <MouseCursor />
+          <Navbar />
+          {children}
+          <SynChat />
+        </ThemeProvider>
       </body>
     </html>
   );

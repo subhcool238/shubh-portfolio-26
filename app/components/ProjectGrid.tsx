@@ -29,6 +29,7 @@ const projects: Project[] = [
     ],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // Replace with actual WebP/MP4
     placeholderColor: "bg-stone-900",
+    link: "/case-study/flytbase",
   },
   {
     id: "guruvr",
@@ -40,6 +41,7 @@ const projects: Project[] = [
     ],
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
     placeholderColor: "bg-neutral-900",
+    link: "/case-study/guru-vr",
   },
   {
     id: "zoosystem",

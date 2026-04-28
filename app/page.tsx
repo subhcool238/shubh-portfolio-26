@@ -25,7 +25,7 @@ const styles = {
 
 export default function Home() {
   return (
-    <main className="w-full overflow-hidden relative bg-stone-950 text-white px-5 min-h-screen">
+    <main className="w-full overflow-hidden relative text-stone-950 dark:text-white px-5 min-h-screen transition-colors duration-300">
       {/* Background Gradients */}
       <div
         style={styles.gradientCircleOne}
@@ -41,7 +41,9 @@ export default function Home() {
       ></div>
 
       <div className="max-w-300 mx-auto z-10 relative">
-        <Hero />
+        <div className="relative">
+          <Hero />
+        </div>
         
         <div id="work">
           <ProjectGrid />
@@ -49,9 +51,6 @@ export default function Home() {
         
         <About />
         <Polymath />
-        
-        {/* Persistent Live Voice Agent */}
-        <Agent />
 
         {/* Footer */}
         <footer className="py-24 border-t border-white/5 mt-12 flex flex-col items-center text-center">

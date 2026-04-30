@@ -13,7 +13,8 @@ import {
   Globe,
   Music,
   Play,
-  Share2
+  Share2,
+  Download
 } from "lucide-react";
 import { PolaroidModule } from "../components/PolaroidModule";
 import Modal from "../components/Modal";
@@ -263,31 +264,37 @@ export default function AboutPage() {
             </button>
           </div>
           
-          <div className="w-full md:w-1/2 aspect-square bg-stone-950/50 rounded-[32px] border border-white/5 relative overflow-hidden flex items-center justify-center group-hover:border-blue-500/20 transition-colors duration-700">
-             <div className="absolute inset-0 opacity-[0.03] pointer-events-none group-hover:opacity-[0.07] transition-opacity">
-                {/* Visual grid/pattern */}
-                <div className="w-full h-full bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:32px_32px]"></div>
-             </div>
-             
-             {/* Dynamic Scan Line */}
-             <div className="absolute inset-0 bg-gradient-to-b from-blue-500/0 via-blue-500/10 to-blue-500/0 h-1/2 w-full -translate-y-full group-hover:animate-scan pointer-events-none"></div>
-
-             <div className="relative z-10 w-3/4 h-3/4 border border-white/5 rounded-3xl flex flex-col items-center justify-center gap-6 text-white/10 group-hover:text-white/20 transition-colors">
-                <div className="relative">
-                   <Camera className="w-16 h-16" />
-                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500/40 rounded-full animate-pulse"></div>
-                </div>
-                <div className="flex flex-col items-center gap-2">
-                   <span className="text-[10px] font-bold tracking-[0.4em] uppercase">Camera Standby</span>
-                   <span className="text-[8px] font-mono opacity-50 tracking-widest">SYS.CAPTURE_MODE: ACTIVE</span>
-                </div>
-             </div>
-
-             {/* Corner Details */}
-             <div className="absolute top-8 left-8 w-4 h-4 border-t border-l border-white/20"></div>
-             <div className="absolute top-8 right-8 w-4 h-4 border-t border-r border-white/20"></div>
-             <div className="absolute bottom-8 left-8 w-4 h-4 border-b border-l border-white/20"></div>
-             <div className="absolute bottom-8 right-8 w-4 h-4 border-b border-r border-white/20"></div>
+          <div className="w-full md:w-1/2 flex items-center justify-center relative perspective-1000">
+            <motion.div 
+               initial={{ rotate: 4 }}
+               whileInView={{ rotate: 4 }}
+               whileHover={{ rotate: 0, scale: 1.05 }}
+               className="w-64 md:w-72 aspect-[3/4] bg-[#fdfdfd] p-3 pb-12 shadow-[0_15px_30px_rgba(0,0,0,0.5)] rounded-sm border border-black/10 origin-center cursor-pointer transition-transform duration-300 flex flex-col"
+            >
+               {/* Image placeholder for Shubhanshu's World */}
+               <div className="w-full flex-1 bg-[#111] relative overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)] border border-black/5 flex items-end justify-center">
+                  {/* Center Glow */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-yellow-100/10 blur-xl rounded-full"></div>
+                  
+                  {/* Horizon line */}
+                  <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent shadow-[0_0_8px_rgba(255,255,255,0.5)]"></div>
+                  
+                  {/* Silhouette */}
+                  <div className="w-20 h-20 bg-[#0a0a0a] rounded-t-[40px] relative z-10 shadow-[0_-5px_15px_rgba(0,0,0,0.5)]">
+                     <div className="absolute -top-7 left-1/2 -translate-x-1/2 w-10 h-12 bg-[#0a0a0a] rounded-[24px]"></div>
+                  </div>
+               </div>
+               
+               <div className="absolute bottom-0 left-0 w-full h-12 flex items-center justify-between px-3">
+                 <span className="text-[11px] font-bold text-black/80 tracking-wide font-sans">
+                    Shubhanshu's World
+                 </span>
+                 
+                 <button className="text-black/30 hover:text-black transition-colors">
+                    <Download className="w-4 h-4" />
+                 </button>
+               </div>
+            </motion.div>
           </div>
         </div>
       </section>

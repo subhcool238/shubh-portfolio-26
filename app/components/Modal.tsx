@@ -28,7 +28,7 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
   return createPortal(
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
       <div 
-        className="relative w-full max-w-6xl h-[85vh] flex flex-col bg-[#0D0D0D] border border-white/10 rounded-[32px] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300"
+        className="relative w-full max-w-7xl h-[95vh] flex flex-col bg-[#0D0D0D] border border-white/10 rounded-[32px] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-6 border-b border-white/5 flex items-center justify-between">

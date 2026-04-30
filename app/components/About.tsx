@@ -11,7 +11,7 @@ export default function About() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start relative z-10">
         <div className="lg:col-span-4">
-          <span className="text-gray-400 text-sm tracking-wider mb-4 block">02 // Background: The System Designer</span>
+          <span className="text-gray-400 text-sm tracking-wider mb-4 block">Background: The System Designer</span>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight">The System Designer</h2>
         </div>
         

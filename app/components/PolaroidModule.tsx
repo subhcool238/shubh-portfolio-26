@@ -20,44 +20,50 @@ export const PolaroidModule = () => {
     if (isCapturing || previewImg || ejectedImg) return; 
     
     setIsCapturing(true);
-    const imageSrc = webcamRef.current?.getScreenshot();
+    // Remove getScreenshot reliance for full quality
+    const video = webcamRef.current?.video;
     
     // Flash effect
     setTimeout(() => {
-      if (imageSrc) {
+      if (video && video.readyState === 4) {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        const img = new Image();
-        img.src = imageSrc;
-        img.onload = () => {
-          canvas.width = 400;
-          canvas.height = 480;
-          
-          // Background of the polaroid
-          ctx!.fillStyle = '#ffffff';
-          ctx!.fillRect(0, 0, 400, 480);
-          
-          // The image
-          const size = Math.min(img.width, img.height);
-          const startX = (img.width - size) / 2;
-          const startY = (img.height - size) / 2;
-          ctx!.drawImage(img, startX, startY, size, size, 16, 16, 368, 368);
-          
-          // Draw thin border around image like the screenshot
-          ctx!.strokeStyle = 'rgba(0,0,0,0.1)';
-          ctx!.lineWidth = 1;
-          ctx!.strokeRect(16, 16, 368, 368);
+        
+        // 800x960 canvas for crisp high-dpi images
+        canvas.width = 800;
+        canvas.height = 960;
+        
+        // Background of the polaroid
+        ctx!.fillStyle = '#ffffff';
+        ctx!.fillRect(0, 0, 800, 960);
+        
+        // The image
+        const size = Math.min(video.videoWidth, video.videoHeight);
+        const startX = (video.videoWidth - size) / 2;
+        const startY = (video.videoHeight - size) / 2;
+        
+        // Draw mirrored image directly from video for true resolution
+        ctx!.save();
+        ctx!.translate(32 + 736 / 2, 32 + 736 / 2);
+        ctx!.scale(-1, 1);
+        ctx!.drawImage(video, startX, startY, size, size, -736 / 2, -736 / 2, 736, 736);
+        ctx!.restore();
+        
+        // Draw thin border around image like the screenshot
+        ctx!.strokeStyle = 'rgba(0,0,0,0.1)';
+        ctx!.lineWidth = 2;
+        ctx!.strokeRect(32, 32, 736, 736);
 
-          // Signature/Text - Hand-written style date + time
-          ctx!.fillStyle = '#111';
-          ctx!.font = 'italic 16px "Comic Sans MS", cursive, sans-serif';
-          const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-          const timeStr = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-          const text = `${dateStr} ${timeStr}`;
-          const textWidth = ctx!.measureText(text).width;
-          ctx!.fillText(text, 400 - 16 - textWidth, 440);
-          
-          const finalImg = canvas.toDataURL('image/png');
+        // Signature/Text - Hand-written style date + time
+        ctx!.fillStyle = '#111';
+        ctx!.font = 'italic 32px "Comic Sans MS", cursive, sans-serif';
+        const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        const timeStr = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        const text = `${dateStr} ${timeStr}`;
+        const textWidth = ctx!.measureText(text).width;
+        ctx!.fillText(text, 800 - 32 - textWidth, 880);
+        
+        const finalImg = canvas.toDataURL('image/png');
           
           // 1. Eject animation starts
           setEjectedImg(finalImg);
@@ -66,7 +72,6 @@ export const PolaroidModule = () => {
           setTimeout(() => {
              setPreviewImg(finalImg);
           }, 1200);
-        };
       }
       setIsCapturing(false);
     }, 150);
@@ -128,10 +133,12 @@ export const PolaroidModule = () => {
         {/* CSS Polaroid Camera */}
         <div className="relative flex flex-col items-center">
           
-          <div className="relative w-80 h-[400px] md:w-[360px] md:h-[440px] rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col z-20">
+          <div className="relative w-80 h-[400px] md:w-[360px] md:h-[440px] rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col z-20 bg-gradient-to-b from-[#222] to-[#111]">
             
             {/* Lower Black Section (Background) - z-10 */}
-            <div className="absolute bottom-0 left-0 w-full h-[35%] flex flex-col justify-end pb-8 px-8 z-10 bg-gradient-to-b from-[#222] to-[#111] rounded-b-3xl overflow-hidden">
+            <div className="absolute bottom-0 left-0 w-full h-[35%] flex flex-col justify-end pb-4 px-8 z-10 rounded-b-3xl overflow-hidden">
+               <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-gray-500 via-gray-300 to-gray-500"></div>
+               
                <div className="flex justify-between items-end mt-4">
                   {/* Color Stripes */}
                   <div className="flex flex-col gap-[2px]">
@@ -150,23 +157,8 @@ export const PolaroidModule = () => {
             {isCapturing && (
               <div className="absolute inset-0 bg-white animate-out fade-out duration-[400ms] z-50 rounded-3xl pointer-events-none"></div>
             )}
-            
-            {/* Ejecting Photo Animation - z-20 (Slides between upper black mask and lower black text) */}
-            <AnimatePresence>
-               {ejectedImg && (
-                  <motion.div 
-                     initial={{ top: "60%", y: 0, opacity: 0 }}
-                     animate={{ top: "80%", y: 0, opacity: 1 }}
-                     exit={{ opacity: 0 }}
-                     transition={{ duration: 0.8, ease: "easeOut" }}
-                     className="absolute left-1/2 -translate-x-1/2 w-[70%] shadow-[0_15px_30px_rgba(0,0,0,0.4)] z-20"
-                  >
-                     <img src={ejectedImg} className="w-full h-auto" alt="Ejected Polaroid" />
-                  </motion.div>
-               )}
-            </AnimatePresence>
 
-            {/* Top White Section & Upper Black Mask & Lens - z-30 */}
+            {/* Top White Section - z-30 */}
             <div className="absolute top-0 left-0 w-full h-[65%] z-30 flex flex-col pointer-events-none">
                <div className="relative w-full h-full bg-gradient-to-b from-[#fdfdfd] to-[#e8e8e8] rounded-t-3xl border-t border-x border-white/80 p-6 pointer-events-auto shadow-[0_10px_20px_rgba(0,0,0,0.3)]">
                   
@@ -210,33 +202,43 @@ export const PolaroidModule = () => {
                   <div className="absolute right-8 bottom-4 w-6 h-6 rounded-full bg-black shadow-inner flex items-center justify-center">
                     <div className="w-2 h-2 rounded-full bg-gray-800"></div>
                   </div>
-               </div>
 
-               {/* Upper Black Mask - covers the gap between white section and slot */}
-               <div className="relative w-full h-20 bg-[#222] z-30 border-x border-[#222]">
-                   {/* Rainbow Stripe now goes here so it's at the boundary */}
-                   <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-gray-500 via-gray-300 to-gray-500"></div>
-                   
-                   {/* The Little Bar (Film Slot) - At bottom of this mask */}
-                   <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 w-[85%] h-8 bg-[#2a2a2a] rounded border border-[#111] shadow-[0_10px_20px_rgba(0,0,0,0.6)] flex items-center justify-center z-30 pointer-events-none">
-                      <div className="w-[95%] h-3 bg-[#050505] rounded-full shadow-[inset_0_4px_8px_rgba(0,0,0,1)] border-b border-white/5"></div>
-                   </div>
-               </div>
-               
-               {/* Lens Structure (Hanging off the bottom of white section, now overlaps mask) */}
-               <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-44 h-44 md:w-52 md:h-52 rounded-full bg-gradient-to-br from-gray-900 via-black to-gray-900 shadow-[0_15px_30px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.4)] flex items-center justify-center border-4 border-gray-300 z-40 pointer-events-none">
-                  <div className="w-32 h-32 md:w-36 md:h-36 rounded-full bg-[#111] shadow-[inset_0_10px_20px_rgba(0,0,0,0.8)] flex items-center justify-center border-2 border-gray-800">
-                     <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-black border-4 border-[#0a0a0a] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,1)]">
-                        {/* Lens Glare */}
-                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#050505] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] relative overflow-hidden">
-                           <div className="absolute -top-2 -left-2 w-10 h-10 rounded-full bg-blue-500/10 blur-md"></div>
-                           <div className="absolute top-2 left-2 w-3 h-3 rounded-full bg-white/30 blur-[1px]"></div>
+                  {/* Lens Structure (Shifted up to -bottom-10) */}
+                  <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-44 h-44 md:w-52 md:h-52 rounded-full bg-gradient-to-br from-gray-900 via-black to-gray-900 shadow-[0_15px_30px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.4)] flex items-center justify-center border-4 border-gray-300 z-40 pointer-events-none">
+                     <div className="w-32 h-32 md:w-36 md:h-36 rounded-full bg-[#111] shadow-[inset_0_10px_20px_rgba(0,0,0,0.8)] flex items-center justify-center border-2 border-gray-800">
+                        <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-black border-4 border-[#0a0a0a] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,1)]">
+                           {/* Lens Glare */}
+                           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#050505] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] relative overflow-hidden">
+                              <div className="absolute -top-2 -left-2 w-10 h-10 rounded-full bg-blue-500/10 blur-md"></div>
+                              <div className="absolute top-2 left-2 w-3 h-3 rounded-full bg-white/30 blur-[1px]"></div>
+                           </div>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
 
+            {/* The Little Bar (Film Slot) - Just a bar drawn on the black body below the lens */}
+            <div className="absolute top-[calc(65%+56px)] left-1/2 -translate-x-1/2 w-[85%] h-6 bg-[#2a2a2a] rounded border border-[#111] shadow-[0_10px_20px_rgba(0,0,0,0.6)] flex items-center justify-center z-30 pointer-events-none">
+               <div className="w-[95%] h-2 bg-[#050505] rounded-full shadow-[inset_0_4px_8px_rgba(0,0,0,1)] border-b border-white/5"></div>
+            </div>
+
+            {/* Ejecting Photo Animation Container - z-20 (Overflow hidden so it slides down visually from the slot) */}
+            <div className="absolute top-[calc(65%+56px+14px)] left-0 w-full h-[400px] overflow-hidden pointer-events-none z-20">
+               <AnimatePresence>
+                  {ejectedImg && (
+                     <motion.div 
+                        initial={{ y: "-100%" }}
+                        animate={{ y: "20px" }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] shadow-[0_15px_30px_rgba(0,0,0,0.4)]"
+                     >
+                        <img src={ejectedImg} className="w-full h-auto" alt="Ejected Polaroid" />
+                     </motion.div>
+                  )}
+               </AnimatePresence>
+            </div>
           </div>
 
           {/* Camera Controls Footer */}
@@ -286,15 +288,13 @@ export const PolaroidModule = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-[#0D0D0D]/95 backdrop-blur-md rounded-[24px]"
+            onClick={handleSkip}
           >
-            <div className="relative flex flex-col items-center w-full max-w-2xl px-6">
+            <div 
+              className="relative flex flex-col items-center w-full max-w-2xl px-6"
+              onClick={(e) => e.stopPropagation()}
+            >
               
-              <div className="absolute -top-12 right-0">
-                 <button onClick={handleSkip} className="p-3 text-white/50 hover:text-white transition-colors">
-                   <X className="w-6 h-6" />
-                 </button>
-              </div>
-
               {/* The Big Polaroid */}
               <motion.div 
                 initial={{ y: 20 }}

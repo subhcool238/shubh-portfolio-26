@@ -75,7 +75,7 @@ export default function ProjectGrid() {
     <section className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
       <div className="flex justify-between items-end mb-20">
         <h2 className="text-4xl md:text-6xl font-bold tracking-tight">Selected Work</h2>
-        <span className="text-gray-400 text-sm tracking-wider">01 // Case Studies</span>
+        <span className="text-gray-400 text-sm tracking-wider">Case Studies</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-32">

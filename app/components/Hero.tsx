@@ -41,9 +41,10 @@ function TextScrambleComponent() {
   });
 
   useEffect(() => {
+    // Increased interval to 3500ms to allow the text to be readable for ~1.5s before scrambling again
     const intervalRf = setInterval(() => {
       setScrambleText(generateWords());
-    }, 1500);
+    }, 3500);
     return () => clearInterval(intervalRf);
   }, []);
 
@@ -57,7 +58,7 @@ export default function Hero() {
         <div className="w-full lg:w-2/3">
           <div className="text-left">
             <p className="text-4xl sm:text-5xl font-bold">
-              Hello! I’m <span style={styles.linearTextGradient}>Sanky.</span>{" "}
+              Hello! I’m <span style={styles.linearTextGradient}>Shubhanshu.</span>{" "}
             </p>
             <p className="text-4xl sm:text-5xl font-bold mt-2">
               I <span className="italic font-normal">design</span>{" "}

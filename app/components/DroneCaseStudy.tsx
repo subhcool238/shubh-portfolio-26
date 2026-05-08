@@ -126,7 +126,7 @@ const sections: Section[] = [
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
           To solve &quot;information overload,&quot; I architected an AI-powered triage layer. The system filters thousands of incoming sensor inputs, flagging only genuine security anomalies while suppressing routine noise (e.g., HVAC vibrations, cleaning staff). This enables the human operator to focus exclusively on confirmed threats.
         </p>
-        <div className="mt-6 grid grid-cols-3 gap-4">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { label: "Sensor Inputs", value: "2,400+", sub: "per hour" },
             { label: "Noise Suppressed", value: "97%", sub: "false positives" },
@@ -324,74 +324,105 @@ export default function DroneCaseStudy() {
       <div className="fixed w-[984px] h-[984px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
       <div className="fixed w-[984px] h-[984px] left-[10vw] bottom-[-20vh] origin-top-left rotate-[60deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
 
-      {/* Top Header */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/5">
-        <div className="max-w-[1200px] mx-auto px-6 h-24 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-lg font-medium tracking-wide text-white/90 hover:text-white transition-colors">
-            Home
-          </Link>
-          <div className="flex gap-8">
-            <span className="text-lg tracking-wide font-normal text-white/70 cursor-pointer hover:text-white transition-colors">Work</span>
-            <span className="text-lg tracking-wide font-normal text-white/70 cursor-pointer hover:text-white transition-colors">About</span>
+
+
+      {/* Header Section - Centered & Narrower */}
+      <div className="max-w-[800px] mx-auto px-6 pt-40 pb-20 text-center">
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-8 text-white">
+          FlytBase Drone Security
+        </h1>
+        <p className="text-xl font-normal text-white/70 leading-relaxed tracking-wide mb-16 max-w-3xl mx-auto">
+          A unified command center for autonomous drone security operations — conceptualized for Le Musée d&apos;Art Précieux, Paris.
+        </p>
+        
+        {/* Project Hero Image */}
+        <div className="w-full mb-20">
+          <img src="/flytbase/hero.png" alt="FlytBase Drone Security Command Center" className="w-full h-auto rounded-3xl object-cover shadow-2xl" />
+        </div>
+
+        {/* Project Metadata Box */}
+        <div className="grid grid-cols-2 md:grid-cols-4 py-10 rounded-3xl bg-white/5 border border-white/10 mb-20">
+          <div className="flex flex-col items-start text-left px-8 border-r border-white/10">
+            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Role</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">Product Designer</p>
+          </div>
+          <div className="flex flex-col items-start text-left px-8 md:border-r border-white/10">
+            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Team</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">Solo Designer</p>
+          </div>
+          <div className="flex flex-col items-start text-left px-8 border-r border-white/10 mt-8 md:mt-0">
+            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Timeline</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">4 Weeks</p>
+          </div>
+          <div className="flex flex-col items-start text-left px-8 mt-8 md:mt-0">
+            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Tools</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">Figma, Miro, Prototyping</p>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* Main Layout Grid */}
-      <div className="max-w-[1200px] mx-auto px-6 pt-40 pb-40 flex flex-col lg:flex-row gap-16 lg:gap-32">
-
-        {/* Left Sidebar (ScrollSpy) */}
-        <div className="w-full lg:w-[250px] flex-shrink-0 sticky top-40 self-start">
-          <nav className="flex flex-col gap-4">
-            {sections.map((section) => {
-              const isActive = activeSection === section.id;
-              return (
-                <a
-                  key={section.id}
-                  href={`#${section.id}`}
-                  onClick={(e) => scrollToSection(e, section.id)}
-                  className="group flex items-center gap-4 py-2"
-                >
-                  <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
-                    <div
+      {/* Main Layout - Sidebar + Content */}
+      <div className="max-w-[800px] mx-auto relative px-6 pb-40">
+        
+        {/* Left Sidebar Container - Positioned absolutely to the left of the centered content */}
+        <div className="hidden lg:block absolute right-full mr-72 top-0 bottom-0 w-[220px]">
+          <div className="sticky top-0 h-screen flex flex-col justify-center">
+            <nav className="flex flex-col gap-4">
+              {sections.map((section) => {
+                const isActive = activeSection === section.id;
+                return (
+                  <a
+                    key={section.id}
+                    href={`#${section.id}`}
+                    onClick={(e) => scrollToSection(e, section.id)}
+                    className="group flex items-center gap-4 py-2"
+                  >
+                    <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
+                      <div
+                        className={`
+                          transition-all duration-300
+                          ${isActive ? "text-white scale-110" : "text-white/40 group-hover:text-white/80 scale-100"}
+                        `}
+                      >
+                        {section.icon}
+                      </div>
+                    </div>
+                    <span
                       className={`
-                        transition-all duration-300
-                        ${isActive ? "text-white scale-110" : "text-white/40 group-hover:text-white/80 scale-100"}
+                        text-base tracking-wide transition-all duration-300
+                        ${isActive ? "font-bold text-white opacity-100" : "font-medium text-white/60 group-hover:text-white/90"}
                       `}
                     >
-                      {section.icon}
-                    </div>
-                  </div>
-                  <span
-                    className={`
-                      text-base tracking-wide transition-all duration-300
-                      ${isActive ? "font-bold text-white opacity-100" : "font-medium text-white/60 group-hover:text-white/90"}
-                    `}
-                  >
-                    {section.navLabel}
-                  </span>
-                </a>
-              );
-            })}
-          </nav>
+                      {section.navLabel}
+                    </span>
+                  </a>
+                );
+              })}
+            </nav>
+          </div>
         </div>
 
-        {/* Right Content */}
-        <div className="w-full lg:w-[706px] max-w-full">
-          {/* Header Section */}
-          <div className="mb-24">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-8 text-white">
-              FlytBase Drone Security
-            </h1>
-            <p className="text-xl font-normal text-white/70 leading-relaxed tracking-wide mb-12">
-              A unified command center for autonomous drone security operations — conceptualized for Le Musée d&apos;Art Précieux, Paris.
-            </p>
-            <div className="w-full">
-              <img src="/flytbase/hero.png" alt="FlytBase Drone Security Command Center" className="w-full h-auto rounded-lg object-cover" />
-            </div>
+        {/* Content Area */}
+        <div className="w-full">
+          {/* Mobile Navigation (Visible only on small screens) */}
+          <div className="lg:hidden mb-16">
+            <nav className="flex flex-wrap gap-4">
+              {sections.map((section) => {
+                const isActive = activeSection === section.id;
+                return (
+                  <a
+                    key={section.id}
+                    href={`#${section.id}`}
+                    onClick={(e) => scrollToSection(e, section.id)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${isActive ? "bg-white text-black" : "bg-white/5 text-white/60"}`}
+                  >
+                    {section.navLabel}
+                  </a>
+                );
+              })}
+            </nav>
           </div>
 
-          {/* Sections Content */}
           <div className="flex flex-col gap-24">
             {sections.map((section) => (
               <section
@@ -412,7 +443,6 @@ export default function DroneCaseStudy() {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );

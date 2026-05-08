@@ -21,7 +21,7 @@ export default function VinylPlayer() {
   };
 
   return (
-    <div className="bg-[#0D0D0D] rounded-[32px] border border-white/5 p-8 md:p-12 w-full max-w-5xl mx-auto flex flex-col gap-12 shadow-2xl">
+    <div className="bg-[#0D0D0D] rounded-[32px] border border-white/5 p-5 md:p-12 w-full max-w-5xl mx-auto flex flex-col gap-8 md:gap-12 shadow-2xl">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center bg-black">
@@ -37,7 +37,7 @@ export default function VinylPlayer() {
       <div className="flex flex-col lg:flex-row gap-12 items-center border-b border-white/5 pb-16">
         
         {/* Turntable Area */}
-        <div className="relative w-72 h-72 md:w-96 md:h-96 flex-shrink-0 flex items-center justify-center bg-[#050505] rounded-full border border-white/5 shadow-inner">
+        <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96 flex-shrink-0 flex items-center justify-center bg-[#050505] rounded-full border border-white/5 shadow-inner">
           {/* Vinyl Grooves */}
           {[90, 80, 70, 60].map((size, i) => (
              <div key={i} className="absolute rounded-full border border-white-[0.02]" style={{ width: `${size}%`, height: `${size}%` }}></div>

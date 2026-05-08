@@ -128,28 +128,28 @@ export const PolaroidModule = () => {
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
-      <div className="flex w-full h-full items-center justify-center gap-16 lg:gap-32 relative z-10">
+      <div className="flex flex-col lg:flex-row w-full h-full items-center justify-center gap-12 lg:gap-32 relative z-10 px-6 py-12 lg:p-0">
         
         {/* CSS Polaroid Camera */}
-        <div className="relative flex flex-col items-center">
+        <div className="relative flex flex-col items-center scale-90 sm:scale-100">
           
-          <div className="relative w-80 h-[400px] md:w-[360px] md:h-[440px] rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col z-20 bg-gradient-to-b from-[#222] to-[#111]">
+          <div className="relative w-72 h-[380px] md:w-[360px] md:h-[440px] rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col z-20 bg-gradient-to-b from-[#222] to-[#111]">
             
             {/* Lower Black Section (Background) - z-10 */}
-            <div className="absolute bottom-0 left-0 w-full h-[35%] flex flex-col justify-end pb-4 px-8 z-10 rounded-b-3xl overflow-hidden">
+            <div className="absolute bottom-0 left-0 w-full h-[35%] flex flex-col justify-end pb-4 px-6 md:px-8 z-10 rounded-b-3xl overflow-hidden">
                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-gray-500 via-gray-300 to-gray-500"></div>
                
                <div className="flex justify-between items-end mt-4">
                   {/* Color Stripes */}
                   <div className="flex flex-col gap-[2px]">
-                     <div className="w-8 h-1.5 bg-[#e73c3e] rounded-sm"></div>
-                     <div className="w-8 h-1.5 bg-[#f58220] rounded-sm"></div>
-                     <div className="w-8 h-1.5 bg-[#ffc40d] rounded-sm"></div>
-                     <div className="w-8 h-1.5 bg-[#8bc53f] rounded-sm"></div>
-                     <div className="w-8 h-1.5 bg-[#009ee3] rounded-sm"></div>
+                     <div className="w-6 md:w-8 h-1 md:h-1.5 bg-[#e73c3e] rounded-sm"></div>
+                     <div className="w-6 md:w-8 h-1 md:h-1.5 bg-[#f58220] rounded-sm"></div>
+                     <div className="w-6 md:w-8 h-1 md:h-1.5 bg-[#ffc40d] rounded-sm"></div>
+                     <div className="w-6 md:w-8 h-1 md:h-1.5 bg-[#8bc53f] rounded-sm"></div>
+                     <div className="w-6 md:w-8 h-1 md:h-1.5 bg-[#009ee3] rounded-sm"></div>
                   </div>
                   
-                  <span className="text-white/80 font-bold tracking-[0.2em] text-lg font-sans">Polaroid</span>
+                  <span className="text-white/80 font-bold tracking-[0.2em] text-base md:text-lg font-sans">Polaroid</span>
                </div>
             </div>
 
@@ -160,12 +160,12 @@ export const PolaroidModule = () => {
 
             {/* Top White Section - z-30 */}
             <div className="absolute top-0 left-0 w-full h-[65%] z-30 flex flex-col pointer-events-none">
-               <div className="relative w-full h-full bg-gradient-to-b from-[#fdfdfd] to-[#e8e8e8] rounded-t-3xl border-t border-x border-white/80 p-6 pointer-events-auto shadow-[0_10px_20px_rgba(0,0,0,0.3)]">
+               <div className="relative w-full h-full bg-gradient-to-b from-[#fdfdfd] to-[#e8e8e8] rounded-t-3xl border-t border-x border-white/80 p-5 md:p-6 pointer-events-auto shadow-[0_10px_20px_rgba(0,0,0,0.3)]">
                   
                   {/* Top Bar with Flash, Viewfinder */}
                   <div className="flex justify-between items-start w-full">
                      {/* Flash */}
-                     <div className="w-16 h-20 bg-gradient-to-b from-gray-200 to-gray-300 rounded-lg border-2 border-gray-100 shadow-inner p-1">
+                     <div className="w-12 h-16 md:w-16 md:h-20 bg-gradient-to-b from-gray-200 to-gray-300 rounded-lg border-2 border-gray-100 shadow-inner p-1">
                        <div className="w-full h-full bg-white/50 rounded flex flex-col gap-[2px] overflow-hidden">
                           {[...Array(15)].map((_, i) => (
                             <div key={i} className="w-full h-[2px] bg-gray-400/30"></div>
@@ -174,12 +174,12 @@ export const PolaroidModule = () => {
                      </div>
 
                      {/* Tiny sensor dot */}
-                     <div className="w-4 h-4 rounded-full bg-black shadow-inner mt-2 ml-4">
-                        <div className="w-1 h-1 bg-white/40 rounded-full ml-1 mt-1"></div>
+                     <div className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-black shadow-inner mt-2 ml-4">
+                        <div className="w-1 h-1 bg-white/40 rounded-full ml-0.5 md:ml-1 mt-0.5 md:mt-1"></div>
                      </div>
 
                      {/* Viewfinder (Live Webcam) */}
-                     <div className="w-16 h-16 bg-[#111] rounded-xl border-4 border-gray-800 shadow-inner overflow-hidden relative ml-auto flex items-center justify-center group cursor-pointer" onClick={capture}>
+                     <div className="w-14 h-14 md:w-16 md:h-16 bg-[#111] rounded-xl border-4 border-gray-800 shadow-inner overflow-hidden relative ml-auto flex items-center justify-center group cursor-pointer" onClick={capture}>
                         <Webcam 
                            audio={false} 
                            ref={webcamRef} 
@@ -195,22 +195,22 @@ export const PolaroidModule = () => {
                   {/* Shutter Button */}
                   <button 
                      onClick={capture}
-                     className="absolute left-6 top-[130px] w-10 h-10 rounded-full bg-red-600 border-[3px] border-red-800 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_4px_10px_rgba(220,38,38,0.5)] active:scale-95 active:shadow-inner transition-all hover:brightness-110 z-30 pointer-events-auto"
+                     className="absolute left-5 md:left-6 top-[110px] md:top-[130px] w-8 h-8 md:w-10 md:h-10 rounded-full bg-red-600 border-[3px] border-red-800 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_4px_10px_rgba(220,38,38,0.5)] active:scale-95 active:shadow-inner transition-all hover:brightness-110 z-30 pointer-events-auto"
                   ></button>
 
                   {/* Dark Mode Sensor */}
-                  <div className="absolute right-8 bottom-4 w-6 h-6 rounded-full bg-black shadow-inner flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-gray-800"></div>
+                  <div className="absolute right-6 md:right-8 bottom-4 w-5 h-5 md:w-6 md:h-6 rounded-full bg-black shadow-inner flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gray-800"></div>
                   </div>
 
-                  {/* Lens Structure (Shifted up to -bottom-10) */}
-                  <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-44 h-44 md:w-52 md:h-52 rounded-full bg-gradient-to-br from-gray-900 via-black to-gray-900 shadow-[0_15px_30px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.4)] flex items-center justify-center border-4 border-gray-300 z-40 pointer-events-none">
-                     <div className="w-32 h-32 md:w-36 md:h-36 rounded-full bg-[#111] shadow-[inset_0_10px_20px_rgba(0,0,0,0.8)] flex items-center justify-center border-2 border-gray-800">
-                        <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-black border-4 border-[#0a0a0a] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,1)]">
+                  {/* Lens Structure */}
+                  <div className="absolute -bottom-8 md:-bottom-10 left-1/2 -translate-x-1/2 w-40 h-40 md:w-52 md:h-52 rounded-full bg-gradient-to-br from-gray-900 via-black to-gray-900 shadow-[0_15px_30px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.4)] flex items-center justify-center border-4 border-gray-300 z-40 pointer-events-none">
+                     <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-[#111] shadow-[inset_0_10px_20px_rgba(0,0,0,0.8)] flex items-center justify-center border-2 border-gray-800">
+                        <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-black border-4 border-[#0a0a0a] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,1)]">
                            {/* Lens Glare */}
-                           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#050505] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] relative overflow-hidden">
-                              <div className="absolute -top-2 -left-2 w-10 h-10 rounded-full bg-blue-500/10 blur-md"></div>
-                              <div className="absolute top-2 left-2 w-3 h-3 rounded-full bg-white/30 blur-[1px]"></div>
+                           <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-[#050505] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] relative overflow-hidden">
+                              <div className="absolute -top-2 -left-2 w-8 md:w-10 h-8 md:h-10 rounded-full bg-blue-500/10 blur-md"></div>
+                              <div className="absolute top-1 md:top-2 left-1 md:left-2 w-2 md:w-3 h-2 md:h-3 rounded-full bg-white/30 blur-[1px]"></div>
                            </div>
                         </div>
                      </div>
@@ -218,12 +218,12 @@ export const PolaroidModule = () => {
                </div>
             </div>
 
-            {/* The Little Bar (Film Slot) - Just a bar drawn on the black body below the lens */}
-            <div className="absolute top-[calc(65%+56px)] left-1/2 -translate-x-1/2 w-[85%] h-6 bg-[#2a2a2a] rounded border border-[#111] shadow-[0_10px_20px_rgba(0,0,0,0.6)] flex items-center justify-center z-30 pointer-events-none">
+            {/* The Little Bar (Film Slot) */}
+            <div className="absolute top-[calc(65%+50px)] md:top-[calc(65%+56px)] left-1/2 -translate-x-1/2 w-[85%] h-5 md:h-6 bg-[#2a2a2a] rounded border border-[#111] shadow-[0_10px_20px_rgba(0,0,0,0.6)] flex items-center justify-center z-30 pointer-events-none">
                <div className="w-[95%] h-2 bg-[#050505] rounded-full shadow-[inset_0_4px_8px_rgba(0,0,0,1)] border-b border-white/5"></div>
             </div>
 
-            {/* Ejecting Photo Animation Container - z-20 (Overflow hidden so it slides down visually from the slot) */}
+            {/* Ejecting Photo Animation Container */}
             <div className="absolute top-[calc(65%+56px+14px)] left-0 w-full h-[400px] overflow-hidden pointer-events-none z-20">
                <AnimatePresence>
                   {ejectedImg && (
@@ -242,17 +242,22 @@ export const PolaroidModule = () => {
           </div>
 
           {/* Camera Controls Footer */}
-          <div className="flex items-center gap-6 mt-12 text-[10px] font-mono tracking-widest text-white/40 uppercase">
+          <div className="hidden md:flex items-center gap-6 mt-12 text-[10px] font-mono tracking-widest text-white/40 uppercase">
              <span className="flex items-center gap-2"><kbd className="px-1.5 py-0.5 border border-white/20 rounded text-white shadow-sm bg-white/5">↵</kbd> Capture</span>
              <span className="flex items-center gap-2"><kbd className="px-1.5 py-0.5 border border-white/20 rounded text-white shadow-sm bg-white/5">G</kbd> Gallery</span>
              <span className="flex items-center gap-2"><kbd className="px-1.5 py-0.5 border border-white/20 rounded text-white shadow-sm bg-white/5">M</kbd> Music {isMusicOn ? 'ON' : 'OFF'}</span>
           </div>
+
+          {/* Mobile Tap Instructions */}
+          <div className="md:hidden mt-8 text-[10px] font-mono tracking-widest text-white/40 uppercase">
+             Tap Shutter to Capture
+          </div>
         </div>
 
         {/* Compiled Photos Stack on Right */}
-        <div className="relative w-56 h-72 hidden lg:block perspective-1000">
+        <div className="relative w-48 h-64 md:w-56 md:h-72 perspective-1000">
           {photos.length === 0 ? (
-            <div className="w-full h-full border-2 border-dashed border-white/10 rounded-xl flex items-center justify-center text-white/20 text-xs font-mono uppercase tracking-widest text-center px-4 bg-white/[0.02]">
+            <div className="w-full h-full border-2 border-dashed border-white/10 rounded-xl flex items-center justify-center text-white/20 text-[10px] font-mono uppercase tracking-widest text-center px-4 bg-white/[0.02]">
               Awaiting Capture
             </div>
           ) : (

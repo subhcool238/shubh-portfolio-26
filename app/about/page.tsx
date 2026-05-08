@@ -107,8 +107,8 @@ export default function AboutPage() {
             <h4 className="reveal text-blue-500 font-bold tracking-[0.2em] uppercase text-xs mb-4">
               SHUBHANSHU (SANKY) SAHU
             </h4>
-            <h1 className="reveal text-2xl md:text-3xl font-bold text-white/50 mb-8 leading-tight">
-              Senior AI Product Designer & <br/>Spatial UX Specialist
+            <h1 className="reveal text-4xl sm:text-5xl lg:text-3xl font-bold text-white/50 mb-8 leading-tight">
+              Senior AI Product Designer & <br className="hidden md:block"/>Spatial UX Specialist
             </h1>
           </div>
           <div className="w-full lg:w-2/5 lg:pt-16">
@@ -198,7 +198,7 @@ export default function AboutPage() {
       <section className="py-40 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
         <h4 className="reveal-scroll text-[11px] font-bold tracking-[0.3em] uppercase text-white/40 mb-20 text-center">System Calibration: Life & Performance</h4>
         
-        <div ref={galleryRef} className="relative h-[800px] flex items-center justify-center bg-[#050505] rounded-[60px] border border-white/5 shadow-inner">
+        <div ref={galleryRef} className="relative h-[500px] md:h-[800px] flex items-center justify-center bg-[#050505] rounded-[32px] md:rounded-[60px] border border-white/5 shadow-inner">
           <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 text-sm md:text-base text-white/30 text-center max-w-xl font-light pointer-events-none select-none uppercase tracking-[0.2em] leading-loose">
             The best systems are built by those who explore multiple disciplines. Outside of design, I focus on human performance through physical training and high-altitude exploration. This intersection of physical endurance and technical rigor defines my design process.
           </p>
@@ -218,7 +218,7 @@ export default function AboutPage() {
                 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: i * 0.1 + 0.5, duration: 0.8 }}
-                className="absolute w-60 md:w-72 aspect-[3/4] rounded-2xl border-4 border-white/5 shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing bg-stone-900 group"
+                className="absolute w-48 sm:w-60 md:w-72 aspect-[3/4] rounded-2xl border-4 border-white/5 shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing bg-stone-900 group"
               >
                 <img 
                     src={img.src} 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { BookOpen, Target, User, Palette, Route, Search, Layers, Lightbulb, Rocket } from "lucide-react";
 
 interface Section {
   id: string;
@@ -10,6 +10,18 @@ interface Section {
   title: string;
   content: React.ReactNode;
 }
+
+const SECTION_ICONS: Record<string, any> = {
+  "getting-started": BookOpen,
+  "the-challenge": Target,
+  "my-role": User,
+  "design-tool-kit": Palette,
+  "the-process": Route,
+  "discover": Search,
+  "define": Layers,
+  "develop": Lightbulb,
+  "deliver": Rocket
+};
 
 const sections: Section[] = [
   {
@@ -22,10 +34,12 @@ const sections: Section[] = [
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
           In this project, my group mate Ankit and I explored Rajiv Gandhi Zoological Park (RGZP) through a systems thinking framework, recognizing that a zoo is more than just the sum of its individual parts. Instead, it is an interconnected system where every element, from the diverse animal species to the dedicated staff, plays a vital role in maintaining a delicate balance.
         </p>
-        <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-          Rajiv Gandhi Zoological Park, commonly known as the Rajiv Gandhi Zoo, is a popular zoological park in Pune, Maharashtra, India. Established in 1999, the zoo is named after the former Prime Minister of India, Rajiv Gandhi, and spans approximately 130 acres.
-        </p>
-        <h3 className="text-3xl md:text-4xl font-bold tracking-tight mt-16 mb-6">Aim</h3>
+        <div className="mt-8 p-6 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:bg-white/10 hover:border-white/20">
+            <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
+            Rajiv Gandhi Zoological Park, commonly known as the Rajiv Gandhi Zoo, is a popular zoological park in Pune, Maharashtra, India. Established in 1999, the zoo is named after the former Prime Minister of India, Rajiv Gandhi, and spans approximately 130 acres.
+            </p>
+        </div>
+        <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Aim</h3>
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
           We aim to uncover the intricate relationships that govern a zoo's functionality, seeking sustainable solutions that benefit both the captive inhabitants and the broader ecosystem.
         </p>
@@ -39,11 +53,13 @@ const sections: Section[] = [
     title: "Problem Statement",
     content: (
       <div className="mt-8">
-        <div className="p-6 bg-white/10 rounded-[5px] border-2 border-blue-600">
-           <p className="text-lg tracking-wide font-normal text-white/90 leading-relaxed">
-             People lack awareness regarding the purpose and significance of zoos.
-           </p>
-        </div>
+          <div className="rounded-2xl bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-rose-500/30 p-[1px]">
+            <div className="rounded-[14px] bg-[#080c14]/90 backdrop-blur-xl p-6 md:p-8">
+              <p className="text-lg md:text-xl tracking-wide font-normal text-white/90 leading-relaxed italic">
+                "People lack awareness regarding the purpose and significance of zoos."
+              </p>
+            </div>
+          </div>
       </div>
     ),
   },
@@ -55,8 +71,13 @@ const sections: Section[] = [
     content: (
       <div className="space-y-6">
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-          Conducted research interviews, created visitor journey maps, designed user personas, developed flow diagrams, and performed mind mapping and ideation. Designed and laser-cut souvenirs (keychains and badges) using selected durable materials.
+          As a UX Researcher and Designer on this project, I contributed to multiple phases of the double diamond process.
         </p>
+        <ul className="list-disc pl-6 space-y-4 text-lg tracking-wide font-normal text-white/80 leading-relaxed">
+          <li><span className="font-bold text-white/90">Research & Mapping:</span> Conducted research interviews, created visitor journey maps, and designed user personas.</li>
+          <li><span className="font-bold text-white/90">Ideation:</span> Developed flow diagrams, mind mapping, and brainstormed solutions.</li>
+          <li><span className="font-bold text-white/90">Physical Prototyping:</span> Designed and laser-cut souvenirs (keychains and badges) using selected durable materials.</li>
+        </ul>
       </div>
     ),
   },
@@ -66,19 +87,18 @@ const sections: Section[] = [
     label: "Design Tool Kit",
     title: "Tools Used",
     content: (
-      <div className="flex flex-wrap gap-8 items-center mt-8">
-        <div className="flex items-center gap-4">
-           <img src="/zoo/Figma.png" alt="Figma" className="h-10 w-auto object-contain" />
-           <span className="text-lg tracking-wide font-normal text-white/80">Figma</span>
-        </div>
-        <div className="flex items-center gap-4">
-           <img src="/zoo/Miro.png" alt="Miro" className="h-10 w-auto object-contain" />
-           <span className="text-lg tracking-wide font-normal text-white/80">Miro</span>
-        </div>
-        <div className="flex items-center gap-4">
-           <img src="/zoo/Power Point.png" alt="PowerPoint" className="h-10 w-auto object-contain" />
-           <span className="text-lg tracking-wide font-normal text-white/80">PowerPoint</span>
-        </div>
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { label: "Figma", desc: "UI/UX & Prototyping", icon: "/zoo/Figma.png", accent: "border-blue-500/30 bg-blue-500/5" },
+          { label: "Miro", desc: "Mind mapping & Ideation", icon: "/zoo/Miro.png", accent: "border-amber-500/30 bg-amber-500/5" },
+          { label: "PowerPoint", desc: "Presentation & Delivery", icon: "/zoo/Power Point.png", accent: "border-rose-500/30 bg-rose-500/5" },
+        ].map((tool) => (
+          <div key={tool.label} className={`p-6 rounded-2xl border ${tool.accent} flex flex-col items-center justify-center transition-all duration-300 hover:scale-[1.02] hover:brightness-110 w-full`}>
+            <img src={tool.icon} alt={tool.label} className="h-12 w-auto object-contain mb-4" />
+            <p className="text-base font-bold text-white/90 tracking-wide">{tool.label}</p>
+            <p className="text-sm text-white/60 mt-1">{tool.desc}</p>
+          </div>
+        ))}
       </div>
     ),
   },
@@ -88,18 +108,31 @@ const sections: Section[] = [
     label: "The Process",
     title: "Double Diamond",
     content: (
-      <div className="space-y-8">
+      <div className="space-y-6">
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-          We used double diamond Process Model in this. This framework uses a divergent-to-convergent approach to explore problems deeply and deliver effective solutions, highlighting four key phases:
+          We used the Double Diamond Process Model in this project. This framework uses a divergent-to-convergent approach to explore problems deeply and deliver effective solutions, highlighting four key phases:
         </p>
-        <ul className="list-none space-y-4 text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-          <li><span className="font-bold text-white/90">Discover (Research):</span> Gathering insights through understanding zoos, mind mapping, and primary/secondary research.</li>
-          <li><span className="font-bold text-white/90">Define (Synthesis):</span> Analyzing findings, empathy mapping, and identifying opportunities to frame a problem statement.</li>
-          <li><span className="font-bold text-white/90">Develop (Ideation):</span> Generating, evaluating, and refining ideas for potential solutions.</li>
-          <li><span className="font-bold text-white/90">Deliver (Implementation):</span> Validating feasibility, prototyping, and creating proof-of-concepts (POCs).</li>
-        </ul>
-        <div className="w-full mt-12">
-          <img src="/zoo/Double Diamond jpg-01 1.png" alt="Double Diamond Diagram" className="w-full h-auto rounded-lg object-cover" />
+        <div className="mt-6 flex flex-col gap-3">
+          {[
+            { step: "Discover (Research)", detail: "Gathering insights through understanding zoos, mind mapping, and primary/secondary research.", color: "bg-blue-500" },
+            { step: "Define (Synthesis)", detail: "Analyzing findings, empathy mapping, and identifying opportunities to frame a problem statement.", color: "bg-emerald-500" },
+            { step: "Develop (Ideation)", detail: "Generating, evaluating, and refining ideas for potential solutions.", color: "bg-amber-500" },
+            { step: "Deliver (Implementation)", detail: "Validating feasibility, prototyping, and creating proof-of-concepts (POCs).", color: "bg-purple-500" },
+          ].map((item, i) => (
+            <div key={item.step} className="flex items-start gap-4 p-4 rounded-lg bg-white/5 border border-white/5 transition-all duration-300 hover:bg-white/10">
+              <div className="flex-shrink-0 flex flex-col items-center">
+                <div className={`w-3 h-3 rounded-full ${item.color}`} />
+                {i < 3 && <div className="w-px h-8 bg-white/10 mt-1" />}
+              </div>
+              <div>
+                <h4 className="text-base font-bold text-white/90 tracking-wide">{item.step}</h4>
+                <p className="text-sm text-white/50 mt-1">{item.detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="w-full mt-12 mb-12">
+          <img src="/zoo/Double Diamond jpg-01 1.png" alt="Double Diamond Diagram" className="w-full h-auto rounded object-cover" />
         </div>
       </div>
     ),
@@ -108,83 +141,89 @@ const sections: Section[] = [
     id: "discover",
     navLabel: "Discover (Research)",
     label: "Discover (Research)",
-    title: "Mind Mapping",
+    title: "Research & Mapping",
     content: (
-      <div className="space-y-20">
-        <div>
-           <div className="w-full mb-8">
-              <img src="/zoo/Mind Map.png" alt="Mind Map" className="w-full h-auto rounded-lg object-cover" />
-           </div>
+      <div className="space-y-6">
+        <div className="w-full mb-12">
+           <img src="/zoo/Mind Map.png" alt="Mind Map" className="w-full h-auto rounded object-cover" />
         </div>
-        <div>
-           <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">Research</h3>
-           <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-12">
-             We conducted multiple research visits to Rajiv Gandhi Zoological Park, where we interviewed the zoo directors and visitors. These interactions provided valuable insights into the zoo's operations and visitor experiences. We explored and answered key questions such as:
-           </p>
-           
-           <div className="flex flex-col md:flex-row gap-8 items-start">
-             <div className="w-full md:w-2/3">
-               <h4 className="text-xl md:text-2xl font-bold tracking-wide mb-4 text-white/90">What's a Zoo?</h4>
-               <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-10">
-                 A zoo is a facility which:<br/>
-                 Houses animals<br/>
-                 Cares for them<br/>
-                 Displays them to public
-               </p>
-
-               <h4 className="text-xl md:text-2xl font-bold tracking-wide mb-4 text-white/90">Why do zoos exist?</h4>
-               <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-10">
-                 Conservation<br/>
-                 Education<br/>
-                 Research<br/>
-                 Rehabilitation
-               </p>
-
-               <h4 className="text-xl md:text-2xl font-bold tracking-wide mb-4 text-white/90">How do zoos work?</h4>
-               <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-                 Suitable habitats for animals<br/>
-                 Breeding Programs<br/>
-                 Tours & Workshops to Engage Visitors
-               </p>
-             </div>
-             <div className="w-full md:w-1/3 flex justify-center mt-8 md:mt-0">
-               <img src="/zoo/TIgo 1.png" alt="RGZP Mascot - Tigo" className="w-full max-w-[250px] h-auto object-contain drop-shadow-2xl" />
-             </div>
-           </div>
+        <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Research</h3>
+        <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-8">
+          We conducted multiple research visits to Rajiv Gandhi Zoological Park, where we interviewed the zoo directors and visitors. These interactions provided valuable insights into the zoo's operations and visitor experiences. We explored and answered key questions such as:
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {[
+            { 
+              role: "What's a Zoo?", 
+              items: ["Houses animals", "Cares for them", "Displays them to public"], 
+              dotColor: "bg-blue-500" 
+            },
+            { 
+              role: "Why do zoos exist?", 
+              items: ["Conservation", "Education", "Research", "Rehabilitation"], 
+              dotColor: "bg-emerald-500" 
+            },
+            { 
+              role: "How do zoos work?", 
+              items: ["Suitable habitats", "Breeding Programs", "Tours & Workshops"], 
+              dotColor: "bg-amber-500" 
+            },
+          ].map((layer) => (
+            <div key={layer.role} className="flex flex-col items-start gap-2 p-6 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-[1.02] hover:bg-white/10 hover:border-white/20 w-full">
+              <div className="flex items-center gap-3 mb-2">
+                <div className={`w-3 h-3 rounded-full flex-shrink-0 ${layer.dotColor}`} />
+                <h4 className="text-base font-bold text-white/90 tracking-wide whitespace-nowrap">{layer.role}</h4>
+              </div>
+              <ul className="list-disc pl-4 text-sm tracking-wide font-normal text-white/60 leading-relaxed">
+                {layer.items.map(i => <li key={i}>{i}</li>)}
+              </ul>
+            </div>
+          ))}
         </div>
+
+        <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Feedback Loop</h3>
+        <div className="w-full mb-12">
+           <img src="/zoo/Feedback Loop-01 1.png" alt="Feedback Loop" className="w-full h-auto rounded object-cover" />
+        </div>
+        
+
       </div>
     ),
   },
   {
     id: "define",
     navLabel: "Define (Synthesis)",
-    label: "Define (Synthesis)",
-    title: "Zoo Management",
+    label: "Management",
+    title: "Synthesis & Classification",
     content: (
-      <div className="space-y-20">
-        <div className="w-full">
-           <img src="/zoo/zoo management.svg" alt="Zoo Management Diagram" className="w-full h-auto rounded-lg object-cover" />
+      <div className="space-y-24">
+        <div>
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Management</h3>
+          <img src="/zoo/Zoo management.svg" alt="Zoo Management Diagram" className="w-full h-auto rounded object-cover" />
+        </div>
+
+        <div>
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Types of Visitors</h3>
+          <img src="/zoo/Visitors journey Map.png" alt="Types of Visitors" className="w-full h-auto rounded object-cover" />
         </div>
         
         <div>
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">Visitors Journey Map</h3>
-          <div className="w-full">
-             <img src="/zoo/Visitors journey Map.png" alt="Journey Map" className="w-full h-auto rounded-lg object-cover" />
-          </div>
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Visitors Journey Map</h3>
+          <img src="/zoo/vistors journey map.svg" alt="Visitors Journey Map" className="w-full h-auto rounded object-cover" />
         </div>
         
         <div>
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">User Persona</h3>
-          <div className="w-full">
-             <img src="/zoo/Haresh Persona.png" alt="User Persona" className="w-full h-auto rounded-lg object-cover" />
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">User Persona</h3>
+          <div className="flex flex-col gap-8">
+            <img src="/zoo/Haresh Persona.png" alt="User Persona Haresh" className="w-full h-auto rounded object-cover" />
+            <img src="/zoo/Abhishek Baccha.png" alt="User Persona Abhishek" className="w-full h-auto rounded object-cover" />
           </div>
         </div>
 
         <div>
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">Iceberg Model</h3>
-          <div className="w-full">
-             <img src="/zoo/Iceberb Model.png" alt="Iceberg Model" className="w-full h-auto rounded-lg object-cover" />
-          </div>
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Iceberg Model</h3>
+          <img src="/zoo/Iceberb Model.png" alt="Iceberg Model" className="w-full h-auto rounded object-cover" />
         </div>
       </div>
     ),
@@ -197,17 +236,29 @@ const sections: Section[] = [
     content: (
       <div className="space-y-6">
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-          Signages can be digitized and information about the exhibited animal can be given to the visitors.<br/>
-          Signages and Information Boards can have AR<br/>
-          Dustbins can have an experience where if someone throws garbage, an animation will play on a screen near it.<br/>
-          VR tech can be a part of events and workshops.<br/>
-          Gift Shop - Souvenirs<br/>
-          Detailed map with AR guides which visitors can scan to start their journey at the zoo<br/>
-          AR experience at each exhibit<br/>
-          AR Photo/Video Booths<br/>
-          4D Movies about Animal Kingdom<br/>
-          Interactive Games
+          Through our research and defined problems, we generated a variety of potential solutions to enhance the visitor experience and meet the educational and conservational goals of the zoo:
         </p>
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            { title: "Digital Signages", desc: "Interactive boards to provide dynamic information about exhibited animals.", color: "bg-blue-500" },
+            { title: "AR Experiences", desc: "Augmented Reality on signages, exhibits, and interactive photo/video booths.", color: "bg-emerald-500" },
+            { title: "Smart Dustbins", desc: "Gamified disposal—throwing garbage triggers a rewarding animation on a screen.", color: "bg-amber-500" },
+            { title: "VR Workshops", desc: "Virtual reality integration for events and educational workshops.", color: "bg-purple-500" },
+            { title: "Interactive Maps", desc: "AR guides allowing visitors to scan and start a personalized zoo journey.", color: "bg-rose-500" },
+            { title: "Engaging Media", desc: "4D Movies about the Animal Kingdom and interactive games.", color: "bg-indigo-500" },
+            { title: "DIY Kit", desc: "Educational kits for kids to learn about wildlife at home.", color: "bg-cyan-500" },
+            { title: "Badge & Keychain", desc: "Collectible souvenirs representing different animals.", color: "bg-orange-500" },
+            { title: "AR Photobooth", desc: "Capture memories with virtual animals in the zoo.", color: "bg-pink-500" },
+          ].map((item) => (
+            <div key={item.title} className="flex flex-col items-start gap-2 px-6 py-5 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-[1.02] hover:bg-white/10 hover:border-white/20 w-full">
+              <div className="flex items-center gap-3">
+                <div className={`w-3 h-3 rounded-full flex-shrink-0 ${item.color}`} />
+                <p className="text-base font-bold text-white/90">{item.title}</p>
+              </div>
+              <p className="text-sm text-white/50">{item.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     ),
   },
@@ -217,78 +268,90 @@ const sections: Section[] = [
     label: "Deliver (Implement)",
     title: "Solutions",
     content: (
-      <div className="space-y-20">
-        <div>
-          <h4 className="text-xl md:text-2xl font-bold tracking-wide mb-6 text-white/90">Main Tasks for Developed Solutions:</h4>
-          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-            Designed a system for monthly kids' drawing competitions.<br/>
-            Designed and Prototyped the RGZP app.<br/>
-            Integrated Tigo, an AR mascot, for interactive zoo navigation.<br/>
-            Designed an AR-based quiz and photo game for kids.<br/>
-            Developed an AR-enabled interactive map for zoo guidance.<br/>
-            Proposed an AR photobooth for unique visitor photos.
-          </p>
-        </div>
+      <div className="space-y-24">
+        <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
+          We narrowed down our ideas to a set of cohesive, actionable deliverables. The main developed solutions included a monthly drawing competition, a prototype for the RGZP App, and integrating an AR Mascot for interactive navigation and gaming.
+        </p>
+
 
         <div>
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Drawing Competition</h3>
-          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-8">
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Drawing Competition</h3>
+          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-6">
             The Zoo shall hold a monthly drawing competition where kids can send their drawings based on the animal of the month.
           </p>
-          <div className="w-full">
-            <img src="/zoo/Abhishek Baccha.png" alt="Drawing Competition" className="w-full h-auto rounded-lg object-cover" />
+          <div className="flex flex-col gap-6">
+            <img src="/zoo/Ticket Design-01 1.png" alt="Ticket Design 1" className="w-full h-auto rounded object-cover shadow-lg hover:scale-[1.01] transition-transform" />
+            <img src="/zoo/Ticket Design-02 1.png" alt="Ticket Design 2" className="w-full h-auto rounded object-cover shadow-lg hover:scale-[1.01] transition-transform" />
           </div>
         </div>
 
         <div>
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Unique Themed QR Codes</h3>
-          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-8">
-            The new ticket design shall promote the following:<br/>
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Unique Themed QR Codes</h3>
+          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-6">
             Unique animal themed QR codes on tickets shall lead the users to App installation page.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="w-full">
-               <img src="/zoo/Ticket Design-01 1.png" alt="Ticket Design 1" className="w-full h-auto rounded-lg object-cover" />
+          <div className="grid grid-cols-2 gap-6">
+            <img src="/zoo/Unique Themed QR Code 1.png" alt="QR Code 1" className="w-full h-auto rounded object-cover shadow-lg hover:scale-[1.01] transition-transform" />
+            <img src="/zoo/Unique Themed QR Code 2.png" alt="QR Code 2" className="w-full h-auto rounded object-cover shadow-lg hover:scale-[1.01] transition-transform" />
+          </div>
+        </div>
+
+
+        <div>
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">RGZP Mascot - Tigo</h3>
+          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-8">
+            Tigo is the new mascot of RGZP who will help the users navigate around the zoo using the AR maps while also keeping them engaged along the way.
+          </p>
+          <img src="/zoo/TIgo 1.png" alt="Mascot Tigo" className="w-full max-w-[300px] h-auto object-contain mx-auto drop-shadow-2xl" />
+        </div>
+
+        <div>
+          <div className="space-y-12">
+            <div>
+              <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">DIY Kit</h3>
+              <img src="/zoo/DIY Kit.png" alt="DIY Kit" className="w-full h-auto rounded object-cover" />
             </div>
-            <div className="w-full">
-               <img src="/zoo/Ticket Design-02 1.png" alt="Ticket Design 2" className="w-full h-auto rounded-lg object-cover" />
-            </div>
-            <div className="w-full">
-               <img src="/zoo/Unique Themed QR Code 1.png" alt="QR Code 1" className="w-full h-auto rounded-lg object-cover" />
-            </div>
-            <div className="w-full">
-               <img src="/zoo/Unique Themed QR Code 2.png" alt="QR Code 2" className="w-full h-auto rounded-lg object-cover" />
+            <div>
+              <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">Badge & Keychain</h3>
+              <img src="/zoo/Badge & Keychain 1.png" alt="Badge and Keychain" className="w-full h-auto rounded object-cover" />
             </div>
           </div>
         </div>
 
         <div>
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">RGZP App Prototype</h3>
-          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-12">
-            The RGZP app features:<br/>
-            Installing the RGZP app will the users avail discounts at the souvenir shop.
-          </p>
-          
-          <h4 className="text-xl md:text-2xl font-bold tracking-wide mb-4 text-white/90">Zoo Adventure AR</h4>
-          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-10">
-            "Zoo Adventure AR" is an interactive game designed for children visiting the zoo. It combines AR technology and photography to engage and educate young visitors about the various animals in the zoo. The children will play quiz games and unlock AR animals to click photographs with. Sharing photos on social media will earn them unique stamps on their passports.
-          </p>
-
-          <h4 className="text-xl md:text-2xl font-bold tracking-wide mb-4 text-white/90">Interactive Map</h4>
-          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-10">
-            Users can access the RGZP map to navigate around the zoo. The map also features AR mode in which the mascot 'TIGO' guides them around the zoo. TIGO knows his way around and also knows all the animals there. He will share interesting information about them along the way.
-          </p>
-
-          <h4 className="text-xl md:text-2xl font-bold tracking-wide mb-4 text-white/90">RGZP Mascot - Tigo</h4>
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">RGZP App Prototype</h3>
           <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-6">
-            Tigo is the new mascot of RGZP who will help the users navigate around the zoo using the AR maps while also keeping them engaged along the way.
+            Installing the RGZP app allows users to avail discounts at the souvenir shop, view event calendars, and unlock powerful AR features.
           </p>
-
-          <h4 className="text-xl md:text-2xl font-bold tracking-wide mb-4 text-white/90">RGZP Events Calendar</h4>
-          <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-6">
-            The app will feature a section which will display all the events planned at the RGZP in the future.
-          </p>
+          <div className="flex justify-center mb-12">
+            {/* Responsive Figma Prototype Container */}
+            <div
+              className="relative overflow-hidden rounded-[32px] md:rounded-[56px] bg-black/20 border border-white/10 w-full max-w-[320px] md:max-w-[448px] aspect-[1/1.94]"
+            >
+              <iframe
+                style={{ border: "none", position: "absolute", top: "-5.5%", left: "-11%", width: "122%", height: "111%" }}
+                src="https://embed.figma.com/proto/j4iV2AqoFHSJuVY1MZb2lr/Zoo-Adventure-AR?node-id=23-2&p=f&viewport=251%2C395%2C0.03&scaling=scale-down&content-scaling=fixed&starting-point-node-id=23%3A2&page-id=0%3A1&embed-host=share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+             <div className="p-6 rounded-2xl border border-blue-500/20 bg-blue-500/5 transition-all duration-300 hover:scale-[1.02]">
+                <h4 className="text-lg font-bold tracking-wide mb-3 text-blue-400">Zoo Adventure AR</h4>
+                <p className="text-sm text-white/70 leading-relaxed">
+                  An interactive game for children. It combines AR tech and photography. Play quiz games to unlock AR animals, take photos, and earn unique passport stamps.
+                </p>
+             </div>
+             <div className="p-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 transition-all duration-300 hover:scale-[1.02]">
+                <h4 className="text-lg font-bold tracking-wide mb-3 text-emerald-400">Interactive Map</h4>
+                <p className="text-sm text-white/70 leading-relaxed">
+                  Navigate around the zoo efficiently. Features an AR mode where the mascot 'TIGO' guides visitors and shares interesting facts about animals along the way.
+                </p>
+             </div>
+          </div>
         </div>
+
+
       </div>
     ),
   },
@@ -338,73 +401,111 @@ export default function CaseStudyLayout() {
       <div className="fixed w-[984px] h-[984px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
       <div className="fixed w-[984px] h-[984px] left-[10vw] bottom-[-20vh] origin-top-left rotate-[60deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
 
-      {/* Top Header */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/5">
-        <div className="max-w-[1200px] mx-auto px-6 h-24 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3 text-lg font-medium tracking-wide text-white/90 hover:text-white transition-colors">
-            Home
-          </Link>
-          <div className="flex gap-8">
-            <span className="text-lg tracking-wide font-normal text-white/70 cursor-pointer hover:text-white transition-colors">Work</span>
-            <span className="text-lg tracking-wide font-normal text-white/70 cursor-pointer hover:text-white transition-colors">About</span>
+      {/* Header Section - Centered & Narrower */}
+      <div className="max-w-[800px] mx-auto px-6 pt-40 pb-20">
+        <div className="text-center">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-8 text-white">
+            Rajiv Gandhi Zoological Park - Systems Thinking
+          </h1>
+          <p className="text-xl font-normal text-white/70 leading-relaxed tracking-wide mb-16 max-w-3xl mx-auto">
+            A system design case study to spread awareness regarding the purpose and significance of zoos.
+          </p>
+        </div>
+        
+        {/* Project Hero Image */}
+        <div className="w-full mb-20">
+          <img 
+            src="/zoo/Zoo UI Mockup top hero image.png" 
+            alt="RGZP System App Mockup" 
+            className="w-full h-auto rounded-3xl object-cover shadow-2xl"
+          />
+        </div>
+
+        {/* Project Metadata Box */}
+        <div className="grid grid-cols-2 md:grid-cols-4 py-10 rounded-3xl bg-white/5 border border-white/10 mb-20">
+          <div className="flex flex-col items-start text-left px-8 border-r border-white/10">
+            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Role</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">UX Researcher & Designer</p>
+          </div>
+          <div className="flex flex-col items-start text-left px-8 md:border-r border-white/10">
+            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Team</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">2 Designers (Ankit & Shubhanshu)</p>
+          </div>
+          <div className="flex flex-col items-start text-left px-8 border-r border-white/10 mt-8 md:mt-0">
+            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Timeline</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">4 Weeks</p>
+          </div>
+          <div className="flex flex-col items-start text-left px-8 mt-8 md:mt-0">
+            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Tools</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">Figma, Miro, PowerPoint</p>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* Main Layout Grid */}
-      <div className="max-w-[1200px] mx-auto px-6 pt-40 pb-40 flex flex-col lg:flex-row gap-16 lg:gap-32">
+      {/* Main Layout - Sidebar + Content */}
+      <div className="max-w-[800px] mx-auto relative px-6 pb-40">
         
-        {/* Left Sidebar (ScrollSpy) - NOW FULLY STICKY */}
-        {/* Adding self-start fixes flexbox stretching issue which prevents sticky from working */}
-        <div className="w-full lg:w-[250px] flex-shrink-0 sticky top-40 self-start">
-          <nav className="flex flex-col gap-4">
-            {sections.map((section) => {
-              const isActive = activeSection === section.id;
-              return (
-                <a
-                  key={section.id}
-                  href={`#${section.id}`}
-                  onClick={(e) => scrollToSection(e, section.id)}
-                  className="group flex items-center gap-4 py-2"
-                >
-                  <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
-                    <div 
+        {/* Left Sidebar Container - Positioned absolutely to the left of the centered content */}
+        <div className="hidden lg:block absolute right-full mr-72 top-0 bottom-0 w-[220px]">
+          <div className="sticky top-0 h-screen flex flex-col justify-center">
+            <nav className="flex flex-col gap-4">
+              {sections.map((section) => {
+                const isActive = activeSection === section.id;
+                const Icon = SECTION_ICONS[section.id] || BookOpen;
+                
+                return (
+                  <a
+                    key={section.id}
+                    href={`#${section.id}`}
+                    onClick={(e) => scrollToSection(e, section.id)}
+                    className="group flex items-center gap-4 py-2"
+                  >
+                    <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
+                      <Icon 
+                        className={`
+                          transition-all duration-300
+                          ${isActive ? "text-white scale-110" : "text-white/40 group-hover:text-white/90 group-hover:scale-105"}
+                        `}
+                        size={20}
+                        strokeWidth={isActive ? 2.5 : 2}
+                      />
+                    </div>
+                    <span 
                       className={`
-                        w-3 h-3 outline outline-2 outline-offset-[-1px] outline-white transition-all duration-300
-                        ${isActive ? "bg-white" : "bg-transparent opacity-40 group-hover:opacity-100"}
+                        text-base tracking-wide transition-all duration-300
+                        ${isActive ? "font-bold text-white opacity-100" : "font-medium text-white/60 group-hover:text-white/90"}
                       `}
-                    />
-                  </div>
-                  <span 
-                    className={`
-                      text-base tracking-wide transition-all duration-300
-                      ${isActive ? "font-bold text-white opacity-100" : "font-medium text-white/60 group-hover:text-white/90"}
-                    `}
+                    >
+                      {section.navLabel}
+                    </span>
+                  </a>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="w-full">
+          {/* Mobile Navigation (Visible only on small screens) */}
+          <div className="lg:hidden mb-16">
+            <nav className="flex flex-wrap gap-4">
+              {sections.map((section) => {
+                const isActive = activeSection === section.id;
+                return (
+                  <a
+                    key={section.id}
+                    href={`#${section.id}`}
+                    onClick={(e) => scrollToSection(e, section.id)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${isActive ? "bg-white text-black" : "bg-white/5 text-white/60"}`}
                   >
                     {section.navLabel}
-                  </span>
-                </a>
-              );
-            })}
-          </nav>
-        </div>
-
-        {/* Right Content - SCROLLABLE MAIN BODY */}
-        <div className="w-full lg:w-[706px] max-w-full">
-          {/* Header Section */}
-          <div className="mb-24">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-8 text-white">
-              Rajiv Gandhi Zoological Park - Systems Thinking
-            </h1>
-            <p className="text-xl font-normal text-white/70 leading-relaxed tracking-wide mb-12">
-              A system design case study to spread awareness regarding the purpose and significance of zoos.
-            </p>
-            <div className="w-full">
-              <img src="/zoo/Zoo UI Mockup top hero image.png" alt="RGZP System App Mockup" className="w-full h-auto rounded-lg object-cover" />
-            </div>
+                  </a>
+                );
+              })}
+            </nav>
           </div>
 
-          {/* Sections Content */}
           <div className="flex flex-col gap-24">
             {sections.map((section) => (
               <section 
@@ -425,7 +526,6 @@ export default function CaseStudyLayout() {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );

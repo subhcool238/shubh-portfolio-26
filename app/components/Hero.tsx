@@ -53,25 +53,27 @@ function TextScrambleComponent() {
 
 export default function Hero() {
   return (
-    <section className="h-dvh flex flex-col justify-center bg-transparent w-full relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-      <div className="flex w-full items-center justify-between">
-        <div className="w-full lg:w-2/3">
+    <section className="h-dvh flex flex-col justify-center bg-transparent w-full relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+      <div className="flex w-full items-center justify-between relative">
+        <div className="w-full lg:w-2/3 z-20">
           <div className="text-left">
-            <p className="text-4xl sm:text-5xl font-bold">
+            <p className="text-3xl sm:text-5xl font-bold text-white leading-tight">
               Hello! I’m <span style={styles.linearTextGradient}>Shubhanshu.</span>{" "}
             </p>
-            <p className="text-4xl sm:text-5xl font-bold mt-2">
-              I <span className="italic font-normal">design</span>{" "}
+            <p className="text-3xl sm:text-5xl font-bold mt-2 text-white leading-tight">
+              I <span className="italic font-normal text-white/90">design</span>{" "}
               <TextScrambleComponent />
             </p>
           </div>
-          <div className="w-full mt-10 font-sans">
-            <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed max-w-2xl">
+          <div className="w-full mt-6 md:mt-10 font-sans">
+            <p className="text-base md:text-lg tracking-wide font-normal text-white/80 leading-relaxed max-w-2xl">
               AI Product Designer & Spatial UX Specialist. With an M.Des in Immersive Media Design, I bridge physical environments and AI ecosystems to build scalable, zero-learning-curve products.
             </p>
           </div>
         </div>
-        <div className="w-full lg:w-1/3 hidden lg:flex justify-end items-center relative h-[400px]">
+
+        {/* Syn Agent Container — Absolutely positioned to avoid clipping */}
+        <div className="absolute right-[-40%] md:right-[-28%] top-[60%] md:top-[58%] -translate-y-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] z-10 pointer-events-none opacity-50 md:opacity-100">
           <Agent />
         </div>
       </div>

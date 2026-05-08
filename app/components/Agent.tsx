@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 
 export default function Agent() {
   const [callStatus, setCallStatus] = useState<"inactive" | "loading" | "active">("inactive");
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [loading, setLoading] = useState(true);
   const [vapi, setVapi] = useState<any>(null);
 
@@ -19,16 +20,22 @@ export default function Agent() {
       vapiInstance.on("call-start", () => {
         setCallStatus("active");
         triggerSpline("Happy Button");
-        triggerSpline("AI Particle Emitter");
       });
       vapiInstance.on("call-end", () => {
         setCallStatus("inactive");
+        setIsSpeaking(false);
         triggerSpline("Normal Button");
-        triggerSpline("AI Particle Emitter"); // Assuming this toggles it off
+      });
+      vapiInstance.on("speech-start", () => {
+        setIsSpeaking(true);
+      });
+      vapiInstance.on("speech-end", () => {
+        setIsSpeaking(false);
       });
       vapiInstance.on("error", (e: any) => {
         console.error("Vapi error", e);
         setCallStatus("inactive");
+        setIsSpeaking(false);
         triggerSpline("Normal Button");
       });
     } catch (e) {
@@ -51,7 +58,7 @@ export default function Agent() {
   useEffect(() => {
     // 1. Load the Spline Viewer Script
     const script = document.createElement('script');
-    script.src = "https://unpkg.com/@splinetool/viewer@1.12.88/build/spline-viewer.js";
+    script.src = "https://unpkg.com/@splinetool/viewer@1.12.92/build/spline-viewer.js";
     script.type = "module";
     document.head.appendChild(script);
 
@@ -149,34 +156,37 @@ export default function Agent() {
         }`}
       >
         <div className="flex items-center gap-4">
-          <div className={`w-1.5 h-1.5 rounded-full ${callStatus === 'loading' ? 'bg-white animate-spin' : 'bg-cyan-400 animate-pulse'}`} />
+          <div className={`w-1.5 h-1.5 rounded-full ${callStatus === 'loading' ? 'bg-white animate-spin' : isSpeaking ? 'bg-fuchsia-400 animate-pulse' : 'bg-cyan-400 animate-pulse'}`} />
           <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/90">
-            Syn {callStatus === "active" ? "Listening" : "Booting"}
+            Syn {callStatus === "active" ? (isSpeaking ? "Speaking" : "Listening") : "Booting"}
           </span>
         </div>
       </div>
 
+      {/* Breathing Glow Background (only when active) */}
+      {callStatus === "active" && (
+        <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all duration-1000 ease-in-out ${isSpeaking ? 'w-[600px] h-[600px] opacity-100' : 'w-[400px] h-[400px] opacity-50'}`}>
+          <div className={`w-full h-full rounded-full blur-[100px] transition-colors duration-1000 ${isSpeaking ? 'bg-fuchsia-500/20' : 'bg-cyan-500/20'} animate-pulse`} />
+        </div>
+      )}
+
       {/* Syn — High Fidelity Agent */}
-      <div className="w-full h-full z-40 flex items-center justify-center pointer-events-none relative overflow-visible">
+      <div className="w-full h-full flex items-center justify-center pointer-events-none relative overflow-visible">
         <div 
-          className="w-[1200px] h-[1200px] pointer-events-auto cursor-pointer relative flex items-center justify-center scale-[1.3] translate-x-12"
+          className="w-[700px] h-[700px] pointer-events-auto cursor-pointer relative flex items-center justify-center transition-transform duration-700 hover:scale-[1.02]"
           onClick={toggleCall}
         >
           {/* Loading icon removed as requested */}
           
           {/* @ts-ignore */}
           <spline-viewer 
-            url="/aiassistant/scene.splinecode"
+            url="/aiassistant/syn_v4.spline"
+            events-target="global"
             hint="false"
             logo="false"
             loading-reveal="instant"
             style={{ width: '100%', height: '100%' }}
           />
-
-          {/* Active Pulse ring */}
-          {callStatus === "active" && (
-            <div className="absolute inset-[20%] rounded-full bg-cyan-500/10 blur-[100px] animate-pulse pointer-events-none" />
-          )}
         </div>
       </div>
     </>

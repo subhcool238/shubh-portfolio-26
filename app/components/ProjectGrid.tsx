@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Building2, AppWindow, Home, Plane, Box, BrainCircuit, Glasses, Layers } from "lucide-react";
+import { LucideIcon, ArrowUpRight, Building2, AppWindow, Home, Plane, Box, BrainCircuit, Glasses, Layers } from "lucide-react";
 
 interface Tag {
   name: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
 }
 
 interface Project {
@@ -63,8 +63,9 @@ const projects: Project[] = [
       { name: "AI Interface", icon: BrainCircuit },
       { name: "Innovation", icon: Box },
     ],
-    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+    videoUrl: "/samsung/Demo%20Video.mp4",
     placeholderColor: "bg-stone-950",
+    link: "/case-study/samsung",
   },
 ];
 

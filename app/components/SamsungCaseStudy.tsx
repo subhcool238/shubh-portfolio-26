@@ -1133,9 +1133,9 @@ const sections: Section[] = [
           <div className="space-y-4">
             <h4 className="text-xs text-rose-400 uppercase tracking-[0.2em] font-black mb-8 px-4">Phase 03: The Meeting</h4>
             {[
-              { icon: <video size={20} />, text: "Clicks on \"Google Meet Application\"." },
+              { icon: <Video size={20} />, text: "Clicks on \"Google Meet Application\"." },
               { icon: <Settings size={20} />, text: "Enable the accessibility features from Samsung XR headset settings in Navigation Panel." },
-              { icon: <video size={20} />, text: "Clicks on \"New Meeting\" to generate a meeting link." },
+              { icon: <Video size={20} />, text: "Clicks on \"New Meeting\" to generate a meeting link." },
               { icon: <Globe size={20} />, text: "Share the link with the participant to join the meeting." },
               { icon: <Users size={20} />, text: "The participant joins, and the meeting begins." },
               { icon: <Accessibility size={20} />, text: "Saleha makes gestures that are converted into speech by the avatar." },

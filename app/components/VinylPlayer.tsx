@@ -1,134 +1,365 @@
 "use client";
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Play, Pause } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Music, RefreshCw, Volume2, Pause, Play, Download } from 'lucide-react';
 
-const albums = [
-  { id: 1, title: "Spatial Awareness", artist: "Syn", cover: "/about/fitness.png" },
-  { id: 2, title: "Chrome Dreams", artist: "Syn", cover: "/about/triumph.png" },
-  { id: 3, title: "Silicon Valley Beat", artist: "Syn", cover: "/about/travel.png" },
-  { id: 4, title: "Deep Work", artist: "Syn", cover: "/about/mountain.png" },
-];
+// --- CONFIGURATION ---
+const LFM_KEY = "cad7cc3d0510d5ddbb127bf9f06a6212";
+const LFM_USER = "subhcool238"; 
+const YT_KEY = "AIzaSyAL_C-qOJTpeqPGMoBeGZpCHx_znUtWMjY";
+
+interface Track {
+  name: string;
+  artist: string;
+  art: string;
+}
+
+type Phase = 'idle' | 'searching' | 'loading' | 'playing' | 'paused';
+
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
+// Helper to filter Last.fm placeholders
+function pickArt(images: any[]): string {
+  if (!images?.length) return '';
+  const PLACEHOLDER = '2a96cbd8b46e442fc41c2b86b821562f';
+  for (const size of ['extralarge', 'large', 'medium']) {
+    const img = images.find(i => i.size === size);
+    if (img?.['#text'] && !img['#text'].includes(PLACEHOLDER)) return img['#text'];
+  }
+  return '';
+}
 
 export default function VinylPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [activeAlbum, setActiveAlbum] = useState<any>(albums[0]);
+  const [tracks, setTracks] = useState<Track[]>([]);
+  const [fetching, setFetching] = useState(true);
+  const [current, setCurrent] = useState<Track | null>(null);
+  const [phase, setPhase] = useState<Phase>('idle');
+  const [volume, setVolume] = useState(80);
+  const [ytReady, setYtReady] = useState(false);
+  const [draggedTrack, setDraggedTrack] = useState<Track | null>(null);
+  const [isHoveringTurntable, setIsHoveringTurntable] = useState(false);
+  const [vinylRot, setVinylRot] = useState(0);
 
-  const handleDrop = (e: any, info: any, album: any) => {
-    setActiveAlbum(album);
-    setIsPlaying(true);
-  };
+  const ytContainerRef = useRef<HTMLDivElement>(null);
+  const ytPlayerRef = useRef<any>(null);
+  const rafRef = useRef<number>(0);
+  const rotRef = useRef(0);
+  const lastTsRef = useRef<number | null>(null);
+  const ytPollRef = useRef<any>(null);
+  const turntableRef = useRef<HTMLDivElement>(null);
+
+  // --- 1. FETCH LAST.FM TOP TRACKS ---
+  useEffect(() => {
+    async function load() {
+      for (const period of ['1month', '7day', 'overall']) {
+        try {
+          const r = await fetch(
+            `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${LFM_USER}&api_key=${LFM_KEY}&format=json&limit=4&period=${period}`
+          );
+          if (!r.ok) continue;
+          const data = await r.json();
+          const raw = data?.toptracks?.track;
+          if (!Array.isArray(raw) || raw.length === 0) continue;
+
+          const list: Track[] = raw.slice(0, 4).map((t: any) => ({
+            name: t.name ?? '',
+            artist: t.artist?.['#text'] ?? t.artist?.name ?? '',
+            art: pickArt(t.image ?? []),
+          }));
+
+          setTracks(list);
+          setFetching(false);
+          return;
+        } catch (err) {
+          console.error("LFM Fetch Error:", err);
+        }
+      }
+      setFetching(false);
+    }
+    load();
+  }, []);
+
+  // --- 2. YOUTUBE API INIT (POLLING) ---
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    if (!document.getElementById('yt-iframe-api')) {
+      const s = document.createElement('script');
+      s.id = 'yt-iframe-api';
+      s.src = 'https://www.youtube.com/iframe_api';
+      s.async = true;
+      document.head.appendChild(s);
+    }
+
+    function tryCreate() {
+      if (!window.YT?.Player || !ytContainerRef.current || ytPlayerRef.current) return;
+
+      clearInterval(ytPollRef.current);
+      ytPlayerRef.current = new window.YT.Player(ytContainerRef.current, {
+        height: '1', width: '1',
+        playerVars: {
+          autoplay: 0, controls: 0, playsinline: 1,
+          enablejsapi: 1, origin: window.location.origin,
+        },
+        events: {
+          onReady: () => {
+            ytPlayerRef.current.setVolume(volume);
+            setYtReady(true);
+          },
+          onStateChange: (e: { data: number }) => {
+            if (e.data === 1) setPhase('playing');
+            if (e.data === 2) setPhase('paused');
+            if (e.data === 0) setPhase('idle');
+          },
+          onError: () => setPhase('idle'),
+        },
+      });
+    }
+
+    ytPollRef.current = setInterval(tryCreate, 200);
+    tryCreate();
+
+    return () => clearInterval(ytPollRef.current);
+  }, []);
+
+  // --- 3. ROTATION ENGINE ---
+  useEffect(() => {
+    if (phase !== 'playing') {
+      cancelAnimationFrame(rafRef.current);
+      lastTsRef.current = null;
+      return;
+    }
+    const tick = (t: number) => {
+      if (lastTsRef.current !== null) {
+        rotRef.current = (rotRef.current + (t - lastTsRef.current) * 0.025) % 360;
+        setVinylRot(rotRef.current);
+      }
+      lastTsRef.current = t;
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [phase]);
+
+  // --- 4. PLAY LOGIC ---
+  const playTrack = useCallback(async (track: Track) => {
+    setCurrent(track);
+    setPhase('searching');
+
+    try {
+      const q = encodeURIComponent(`${track.name} ${track.artist} official audio`);
+      const r = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&videoCategoryId=10&maxResults=1&key=${YT_KEY}`
+      );
+      const data = await r.json();
+      const vid = data?.items?.[0]?.id?.videoId;
+
+      if (!vid || !ytPlayerRef.current) throw new Error('Not found');
+
+      setPhase('loading');
+      ytPlayerRef.current.loadVideoById(vid);
+      ytPlayerRef.current.setVolume(volume);
+    } catch (err) {
+      setPhase('idle');
+    }
+  }, [volume]);
+
+  const togglePlay = useCallback(() => {
+    if (!ytPlayerRef.current) return;
+    if (phase === 'playing') ytPlayerRef.current.pauseVideo();
+    else if (phase === 'paused') ytPlayerRef.current.playVideo();
+    else if (current) playTrack(current);
+  }, [phase, current, playTrack]);
+
+  const handleDragStart = useCallback((e: React.DragEvent, t: Track) => {
+    setDraggedTrack(t);
+    e.dataTransfer.effectAllowed = 'copy';
+
+    // Build custom vinyl ghost
+    const size = 80;
+    const cvs = document.createElement('canvas');
+    cvs.width = size; cvs.height = size;
+    const ctx = cvs.getContext('2d')!;
+    
+    ctx.beginPath(); ctx.arc(size/2, size/2, size/2-1, 0, Math.PI*2);
+    ctx.fillStyle = '#111'; ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.stroke();
+    
+    ctx.beginPath(); ctx.arc(size/2, size/2, 4, 0, Math.PI*2);
+    ctx.fillStyle = '#000'; ctx.fill();
+
+    e.dataTransfer.setDragImage(cvs, size/2, size/2);
+  }, []);
+
+  const handleDragEnd = useCallback((e: any, info: any, track: Track) => {
+    setIsHoveringTurntable(false);
+    if (!turntableRef.current) return;
+    const rect = turntableRef.current.getBoundingClientRect();
+    const x = info.point.x;
+    const y = info.point.y;
+
+    if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+      playTrack(track);
+    }
+  }, [playTrack]);
 
   return (
-    <div className="bg-[#0D0D0D] rounded-[32px] border border-white/5 p-5 md:p-12 w-full max-w-5xl mx-auto flex flex-col gap-8 md:gap-12 shadow-2xl">
+    <div className="bg-surface/40 backdrop-blur-md rounded-[40px] border border-white/5 p-8 md:p-12 w-full max-w-5xl mx-auto flex flex-col gap-12 shadow-2xl relative group/player overflow-hidden">
+      
+      {/* Hidden YT Container */}
+      <div className="fixed -top-full -left-full w-1 h-1 opacity-0 overflow-hidden pointer-events-none">
+        <div ref={ytContainerRef} />
+      </div>
+
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center bg-black">
-             <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+            <Music className="w-4 h-4 text-white/60" />
           </div>
           <h3 className="text-sm font-bold tracking-[0.2em] uppercase text-white/50">What I'm Listening To</h3>
+          {phase === 'searching' && <RefreshCw className="w-3 h-3 text-blue-500 animate-spin ml-2" />}
         </div>
-        <div className="text-[10px] font-mono text-white/20 tracking-widest uppercase">
-          SYS.AUDIO_ACTIVE
+
+        {/* Status Chip */}
+        <div className={`px-4 py-1.5 rounded-full border text-[10px] font-bold tracking-widest uppercase transition-all duration-500 ${
+          ytReady ? phase === 'playing' ? 'bg-blue-500/10 border-blue-500/20 text-blue-500' : 'bg-white/5 border-white/10 text-white/40' : 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500'
+        }`}>
+          {ytReady ? phase === 'playing' ? '● Playing' : phase === 'loading' || phase === 'searching' ? '◌ Searching' : '○ Ready' : '◌ Initializing'}
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-12 items-center border-b border-white/5 pb-16">
+      {/* Main UI */}
+      <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24">
         
-        {/* Turntable Area */}
-        <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96 flex-shrink-0 flex items-center justify-center bg-[#050505] rounded-full border border-white/5 shadow-inner">
-          {/* Vinyl Grooves */}
-          {[90, 80, 70, 60].map((size, i) => (
-             <div key={i} className="absolute rounded-full border border-white-[0.02]" style={{ width: `${size}%`, height: `${size}%` }}></div>
-          ))}
-
-          <motion.div 
-            animate={{ rotate: isPlaying ? 360 : 0 }}
-            transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-            className="w-[95%] h-[95%] rounded-full flex items-center justify-center relative z-10 bg-[#0A0A0A] shadow-xl border border-white/5 overflow-hidden"
+        {/* Turntable */}
+        <div className="relative flex flex-col items-center">
+          <div 
+            ref={turntableRef}
+            className={`relative w-64 h-64 md:w-80 md:h-80 transition-all duration-500 ${isHoveringTurntable ? 'scale-105 brightness-125' : ''}`}
           >
-             {/* Inner vinyl grooves */}
-             <div className="absolute inset-0 rounded-full border-4 border-white/5 m-4"></div>
-             <div className="absolute inset-0 rounded-full border border-white/5 m-8"></div>
-             <div className="absolute inset-0 rounded-full border border-white/5 m-12"></div>
-             
-             {/* Center Label */}
-            <div className="w-[40%] h-[40%] rounded-full overflow-hidden border-4 border-[#0D0D0D] relative shadow-2xl z-20">
-              <img src={activeAlbum.cover} alt="Vinyl Center" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-black/10 mix-blend-overlay"></div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#050505] rounded-full border border-white/20 shadow-inner"></div>
+            <div className="absolute inset-0 rounded-full border border-white/10 bg-black/40 shadow-inner"></div>
+            {[85, 70, 55, 40].map((size) => (
+              <div key={size} className="absolute left-1/2 top-1/2 rounded-full border border-white/[0.04]"
+                style={{ width: `${size}%`, height: `${size}%`, transform: 'translate(-50%, -50%)' }} />
+            ))}
+
+            <div className={`absolute inset-4 rounded-full bg-[#080808] shadow-2xl overflow-hidden flex items-center justify-center`}
+                 style={{ transform: `rotate(${vinylRot}deg)` }}>
+              <AnimatePresence mode="wait">
+                {current ? (
+                  <motion.div key={current.name} initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-full h-full relative">
+                    {current.art ? (
+                      <img src={current.art} alt="Vinyl" className="w-full h-full object-cover opacity-80" />
+                    ) : (
+                      <div className="w-full h-full bg-stone-900 flex items-center justify-center text-white/10 text-4xl">♫</div>
+                    )}
+                    <div className="absolute inset-0 bg-black/20"></div>
+                    <div className="absolute inset-0 border-[16px] border-black/80 rounded-full"></div>
+                  </motion.div>
+                ) : (
+                  <div className="w-12 h-12 rounded-full border border-white/5 bg-stone-900/50"></div>
+                )}
+              </AnimatePresence>
+              <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#050505] border border-white/20 z-50 shadow-inner" />
             </div>
-          </motion.div>
-          
-          {/* Drop Target Hint */}
-          {!isPlaying && (
-            <div className="absolute bottom-[-40px] left-1/2 -translate-x-1/2 text-[10px] text-white/30 uppercase tracking-widest border border-dashed border-white/20 px-6 py-2 rounded-full backdrop-blur-sm bg-black/50 pointer-events-none">
-              Drag vinyl to play
+
+            {/* Tonearm */}
+            <div className="absolute -right-2 -top-2 md:right-0 md:top-0 z-50">
+              <div className="relative transition-transform duration-1000 cubic-bezier(.34,1.4,.64,1)"
+                style={{ transform: phase === 'playing' ? 'rotate(28deg)' : 'rotate(0deg)', transformOrigin: '80% 10%' }}>
+                <div className="h-6 w-6 rounded-full bg-stone-800 border border-white/10 shadow-2xl flex items-center justify-center">
+                   <div className="w-2 h-2 rounded-full bg-white/20"></div>
+                </div>
+                <div className="ml-2 mt-1 h-32 w-[3px] origin-top rotate-12 bg-gradient-to-b from-stone-600 to-stone-800 rounded-full" />
+                <div className="ml-[-8px] mt-[-2px] h-4 w-6 -rotate-12 rounded-sm bg-stone-700 border border-white/10 flex items-center justify-center">
+                   <div className="w-[1px] h-3 bg-white/30"></div>
+                </div>
+              </div>
             </div>
-          )}
+
+            {!current && (
+              <div className="absolute bottom-[-60px] left-1/2 -translate-x-1/2 w-48 py-3 rounded-2xl border border-dashed border-white/10 text-[9px] uppercase tracking-[0.4em] text-white/20 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+                Drag vinyl to play
+              </div>
+            )}
+          </div>
+
+          <div className="mt-12 text-center h-16">
+            <AnimatePresence mode="wait">
+              {current && (
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                  <p className="font-bold text-white text-base tracking-tight">{current.name}</p>
+                  <p className="text-sm text-white/40 uppercase tracking-widest mt-1">{current.artist}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Controls */}
-        <div className="flex-1 flex flex-col justify-center items-center lg:items-start w-full gap-10">
-           <div className="flex flex-col items-center lg:items-start gap-4">
-             <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-blue-500">Now Playing</span>
-             <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-center lg:text-left">{activeAlbum.title}</h2>
-             <p className="text-lg text-white/40 font-light">{activeAlbum.artist}</p>
-           </div>
+        <div className="flex flex-col items-center gap-8 pt-2">
+          <button onClick={togglePlay} className={`relative flex items-center justify-center rounded-full h-14 w-14 transition-all duration-500 bg-black/40 border border-white/10 shadow-xl group/btn`}>
+             <svg width="56" height="56" className="absolute inset-0 -rotate-90">
+               <circle cx="28" cy="28" r="26.5" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="3" />
+               <circle cx="28" cy="28" r="26.5" fill="none" stroke="#3b82f6" strokeWidth="3" 
+                 strokeDasharray="166" strokeDashoffset={phase === 'playing' ? "40" : "166"} className="transition-all duration-300" />
+             </svg>
+             {phase === 'playing' ? <Pause className="text-white z-10 w-5 h-5" /> : <Play className="text-white z-10 w-5 h-5 ml-1" />}
+          </button>
 
-           <div className="flex items-center gap-8">
-             <button 
-               onClick={() => setIsPlaying(!isPlaying)}
-               className="w-20 h-20 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xl"
-             >
-               {isPlaying ? <Pause className="w-8 h-8 fill-current" /> : <Play className="w-8 h-8 fill-current ml-1" />}
-             </button>
-             
-             {/* Fake Volume Slider */}
-             <div className="flex items-center gap-4 h-12">
-               <span className="text-[10px] text-white/30 font-mono tracking-widest">VOL</span>
-               <div className="w-32 h-[2px] bg-white/10 relative rounded-full">
-                 <div className="absolute top-1/2 left-[70%] -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-md cursor-ew-resize"></div>
-                 <div className="absolute top-1/2 left-0 right-[30%] -translate-y-1/2 h-full bg-blue-500 rounded-full"></div>
-               </div>
+          <div className="flex flex-col items-center gap-4">
+             <span className="text-[9px] uppercase tracking-[0.3em] text-white/20 font-bold">Vol</span>
+             <div className="relative rounded-xl p-2 bg-black/40 border border-white/5 shadow-inner">
+                <div className="relative h-32 w-3 rounded-full bg-black/60 overflow-hidden">
+                   <div className="absolute bottom-0 left-0 w-full bg-blue-500/20 transition-all duration-300" style={{ height: `${volume}%` }}></div>
+                </div>
+                <input type="range" min="0" max="100" value={volume} onChange={(e) => {
+                  const v = parseInt(e.target.value);
+                  setVolume(v);
+                  if (ytPlayerRef.current) ytPlayerRef.current.setVolume(v);
+                }} className="absolute inset-0 w-full h-full opacity-0 cursor-ns-resize" style={{ writingMode: 'vertical-lr', direction: 'rtl' } as any} />
+                <div className="absolute left-1/2 -translate-x-1/2 w-7 h-3 bg-gradient-to-b from-[#888] via-[#555] to-[#333] rounded-[2px] shadow-xl pointer-events-none z-20 border border-white/10"
+                  style={{ bottom: `calc(${volume}% - 6px)` }} />
              </div>
-           </div>
+          </div>
         </div>
       </div>
 
-      {/* Album Gallery */}
-      <div className="flex flex-col gap-4">
-        <h4 className="text-[10px] font-bold tracking-widest uppercase text-white/30 pl-2">Record Collection</h4>
-        <div className="flex items-center gap-6 overflow-x-auto custom-scrollbar pb-6 px-2">
-          {albums.map((album) => (
-            <motion.div 
-              key={album.id}
-              drag
-              dragSnapToOrigin
-              onDragEnd={(e, info) => handleDrop(e, info, album)}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileDrag={{ scale: 1.1, zIndex: 50, opacity: 0.9 }}
-              className="w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden cursor-grab active:cursor-grabbing flex-shrink-0 relative group shadow-xl border border-white/10"
-            >
-              <img src={album.cover} alt={album.title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center pointer-events-none gap-2">
-                <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center backdrop-blur-sm">
-                   <div className="w-2 h-2 rounded-full bg-white"></div>
-                </div>
-                <span className="text-[9px] font-bold tracking-widest uppercase text-white">Drag to Play</span>
+      {/* Album Grid */}
+      <div className="border-t border-white/5 pt-12">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 md:gap-12 px-4">
+          {fetching ? Array(4).fill(0).map((_, i) => <div key={i} className="aspect-square rounded-2xl bg-white/5 animate-pulse" />)
+            : tracks.map((t, i) => (
+            <div key={i} className="flex flex-col gap-4 group/album items-center">
+              <motion.div className="relative w-full aspect-square" initial="initial" whileHover="hover">
+                <motion.div variants={{ initial: { y: 0 }, hover: { y: -30, rotate: 10 } }} className="absolute inset-4 rounded-full bg-[#080808] border border-white/5 shadow-2xl flex items-center justify-center">
+                   <div className="w-1/3 h-1/3 rounded-full border border-white/10 bg-stone-900"></div>
+                </motion.div>
+                <motion.div 
+                  drag dragSnapToOrigin 
+                  onDrag={(e, info) => {
+                    const rect = turntableRef.current?.getBoundingClientRect();
+                    if (rect) setIsHoveringTurntable(info.point.x >= rect.left && info.point.x <= rect.right && info.point.y >= rect.top && info.point.y <= rect.bottom);
+                  }}
+                  onDragEnd={(e, info) => handleDragEnd(e, info, t)}
+                  whileHover={{ scale: 1.05 }} className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 bg-stone-950 cursor-grab active:cursor-grabbing shadow-xl z-10">
+                  <img src={t.art || '/about/fitness.png'} alt={t.name} className="w-full h-full object-cover grayscale group-hover/album:grayscale-0 transition-all duration-700" />
+                  <div className="absolute inset-0 bg-black/40 group-hover/album:bg-transparent transition-colors"></div>
+                  {current?.name === t.name && <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)]" />}
+                </motion.div>
+              </motion.div>
+              <div className="text-center">
+                <p className="text-[11px] font-bold text-white tracking-tight truncate max-w-[140px]">{t.name}</p>
+                <p className="text-[9px] text-white/30 uppercase tracking-widest mt-1 truncate max-w-[140px]">{t.artist}</p>
               </div>
-              
-              {/* Mini tag on cover */}
-              <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between pointer-events-none">
-                 <span className="text-[8px] font-mono bg-black/60 backdrop-blur-md px-2 py-1 rounded text-white/80 truncate max-w-[80%]">
-                   {album.title}
-                 </span>
-                 {activeAlbum.id === album.id && isPlaying && (
-                    <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                 )}
-              </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

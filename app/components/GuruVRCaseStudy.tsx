@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen, Cpu, Gamepad2, Globe, Building2, User, Target, Route, Layers, Search, Layout, Palette, Glasses, TestTube, Lightbulb, ChevronRight, ChevronDown, Monitor, Smartphone, LayoutDashboard, Share2 } from "lucide-react";
+import { BookOpen, Cpu, Gamepad2, Globe, Building2, User, Target, Route, Layers, Search, Layout, Palette, Glasses, TestTube, Lightbulb, ChevronRight, ChevronDown, Monitor, Smartphone, LayoutDashboard, Share2, ShieldAlert, AlertCircle, Rocket } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Section {
@@ -23,8 +23,23 @@ const SECTION_ICONS: Record<string, any> = {
   "ui-ux": Palette,
   "xr-module": Glasses,
   "testing": TestTube,
+  "prototype": Rocket,
   "reflection": Lightbulb
 };
+
+const ProblemCard = ({ title, content }: { title: string; content: string }) => (
+  <div className="my-12 p-8 rounded-2xl border border-rose-500/30 bg-[#0a0a0c] relative overflow-hidden group">
+    {/* Watermark Icon */}
+    <div className="absolute top-2 right-2 opacity-10 group-hover:opacity-20 transition-all duration-500">
+      <ShieldAlert size={100} className="text-rose-500" strokeWidth={1} />
+    </div>
+    
+    
+    <p className="text-lg md:text-xl tracking-wide font-normal text-white/90 leading-relaxed relative z-10 italic">
+      {content}
+    </p>
+  </div>
+);
 
 const sections: Section[] = [
   {
@@ -124,15 +139,10 @@ const sections: Section[] = [
     title: "Engineering education is broken in one specific way",
     content: (
       <div className="space-y-6">
-        <div className="mt-12">
-          <div className="rounded-2xl bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-rose-500/30 p-[1px]">
-            <div className="rounded-[14px] bg-[#080c14]/90 backdrop-blur-xl p-6 md:p-8">
-              <p className="text-lg md:text-xl tracking-wide font-normal text-white/90 leading-relaxed italic">
-                "Indian Engineering education relies heavily on theoretical lectures and outdated teaching methods — leading to a significant lack of hands-on learning and industry-relevant skills. Students struggle with limited access to practical sessions and insufficient guidance from untrained faculty, often resulting in a self-driven learning approach."
-              </p>
-            </div>
-          </div>
-        </div>
+        <ProblemCard 
+          title="Core Problem" 
+          content="Indian Engineering education relies heavily on theoretical lectures and outdated teaching methods — leading to a significant lack of hands-on learning and industry-relevant skills. Students struggle with limited access to practical sessions and insufficient guidance from untrained faculty, often resulting in a self-driven learning approach."
+        />
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Key Statistics</h3>
         <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -379,6 +389,11 @@ const sections: Section[] = [
             allowFullScreen
           />
         </div>
+
+        <ProblemCard 
+          title="The Challenge" 
+          content="How might we build a scalable XR platform that bridges the gap between theoretical engineering education and hands-on industrial expertise, while ensuring the UX is intuitive for both first-time VR students and non-technical faculty?" 
+        />
       </div>
     ),
   },
@@ -444,56 +459,42 @@ const sections: Section[] = [
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-3 gap-4 mt-8 mb-12 h-[500px]">
           {/* R1C1: Square */}
           <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 192449.png" alt="Social View" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <img src="/guruvr/metaversity/Screenshot 2025-05-17 192449.png" alt="Social View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R1C2-3: Wide */}
           <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
-            <img src="/guruvr/metaversity/Zoomed Out Gate.png" alt="Main Gate" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-blue-400 mb-1">Architecture</span>
-              <h4 className="text-xl font-bold text-white uppercase tracking-tight">Main Campus Gate</h4>
-            </div>
+            <img src="/guruvr/metaversity/Zoomed Out Gate.png" alt="Main Gate" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R1-2C4: Tall */}
           <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 184930.png" alt="Lab View" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-              <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white">Dept. Labs</span>
-            </div>
+            <img src="/guruvr/metaversity/Screenshot 2025-05-17 184930.png" alt="Lab View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R2C1: Square */}
           <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 185725.png" alt="Classroom" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <img src="/guruvr/metaversity/Screenshot 2025-05-17 185725.png" alt="Classroom" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R2C2: Square */}
           <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 185734.png" alt="UI View" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <img src="/guruvr/metaversity/Screenshot 2025-05-17 185734.png" alt="UI View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R2-3C3: Tall */}
           <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 184521.png" alt="Campus View" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-              <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white">Campus View</span>
-            </div>
+            <img src="/guruvr/metaversity/Screenshot 2025-05-17 184521.png" alt="Campus View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R3C1-2: Wide */}
           <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
-            <img src="/guruvr/metaversity/Screenshot 2025-05-01 141742.png" alt="Module View" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-emerald-400 mb-1">Learning Module</span>
-              <h4 className="text-xl font-bold text-white uppercase tracking-tight">Logic Gates Mystery Island</h4>
-            </div>
+            <img src="/guruvr/metaversity/Screenshot 2025-05-01 141742.png" alt="Module View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R3C4: Square */}
           <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 184251.png" alt="Detailed View" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <img src="/guruvr/metaversity/Screenshot 2025-05-17 184251.png" alt="Detailed View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
         </div>
 
@@ -539,8 +540,12 @@ const sections: Section[] = [
         </p>
 
         <div className="w-full mt-12 mb-12">
-          <div className="w-full aspect-[21/9] bg-white/5 border border-white/10 rounded-[5px] flex flex-col items-center justify-center p-6 text-center text-white/50">
-            [ Design System Spread Placeholder ]
+          <div className="w-full aspect-[21/9] bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+            <iframe 
+              src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FZzbxCJIAib7hi1ESbKrB70%2FGuruVR-Metaversity%3Fnode-id%3D2298-142%26t%3DcOd7n4H4dW8e7x8j-1" 
+              className="w-full h-full"
+              allowFullScreen
+            />
           </div>
         </div>
 
@@ -548,19 +553,24 @@ const sections: Section[] = [
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-6">
           Each role gets a dashboard designed around their actual job:
         </p>
-        <div className="mt-8 flex flex-wrap gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
           {[
-            { state: "Student", color: "bg-blue-500", desc: "Progress tracking, XR Launchpad, AI Tutor" },
-            { state: "Faculty", color: "bg-emerald-500", desc: "Engagement analytics, classroom management" },
-            { state: "Creator", color: "bg-amber-500", desc: "Creator Studio, concept tagging" },
-            { state: "Corporate", color: "bg-purple-500", desc: "XR safety training, HR sync" },
+            { state: "Student", image: "/guruvr/role based/Students.png", color: "bg-blue-500", desc: "Progress tracking, XR Launchpad, AI Tutor" },
+            { state: "Faculty", image: "/guruvr/role based/Faculty.png", color: "bg-emerald-500", desc: "Engagement analytics, classroom management" },
+            { state: "Creator", image: "/guruvr/role based/Creator.png", color: "bg-amber-500", desc: "Creator Studio, concept tagging" },
+            { state: "Corporate", image: "/guruvr/role based/Corporate.png", color: "bg-purple-500", desc: "XR safety training, HR sync" },
           ].map((item) => (
-            <div key={item.state} className="flex flex-col items-start gap-2 px-6 py-6 rounded-2xl border border-white/10 bg-white/5 w-full md:w-[calc(50%-8px)] transition-all duration-300 hover:scale-[1.02] hover:bg-white/10 hover:border-white/20">
-              <div className="flex items-center gap-3">
-                <div className={`w-3 h-3 rounded-full flex-shrink-0 ${item.color}`} />
-                <p className="text-base font-bold text-white/90">{item.state}</p>
+            <div key={item.state} className="group flex flex-col items-start rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:bg-white/10 hover:border-white/20 overflow-hidden">
+               <div className="w-full aspect-[4/3] overflow-hidden bg-black/20 p-4">
+                 <img src={item.image} alt={item.state} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" />
+               </div>
+               <div className="p-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`w-3 h-3 rounded-full flex-shrink-0 ${item.color}`} />
+                  <p className="text-base font-bold text-white/90">{item.state}</p>
+                </div>
+                <p className="text-sm text-white/50 leading-relaxed">{item.desc}</p>
               </div>
-              <p className="text-sm text-white/50">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -569,6 +579,7 @@ const sections: Section[] = [
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-6">
           Gamification without overuse. Every element earns its place by driving a specific behaviour.
         </p>
+
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {[
             { state: "XP Points", color: "bg-blue-500", desc: "Earned through quizzes and tasks" },
@@ -585,6 +596,17 @@ const sections: Section[] = [
               <p className="text-sm text-white/50">{item.desc}</p>
             </div>
           ))}
+        </div>
+
+        <div className="w-full mt-12 mb-12 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group">
+          <img 
+            src="/guruvr/Reward system.png" 
+            alt="Reward System" 
+            className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute bottom-4 left-4 text-[10px] font-bold tracking-[0.2em] uppercase bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 pointer-events-none">
+            Gamification Ecosystem
+          </div>
         </div>
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">AI Integration — Gyaanix</h3>
@@ -605,31 +627,34 @@ const sections: Section[] = [
           The module that proves everything. Seven interconnected VR scenes. Each temple teaches one logic gate — through puzzles, not lectures. The final ritual forces you to use all five gates to escape.
         </p>
 
-        <div className="w-full mt-12 mb-12">
-          <div className="w-full aspect-[21/9] bg-white/5 border border-white/10 rounded-[5px] flex flex-col items-center justify-center p-6 text-center text-white/50">
-            [ Logic Gates Module Unity Screenshot Placeholder ]
-          </div>
-        </div>
+
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Scene by scene</h3>
-        <div className="mt-6 flex flex-col gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mb-12">
           {[
-            { step: "01. Crash Site", detail: "Orientation — no pressure to perform yet.", color: "bg-blue-500" },
-            { step: "02. Temple of Unity (AND Gate)", detail: "Pull both levers simultaneously to activate the gate.", color: "bg-emerald-500" },
-            { step: "03. Temple of Acceptance (OR Gate)", detail: "Step on pressure pads in different combinations.", color: "bg-amber-500" },
-            { step: "04. Chamber of Inversion (NOT Gate)", detail: "Insert an orb into the gate — the inverse shoots out as a beam.", color: "bg-[#EF4444]" },
-            { step: "05. Temple of Divergence (XOR Gate)", detail: "Select mismatched input pairs to activate the gate.", color: "bg-purple-500" },
-            { step: "06. Tower of Equality (XNOR Gate)", detail: "Align both inputs to match — the platform rises.", color: "bg-indigo-500" },
-            { step: "07. Final Ritual", detail: "Build one mega-circuit from gate tokens. Unlock the escape portal.", color: "bg-pink-500" },
-          ].map((item, i) => (
-            <div key={item.step} className="flex items-start gap-4 p-4 rounded-lg bg-white/5 border border-white/5 transition-all duration-300 hover:bg-white/10">
-              <div className="flex-shrink-0 flex flex-col items-center">
-                <div className={`w-3 h-3 rounded-full ${item.color}`} />
-                {i < 6 && <div className="w-px h-8 bg-white/10 mt-1" />}
+            { step: "01. Crash Site", detail: "Orientation — no pressure to perform yet.", image: "/guruvr/mystery island/1.1.jpg", color: "bg-blue-500" },
+            { step: "02. Temple of Unity (AND Gate)", detail: "Pull both levers simultaneously to activate the gate.", image: "/guruvr/mystery island/2.1.jpg", color: "bg-emerald-500" },
+            { step: "03. Temple of Acceptance (OR Gate)", detail: "Step on pressure pads in different combinations.", image: "/guruvr/mystery island/3.1.jpg", color: "bg-amber-500" },
+            { step: "04. Chamber of Inversion (NOT Gate)", detail: "Insert an orb into the gate — the inverse shoots out as a beam.", image: "/guruvr/mystery island/4.1.jpg", color: "bg-[#EF4444]" },
+            { step: "05. Temple of Divergence (XOR Gate)", detail: "Select mismatched input pairs to activate the gate.", image: "/guruvr/mystery island/5.1.jpg", color: "bg-purple-500" },
+            { step: "06. Tower of Equality (XNOR Gate)", detail: "Align both inputs to match — the platform rises.", image: "/guruvr/mystery island/6.1.jpg", color: "bg-indigo-500" },
+            { step: "07. Final Ritual", detail: "Build one mega-circuit from gate tokens. Unlock the escape portal.", image: "/guruvr/mystery island/7.1.jpg", color: "bg-pink-500" },
+          ].map((item) => (
+            <div key={item.step} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-all duration-500 hover:border-white/20 hover:bg-white/10">
+              <div className="aspect-video w-full overflow-hidden relative">
+                <img 
+                  src={item.image} 
+                  alt={item.step} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
               </div>
-              <div>
-                <h4 className="text-base font-bold text-white/90 tracking-wide">{item.step}</h4>
-                <p className="text-sm text-white/50 mt-1">{item.detail}</p>
+              <div className="p-6 relative">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
+                  <h4 className="text-base font-bold text-white/90 tracking-wide">{item.step}</h4>
+                </div>
+                <p className="text-sm text-white/60 leading-relaxed">{item.detail}</p>
               </div>
             </div>
           ))}
@@ -641,9 +666,20 @@ const sections: Section[] = [
         </p>
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Prototyping in Unity</h3>
-        <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
+        <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-8">
           All 7 scenes were prototyped and tested in Unity, deployed on Meta Quest 2 via Side Quest. We collaborated directly with the dev team to translate design intent into real XR behaviour using Unity (C#), Meta XR SDK, XR Interaction Toolkit, and Photon Fusion.
         </p>
+        <div className="grid grid-cols-2 gap-4 mt-8">
+          {["03.jpg", "04.jpg", "05.jpg", "06.jpg"].map((img) => (
+            <div key={img} className="rounded-xl overflow-hidden border border-white/10 bg-white/5 relative group aspect-video">
+              <img 
+                src={`/guruvr/unity prototypes/${img}`} 
+                alt="Unity Prototype" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+              />
+            </div>
+          ))}
+        </div>
       </div>
     ),
   },
@@ -698,6 +734,38 @@ const sections: Section[] = [
               </p>
             </div>
           </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "prototype",
+    navLabel: "Prototype",
+    label: "Final Prototype",
+    title: "The Final Experience",
+    content: (
+      <div className="space-y-6">
+        <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-6">
+          The final developed prototype is an immersive, multi-user VR experience built for the Meta Quest 2. It integrates the spatial logic gate module and AI-driven guidance via Gyaanix.
+        </p>
+        
+        <div className="w-full aspect-video rounded-3xl overflow-hidden border border-white/10 bg-white/5 shadow-2xl relative group mb-12">
+          <video 
+            src="/guruvr/Final Prototype Video.mp4" 
+            controls 
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <div className="p-6 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-[1.02] hover:bg-white/10">
+              <h4 className="text-base font-bold text-white/90 mb-2">Hardware</h4>
+              <p className="text-sm text-white/50">Optimized for Meta Quest 2 / Quest 3 with hand-tracking and controller support.</p>
+           </div>
+           <div className="p-6 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-[1.02] hover:bg-white/10">
+              <h4 className="text-base font-bold text-white/90 mb-2">Tech Stack</h4>
+              <p className="text-sm text-white/50">Built with Unity, Meta XR SDK, and Photon Fusion for real-time collaboration.</p>
+           </div>
         </div>
       </div>
     ),
@@ -1067,10 +1135,11 @@ export default function GuruVRCaseStudy() {
         
         {/* Project Hero Visual */}
         <div className="w-full mb-20">
-          <div className="w-full aspect-[16/9] bg-white/5 border border-white/10 rounded-3xl flex flex-col items-center justify-center p-6 text-center text-white/50 shadow-2xl">
-            [ Hero Visual Placeholder ]<br/>
-            <span className="text-sm mt-2">GuruVR platform screenshot / 3D campus render</span>
-          </div>
+          <img 
+            src="/guruvr/guruvr_hero.png" 
+            alt="GuruVR Metaversity Hero" 
+            className="w-full h-auto" 
+          />
         </div>
 
         {/* Project Metadata Box */}
@@ -1164,8 +1233,8 @@ export default function GuruVRCaseStudy() {
                 id={section.id} 
                 className="scroll-mt-32"
               >
-                <div className="mb-8">
-                  <h2 className="text-sm tracking-widest uppercase text-white/50 font-semibold mb-2">
+                <div className="mb-6">
+                  <h2 className="text-sm tracking-widest uppercase text-white/50 font-semibold mb-1">
                     {section.label}
                   </h2>
                   <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white">

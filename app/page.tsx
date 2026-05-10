@@ -3,6 +3,7 @@ import ProjectGrid from "./components/ProjectGrid";
 import About from "./components/About";
 import Polymath from "./components/Polymath";
 import Agent from "./components/Agent";
+import Footer from "./components/Footer";
 
 const styles = {
   gradientCircleOne: {
@@ -25,7 +26,7 @@ const styles = {
 
 export default function Home() {
   return (
-    <main className="w-full overflow-hidden relative text-stone-950 dark:text-white px-5 min-h-screen transition-colors duration-300">
+    <main className="w-full overflow-hidden relative text-stone-950 dark:text-white px-6 min-h-screen transition-colors duration-300">
       {/* Background Gradients */}
       <div
         style={styles.gradientCircleOne}
@@ -52,25 +53,8 @@ export default function Home() {
         <About />
         <Polymath />
 
-        {/* Footer */}
-        <footer className="py-24 border-t border-white/5 mt-12 flex flex-col items-center text-center">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-12">Let's build a better system.</h2>
-          
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 mb-20">
-            <a href="mailto:hello@shubh.design" className="text-3xl md:text-5xl font-light text-gray-100 hover:text-white transition-colors duration-300 tracking-wide">
-              hello@shubh.design
-            </a>
-            <div className="flex items-center gap-8 text-lg text-gray-400 font-medium">
-              <a href="#" className="hover:text-white transition-colors duration-300">LinkedIn</a>
-              <a href="#" className="hover:text-white transition-colors duration-300">Resume</a>
-            </div>
-          </div>
-
-          <p className="text-gray-500 text-sm tracking-wide">
-            © 2026 Shubhanshu Sahu. Based in NCR, India. Built with Next.js & AI.
-          </p>
-        </footer>
       </div>
+      <Footer />
     </main>
   );
 }

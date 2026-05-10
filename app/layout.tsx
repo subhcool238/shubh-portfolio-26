@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import SynChat from "./components/SynChat";
 
 import { ThemeProvider } from "./components/ThemeProvider";
+import ClientOnly from "./components/ClientOnly";
 
 export const metadata: Metadata = {
   title: "Shubhanshu | Portfolio",

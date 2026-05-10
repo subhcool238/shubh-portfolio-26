@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { 
   Building2, Users, Route, Search, Target, User, Lightbulb, 
   Glasses, Layout, BookOpen, Layers, TestTube, Globe, Settings, Sparkles, Accessibility, Gauge, Repeat, Camera,
-  Smartphone, Monitor, Share2, LayoutDashboard, Video
+  Smartphone, Monitor, Share2, LayoutDashboard, Video, ShieldAlert, AlertCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -34,6 +34,20 @@ const SECTION_ICONS: Record<string, any> = {
   "userflow": Route,
   "outcomes": TestTube
 };
+
+const ProblemCard = ({ title, content }: { title: string; content: string }) => (
+  <div className="my-12 p-8 rounded-2xl border border-rose-500/30 bg-[#0a0a0c] relative overflow-hidden group">
+    {/* Watermark Icon */}
+    <div className="absolute top-2 right-2 opacity-10 group-hover:opacity-20 transition-all duration-500">
+      <ShieldAlert size={100} className="text-rose-500" strokeWidth={1} />
+    </div>
+    
+    
+    <p className="text-lg md:text-xl tracking-wide font-normal text-white/90 leading-relaxed relative z-10 italic">
+      {content}
+    </p>
+  </div>
+);
 
 const sections: Section[] = [
   {
@@ -165,7 +179,7 @@ const sections: Section[] = [
     label: "Desk Research",
     title: "Information Gathered from Online Sources",
     content: (
-      <div className="space-y-8">
+      <div className="space-y-6">
         {/* Horizontal Topic Timeline */}
         <div className="w-full flex flex-wrap lg:flex-nowrap items-start justify-start gap-0 py-10 border-b border-white/5 overflow-x-auto no-scrollbar">
           {[
@@ -299,7 +313,7 @@ const sections: Section[] = [
     label: "Stakeholders",
     title: "Identifying Stakeholders",
     content: (
-      <div className="space-y-8">
+      <div className="space-y-6">
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
           Defining the stakeholders.
         </p>
@@ -503,18 +517,13 @@ const sections: Section[] = [
     label: "Define",
     title: "Problem Statement",
     content: (
-      <div className="space-y-8">
+      <div className="space-y-6">
         <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-8">Understanding the gap</p>
         
-        <div className="mt-8">
-          <div className="rounded-2xl bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-rose-500/30 p-[1px]">
-            <div className="rounded-[14px] bg-[#080c14]/90 backdrop-blur-xl p-8 md:p-10">
-              <p className="text-lg md:text-2xl tracking-wide font-light text-white/90 leading-relaxed italic">
-                "Very few Samsung device users are aware of the avatar features available in AR Zone, leading to underutilisation of avatar within the Samsung ecosystem, including the XR domain. We need to explore opportunities for integrating avatars more effectively & increasing user engagement by understanding the needs and preferences of Gen Z."
-              </p>
-            </div>
-          </div>
-        </div>
+        <ProblemCard 
+          title="Core Problem" 
+          content="Very few Samsung device users are aware of the avatar features available in AR Zone, leading to underutilisation of avatar within the Samsung ecosystem, including the XR domain. We need to explore opportunities for integrating avatars more effectively & increasing user engagement by understanding the needs and preferences of Gen Z."
+        />
 
         {/* Decorative Graphic */}
         <div className="relative group flex items-center justify-center mt-12">
@@ -706,6 +715,11 @@ const sections: Section[] = [
             </div>
           </div>
         </div>
+
+        <ProblemCard 
+          title="The Challenge" 
+          content="How might we utilize Samsung's existing Avatar ecosystem to create a real-time sign language translation tool that empowers deaf and mute individuals to communicate more naturally in immersive virtual spaces?" 
+        />
       </div>
     ),
   },
@@ -921,15 +935,10 @@ const sections: Section[] = [
       <div className="space-y-8">
         <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-8">Understand our Target Audiences</p>
         
-        <div className="mt-8">
-          <div className="rounded-2xl bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-rose-500/30 p-[1px]">
-            <div className="rounded-[14px] bg-[#080c14]/90 backdrop-blur-xl p-8 md:p-10">
-              <p className="text-lg md:text-2xl tracking-wide font-light text-white/90 leading-relaxed italic">
-                "Deaf and mute individuals face communication challenges with hearing people due to varying sign languages. We aim to bridge this gap by developing inclusive avatar features for Samsung XR devices, enabling efficient real-time translation and enhanced emotional expression for a truly connected interaction."
-              </p>
-            </div>
-          </div>
-        </div>
+        <ProblemCard 
+          title="Revised Problem Statement" 
+          content="Deaf and mute individuals face communication challenges with hearing people due to varying sign languages. We aim to bridge this gap by developing inclusive avatar features for Samsung XR devices, enabling efficient real-time translation and enhanced emotional expression for a truly connected interaction."
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-16">
           {/* Small Venn Graphic Coded */}
@@ -1449,8 +1458,8 @@ export default function SamsungCaseStudy() {
                 id={section.id} 
                 className="scroll-mt-32"
               >
-                <div className="mb-8">
-                  <h2 className="text-sm tracking-widest uppercase text-white/50 font-semibold mb-2">
+                <div className="mb-6">
+                  <h2 className="text-sm tracking-widest uppercase text-white/50 font-semibold mb-1">
                     {section.label}
                   </h2>
                   <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white">

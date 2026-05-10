@@ -80,55 +80,49 @@ export default function Navbar() {
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "Work", href: "#work" },
+    { label: "Playground", href: "/playground" },
     { label: "About", href: "/about" },
     { label: "Resume", href: "#resume" },
   ];
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-[100] pt-4 md:pt-6 pointer-events-none px-4 md:px-0">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 py-3 flex items-center justify-between w-full pointer-events-auto rounded-full border border-black/5 dark:border-white/5 bg-white/40 dark:bg-black/20 backdrop-blur-xl shadow-lg dark:shadow-2xl transition-all duration-500 hover:border-black/10 dark:hover:border-white/10">
+      <nav className="fixed top-0 left-0 w-full z-[100] pt-3 md:pt-4 pointer-events-none flex justify-center">
+        <div className="max-w-[800px] w-full mx-4 md:mx-6 h-[50px] md:h-[56px] flex items-center justify-center pointer-events-auto rounded-full border border-white/10 bg-black/50 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-white/20 relative overflow-hidden">
 
-          {/* Left: Logo */}
-          <Link href="/" className="relative h-6 w-24 md:h-8 md:w-28 transition-transform duration-300 hover:scale-105 active:scale-95">
-            <Image
-              src="/logo/White Logo.png"
-              alt="Logo"
-              fill
-              className="object-contain dark:invert-0 invert"
-              priority
-            />
-          </Link>
+          {/* Left Side: Logo — Shifted right for better breathing room */}
+          <div className="absolute left-[12px] h-full flex items-center">
+            <Link href="/" className="relative h-8 w-8 md:h-9 md:w-9 transition-transform duration-300 hover:scale-110 active:scale-90">
+              <Image
+                src="/logo/White Logo.png"
+                alt="Logo"
+                fill
+                className="object-contain"
+                priority
+              />
+            </Link>
+          </div>
 
-          {/* Center: Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-10">
+          {/* Center: Desktop Navigation Links — Dead Center */}
+          <div className="hidden md:flex items-center gap-8">
             {navLinks.map(({ label, href }) => (
               <ScrambleLink key={label} label={label} href={href} />
             ))}
           </div>
 
-          {/* Right: Actions */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-300 group"
-              aria-label="Toggle theme"
+          {/* Right Side: Actions — More compact rounded pill */}
+          <div className="absolute right-[8px] h-full flex items-center">
+            <Link 
+              href="mailto:hello@shubh.design"
+              className="hidden md:flex h-[calc(100%-14px)] items-center px-4 md:px-5 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 transition-all duration-300 text-[10px] font-bold uppercase tracking-[0.2em] text-white whitespace-nowrap"
             >
-              {mounted ? (
-                theme === "dark" ? (
-                  <Sun className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" />
-                ) : (
-                  <Moon className="w-4 h-4 text-stone-600 group-hover:text-stone-900 transition-colors" />
-                )
-              ) : (
-                <div className="w-4 h-4" />
-              )}
-            </button>
+              Let's Connect
+            </Link>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Toggle — Visible on small screens only */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-300 text-stone-600 dark:text-white/70"
+              className="md:hidden p-2 rounded-full hover:bg-white/10 transition-colors duration-300 text-white/70"
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>

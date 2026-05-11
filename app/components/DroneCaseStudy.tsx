@@ -17,22 +17,11 @@ import {
   Quote,
   ChevronRight,
   ExternalLink,
-  CheckCircle2,
   AlertCircle,
-  Navigation,
   FileText,
-  Battery,
-  Shield,
-  Map,
   Target,
-  Route,
-  Layers,
-  Search,
-  Palette,
-  Glasses,
-  TestTube,
-  Lightbulb,
   X,
+  Building2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -253,17 +242,27 @@ export default function DroneCaseStudy() {
               { n: "02", label: "Drone Dispatched", detail: "Autonomous route calculated in <3 seconds.", color: "bg-amber-500" },
               { n: "03", label: "Guard Notified", detail: "Nearest unit receives turn-by-turn navigation.", color: "bg-blue-500" },
               { n: "04", label: "Evidence Compiled", detail: "Thermal and logs packaged for audit.", color: "bg-emerald-500" },
-            ].map((step) => (
-              <div key={step.n} className="p-8 rounded-2xl bg-white/5 border border-white/5 flex items-center gap-8 group hover:bg-white/10 transition-all duration-300">
-                <div className={`w-12 h-12 rounded-full ${step.color}/10 border border-${step.color.replace('bg-', '')}/30 flex items-center justify-center font-mono text-lg font-bold text-${step.color.replace('bg-', '')}`}>
-                  {step.n}
+            ].map((step) => {
+              const colorMap: Record<string, { bg: string, border: string, text: string }> = {
+                "bg-rose-500": { bg: "bg-rose-500/10", border: "border-rose-500/30", text: "text-rose-500" },
+                "bg-amber-500": { bg: "bg-amber-500/10", border: "border-amber-500/30", text: "text-amber-500" },
+                "bg-blue-500": { bg: "bg-blue-500/10", border: "border-blue-500/30", text: "text-blue-500" },
+                "bg-emerald-500": { bg: "bg-emerald-500/10", border: "border-emerald-500/30", text: "text-emerald-500" },
+              };
+              const colors = colorMap[step.color] || colorMap["bg-rose-500"];
+              
+              return (
+                <div key={step.n} className="p-8 rounded-2xl bg-white/5 border border-white/5 flex items-center gap-8 group hover:bg-white/10 transition-all duration-300">
+                  <div className={`w-12 h-12 rounded-full ${colors.bg} border ${colors.border} flex items-center justify-center font-mono text-lg font-bold ${colors.text}`}>
+                    {step.n}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-bold text-white/90">{step.label}</h4>
+                    <p className="text-base text-white/40 mt-2 leading-relaxed">{step.detail}</p>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h4 className="text-lg font-bold text-white/90">{step.label}</h4>
-                  <p className="text-base text-white/40 mt-2 leading-relaxed">{step.detail}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       ),
@@ -327,9 +326,6 @@ export default function DroneCaseStudy() {
               >
                 <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-white/5 mb-4 group-hover:border-white/20 group-hover:scale-[1.02] transition-all duration-500">
                   <img src={screen.img} alt={screen.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                    <p className="text-white font-bold text-sm">{screen.name}</p>
-                  </div>
                 </div>
                 <div className="px-1">
                   <h4 className="text-base font-bold text-white/90 mb-1">{screen.name}</h4>
@@ -471,10 +467,6 @@ export default function DroneCaseStudy() {
             >
               Open Live Prototype
               <ExternalLink size={18} />
-            </a>
-            <a href="#" className="flex items-center gap-3 px-10 py-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all font-bold text-sm tracking-widest uppercase text-white/80">
-              View Design Files
-              <FileText size={18} />
             </a>
           </div>
         </div>

@@ -1,8 +1,6 @@
 import Hero from "./components/Hero";
 import ProjectGrid from "./components/ProjectGrid";
 import About from "./components/About";
-import Polymath from "./components/Polymath";
-import Agent from "./components/Agent";
 import Footer from "./components/Footer";
 
 const styles = {
@@ -51,8 +49,6 @@ export default function Home() {
         </div>
         
         <About />
-        <Polymath />
-
       </div>
       <Footer />
     </main>

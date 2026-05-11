@@ -147,21 +147,21 @@ export default function Agent() {
     }
   };
 
+  // Update cursor text when call status changes while hovering
+  useEffect(() => {
+    const sphere = document.getElementById('agent-sphere');
+    if (sphere && sphere.matches(':hover')) {
+      window.dispatchEvent(new CustomEvent("cursor-update", {
+        detail: { 
+          text: callStatus === "active" ? "stop syn" : "talk to syn",
+          state: "text"
+        }
+      }));
+    }
+  }, [callStatus]);
+
   return (
     <>
-      {/* Tooltip / Status */}
-      <div 
-        className={`absolute top-0 right-0 z-[100] px-5 py-2.5 rounded-full bg-black/40 backdrop-blur-2xl border border-white/10 transition-all duration-700 ${
-          (callStatus !== "inactive") ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10 pointer-events-none"
-        }`}
-      >
-        <div className="flex items-center gap-4">
-          <div className={`w-1.5 h-1.5 rounded-full ${callStatus === 'loading' ? 'bg-white animate-spin' : isSpeaking ? 'bg-fuchsia-400 animate-pulse' : 'bg-cyan-400 animate-pulse'}`} />
-          <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/90">
-            Syn {callStatus === "active" ? (isSpeaking ? "Speaking" : "Listening") : "Booting"}
-          </span>
-        </div>
-      </div>
 
       {/* Breathing Glow Background (only when active) */}
       {callStatus === "active" && (
@@ -173,14 +173,30 @@ export default function Agent() {
       {/* Syn — High Fidelity Agent */}
       <div className="w-full h-full flex items-center justify-center pointer-events-none relative overflow-visible">
         <div 
+          id="agent-sphere"
           className="w-[700px] h-[700px] pointer-events-auto cursor-pointer relative flex items-center justify-center transition-transform duration-700 hover:scale-[1.02]"
           onClick={toggleCall}
+          data-cursor-text={callStatus === "active" ? "stop syn" : "talk to syn"}
         >
+          {/* Status Tag - Now near the sphere */}
+          <div 
+            className={`absolute top-[60px] z-[100] px-5 py-2.5 rounded-full bg-black/40 backdrop-blur-2xl border border-white/10 transition-all duration-700 ${
+              (callStatus !== "inactive") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+            }`}
+          >
+            <div className="flex items-center gap-4">
+              <div className={`w-1.5 h-1.5 rounded-full ${callStatus === 'loading' ? 'bg-white animate-spin' : isSpeaking ? 'bg-fuchsia-400 animate-pulse' : 'bg-cyan-400 animate-pulse'}`} />
+              <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/90">
+                Syn {callStatus === "active" ? (isSpeaking ? "Speaking" : "Listening") : "Booting"}
+              </span>
+            </div>
+          </div>
+
           {/* Loading icon removed as requested */}
           
           {/* @ts-ignore */}
           <spline-viewer 
-            url="/aiassistant/syn_v4.spline"
+            url="/aiassistant/scene.splinecode"
             events-target="global"
             hint="false"
             logo="false"

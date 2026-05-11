@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { 
   Building2, Users, Route, Search, Target, User, Lightbulb, 
   Glasses, Layout, BookOpen, Layers, TestTube, Globe, Settings, Sparkles, Accessibility, Gauge, Repeat, Camera,
-  Smartphone, Monitor, Share2, LayoutDashboard, Video, ShieldAlert, AlertCircle
+  Smartphone, Monitor, Share2, LayoutDashboard, Video, ShieldAlert, AlertCircle, Star, Apple
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -118,12 +118,12 @@ const sections: Section[] = [
         </div>
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Timeline</h3>
-        <div className="w-full overflow-x-auto pb-4 mt-8 custom-scrollbar">
-          <div className="min-w-[800px] relative">
+        <div className="w-full mt-8">
+          <div className="w-full relative px-0">
             {/* Header */}
             <div className="grid grid-cols-6 text-center mb-6">
               {['WEEK 1', 'WEEK 2', 'WEEK 3', 'WEEK 4', 'WEEK 5', 'WEEK 6'].map((week) => (
-                <div key={week} className="text-sm font-bold text-white/40 tracking-widest uppercase">
+                <div key={week} className="text-[9px] md:text-xs font-bold text-white/40 tracking-widest uppercase">
                   {week}
                 </div>
               ))}
@@ -133,16 +133,13 @@ const sections: Section[] = [
             <div className="relative mt-2">
               {/* Background Columns */}
               <div className="absolute inset-0 flex pointer-events-none">
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <div key={i} className="flex-1 mx-1 bg-white/[0.03] rounded-lg"></div>
+                ))}
               </div>
 
               {/* Tasks */}
-              <div className="relative z-10 py-4 flex flex-col gap-3">
+              <div className="relative z-10 py-4 flex flex-col gap-2">
                 {[
                   { name: "Awareness & Brief", left: "2%", width: "14%", color: "bg-amber-500/10 text-amber-200/80 border-amber-500/20" },
                   { name: "Desk Research & Survey", left: "10%", width: "24%", color: "bg-amber-500/10 text-amber-200/80 border-amber-500/20" },
@@ -155,13 +152,13 @@ const sections: Section[] = [
                   { name: "Prototyping & Demo Video", left: "75%", width: "20%", color: "bg-rose-500/10 text-rose-200/80 border-rose-500/20" },
                   { name: "Final Delivery", left: "86%", width: "12%", color: "bg-rose-500/10 text-rose-200/80 border-rose-500/20" }
                 ].map((task, i) => (
-                  <div key={i} className="w-full h-9 relative">
+                  <div key={i} className="w-full h-8 relative">
                     <div 
                       className="absolute h-full"
                       style={{ left: task.left, width: task.width }}
                     >
-                      <div className={`h-full min-w-full w-max flex items-center px-4 border rounded-lg transition-all duration-300 hover:scale-[1.02] hover:z-10 hover:brightness-125 ${task.color}`}>
-                        <span className="text-[12px] font-medium tracking-wide whitespace-nowrap">{task.name}</span>
+                      <div className={`h-full w-full flex items-center px-2 border rounded-md transition-all duration-300 hover:scale-[1.02] hover:z-10 hover:brightness-125 ${task.color} overflow-hidden`}>
+                        <span className="text-[10px] md:text-[11px] font-medium tracking-tight truncate">{task.name}</span>
                       </div>
                     </div>
                   </div>
@@ -190,7 +187,7 @@ const sections: Section[] = [
             { icon: Glasses, title: "Immersive Spaces", sub: "Roblox, Fortnite etc." },
             { icon: TestTube, title: "Samsung", sub: "Avatar Synthesis" }
           ].map((topic, i, arr) => (
-            <div key={i} className="flex flex-col items-center text-center group min-w-[160px] lg:min-w-0 lg:flex-1 first:items-start first:text-left last:items-end last:text-right">
+            <div key={i} className="flex flex-col items-center text-center group min-w-[160px] lg:min-w-0 lg:flex-1">
               <div className="flex items-center w-full mb-6">
                 <div className="flex-1 h-[2px] border-t-2 border-dotted border-white/30 opacity-0 lg:opacity-100 group-first:opacity-0" />
                 <div className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:text-black shrink-0 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
@@ -198,9 +195,9 @@ const sections: Section[] = [
                 </div>
                 <div className="flex-1 h-[2px] border-t-2 border-dotted border-white/30 opacity-0 lg:opacity-100 group-last:opacity-0" />
               </div>
-              <div className="flex flex-col items-center group-first:items-start group-last:items-end px-4">
-                <span className="text-[13px] font-bold text-white tracking-wide">{topic.title}</span>
-                <span className="text-[10px] text-white/40 tracking-[0.1em] uppercase mt-2 leading-tight font-medium">{topic.sub}</span>
+              <div className="flex flex-col items-center px-4">
+                <span className="text-[13px] font-bold text-white tracking-wide uppercase">{topic.title}</span>
+                <span className="text-[10px] text-white/40 tracking-[0.1em] uppercase mt-2 leading-tight font-medium max-w-[120px]">{topic.sub}</span>
               </div>
             </div>
           ))}
@@ -215,12 +212,6 @@ const sections: Section[] = [
               className="w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.01]" 
             />
           </div>
-          <a 
-            href="#" 
-            className="text-white/60 hover:text-white text-[10px] font-bold tracking-[0.2em] uppercase border-b border-white/20 pb-1 w-fit transition-colors"
-          >
-            Link to Fig-jam File
-          </a>
         </div>
       </div>
     ),
@@ -318,51 +309,47 @@ const sections: Section[] = [
           Defining the stakeholders.
         </p>
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          {/* Primary */}
-          <div className="lg:col-span-4 flex flex-col gap-4">
-             <div className="p-8 rounded-[3rem] bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center text-center min-h-[160px]">
-                <h4 className="text-sm font-black tracking-[0.3em] uppercase text-white/90">Primary</h4>
-             </div>
-             <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-center">
-                <span className="text-xs font-bold text-purple-200/80">Inclusive Genz's & Millenials</span>
-             </div>
-          </div>
-
-          {/* Secondary */}
-          <div className="lg:col-span-8 flex flex-col gap-4">
-             <div className="p-8 rounded-[3rem] bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center text-center min-h-[160px]">
-                <h4 className="text-sm font-black tracking-[0.3em] uppercase text-white/90">Secondary</h4>
-             </div>
-             <div className="grid grid-cols-3 gap-4">
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
-                  <span className="text-xs font-bold text-white/60">Gamers</span>
-                </div>
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
-                  <span className="text-xs font-bold text-white/60">Developers</span>
-                </div>
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
-                  <span className="text-xs font-bold text-white/60">Content Creators</span>
-                </div>
-             </div>
-          </div>
-        </div>
-
-        {/* Target Audience Banner */}
-        <div className="w-full p-8 md:p-12 rounded-[2rem] bg-gradient-to-r from-purple-900/40 via-fuchsia-900/40 to-pink-900/40 border border-white/10 flex flex-col md:flex-row items-center gap-8 group transition-all duration-500 hover:border-purple-500/30">
-          <div className="flex items-center gap-6">
-            <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-               <Users size={40} className="text-white/80" />
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center text-center min-h-[100px]">
+              <h4 className="text-sm font-black tracking-[0.3em] uppercase text-white/90">Primary</h4>
             </div>
-            <div className="flex flex-col">
-              <span className="text-3xl font-light tracking-tight text-white/40 leading-none">Target</span>
-              <span className="text-3xl font-bold tracking-tight text-white leading-none mt-1">Audience</span>
+            <div className="md:col-span-3 p-6 rounded-3xl bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center text-center min-h-[100px]">
+              <h4 className="text-sm font-black tracking-[0.3em] uppercase text-white/90">Secondary</h4>
             </div>
           </div>
-          <div className="hidden md:block w-px h-16 bg-white/10" />
-          <h2 className="text-2xl md:text-3xl font-bold text-amber-200/90 tracking-tight text-center md:text-left">
-            Inclusive Gen-Z's and Millennials
-          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-center flex items-center justify-center">
+              <span className="text-xs font-bold text-purple-200/80">Inclusive Genz's & Millenials</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center flex items-center justify-center">
+              <span className="text-xs font-bold text-white/60">Gamers</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center flex items-center justify-center">
+              <span className="text-xs font-bold text-white/60">Developers</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center flex items-center justify-center">
+              <span className="text-xs font-bold text-white/60">Content Creators</span>
+            </div>
+          </div>
+
+          {/* Target Audience Banner */}
+          <div className="w-full p-8 md:p-12 rounded-3xl bg-gradient-to-r from-purple-900/40 via-fuchsia-900/40 to-pink-900/40 border border-white/10 flex flex-col md:flex-row items-center gap-8 group transition-all duration-500 hover:border-purple-500/30">
+            <div className="flex items-center gap-6">
+              <div className="w-20 h-20 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                <Users size={40} className="text-white/80" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-3xl font-light tracking-tight text-white/40 leading-none">Target</span>
+                <span className="text-3xl font-bold tracking-tight text-white leading-none mt-1">Audience</span>
+              </div>
+            </div>
+            <div className="hidden md:block w-px h-16 bg-white/10" />
+            <h2 className="text-2xl md:text-3xl font-bold text-amber-200/90 tracking-tight text-center md:text-left">
+              Inclusive Gen-Z's and Millennials
+            </h2>
+          </div>
         </div>
       </div>
     ),
@@ -401,57 +388,18 @@ const sections: Section[] = [
               </div>
             );
           })}
-        </div>
-
         {/* Bottom: Data Visualization */}
-        <div className="flex flex-col md:flex-row items-center justify-around gap-12 py-16 bg-white/5 rounded-3xl relative overflow-hidden group transition-all duration-500">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/[0.02]" />
-          
-          {/* Chart 1: Participants */}
-          <div className="relative flex flex-col items-center z-10">
-            <div className="w-64 h-64 relative">
-              <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90 drop-shadow-2xl">
-                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#E25141" strokeWidth="18" strokeDasharray="118 133" />
-                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#90A959" strokeWidth="18" strokeDasharray="78 173" strokeDashoffset="-118" />
-                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#5283A4" strokeWidth="18" strokeDasharray="50 201" strokeDashoffset="-196" />
-                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#E9C46A" strokeWidth="18" strokeDasharray="5 246" strokeDashoffset="-246" />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <span className="text-5xl font-black text-white leading-none">45</span>
-                <span className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mt-2">Participants</span>
-              </div>
-            </div>
-            
-            <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#5283A4] shadow-[0_0_10px_rgba(82,131,164,0.5)]" />
-                <span className="text-[10px] font-bold text-white/70">20% Samsung (Knows)</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#E25141] shadow-[0_0_10px_rgba(226,81,65,0.5)]" />
-                <span className="text-[10px] font-bold text-white/70">47% Apple</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#90A959] shadow-[0_0_10px_rgba(144,169,89,0.5)]" />
-                <span className="text-[10px] font-bold text-white/70">31% Samsung (Unaware)</span>
-              </div>
-            </div>
+        <div className="w-full py-12 px-4 bg-white/5 rounded-[3rem] border border-white/10 overflow-hidden group transition-all duration-500 hover:bg-white/[0.07]">
+          <div className="relative w-full max-w-5xl mx-auto">
+            <img 
+              src="/samsung/Interview result chart.png" 
+              alt="Interview Results Visualization" 
+              className="w-full h-auto rounded-2xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.01]"
+            />
+            {/* Subtle Overlay Glow */}
+            <div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           </div>
-
-          {/* Chart 2: Snapchat */}
-          <div className="flex flex-col items-center z-10">
-            <div className="w-48 h-48 relative">
-              <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90 drop-shadow-2xl">
-                <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgba(255,255,255,0.05)" strokeWidth="18" />
-                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#FFD700" strokeWidth="18" strokeDasharray="201 50" />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-4xl font-black text-white">80%</span>
-              </div>
-            </div>
-            <span className="text-[11px] font-black tracking-[0.3em] uppercase text-white/40 mt-6">Snapchat users</span>
-          </div>
-        </div>
+        </div>      </div>
 
         <div className="mt-16 relative flex flex-col items-center">
           <div className="flex flex-col items-center gap-2 mb-16">
@@ -1363,8 +1311,8 @@ export default function SamsungCaseStudy() {
         </p>
         
         <div className="w-full mb-20">
-          <div className="w-full aspect-[16/9] bg-white/5 border border-white/10 rounded-3xl flex flex-col items-center justify-center text-center text-white/50 overflow-hidden relative shadow-2xl">
-            <video src="/samsung/Prototype Video.mp4" autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" />
+          <div className="w-full aspect-[16/9] rounded-[3rem] overflow-hidden relative">
+            <img src="/samsung/Samsung_hero.png" alt="Samsung Avatar Hero" className="w-full h-full object-contain" />
           </div>
         </div>
 

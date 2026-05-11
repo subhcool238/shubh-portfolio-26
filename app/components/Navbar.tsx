@@ -91,7 +91,7 @@ export default function Navbar() {
         <div className="max-w-[800px] w-full mx-4 md:mx-6 h-[50px] md:h-[56px] flex items-center justify-center pointer-events-auto rounded-full border border-white/10 bg-black/50 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-white/20 relative overflow-hidden">
 
           {/* Left Side: Logo — Shifted right for better breathing room */}
-          <div className="absolute left-[12px] h-full flex items-center">
+          <div className="absolute left-[27px] h-full flex items-center">
             <Link href="/" className="relative h-8 w-8 md:h-9 md:w-9 transition-transform duration-300 hover:scale-110 active:scale-90">
               <Image
                 src="/logo/White Logo.png"

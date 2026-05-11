@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen, Cpu, Gamepad2, Globe, Building2, User, Target, Route, Layers, Search, Layout, Palette, Glasses, TestTube, Lightbulb, ChevronRight, ChevronDown, Monitor, Smartphone, LayoutDashboard, Share2, ShieldAlert, AlertCircle, Rocket } from "lucide-react";
+import { BookOpen, Cpu, Gamepad2, Globe, Building2, User, Target, Route, Layers, Search, Layout, Palette, Glasses, TestTube, Lightbulb, ChevronRight, ChevronDown, Monitor, Smartphone, LayoutDashboard, Share2, ShieldAlert, AlertCircle, Rocket, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Section {
@@ -81,7 +81,7 @@ const sections: Section[] = [
         </div>
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">The people in the room</h3>
-        <div className="w-full mb-8 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group">
+        <div className="w-full mb-8 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Firebird Team.png")}>
           <img 
             src="/guruvr/Firebird Team.png" 
             alt="Firebird Team" 
@@ -176,12 +176,12 @@ const sections: Section[] = [
         </p>
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Timeline</h3>
-        <div className="w-full overflow-x-auto pb-4 mt-8 custom-scrollbar">
-          <div className="min-w-[800px] relative">
+        <div className="w-full mt-8">
+          <div className="w-full relative">
             {/* Header */}
-            <div className="grid grid-cols-5 text-center mb-6">
+            <div className="grid grid-cols-5 text-center mb-6 px-2">
               {['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY'].map((month) => (
-                <div key={month} className="text-sm font-bold text-white/40 tracking-widest uppercase">
+                <div key={month} className="text-[10px] font-black text-white/30 tracking-[0.2em] uppercase">
                   {month}
                 </div>
               ))}
@@ -191,15 +191,15 @@ const sections: Section[] = [
             <div className="relative mt-2">
               {/* Background Columns */}
               <div className="absolute inset-0 flex pointer-events-none">
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
-                <div className="flex-1 mx-2 bg-white/[0.05] rounded-xl"></div>
+                <div className="flex-1 mx-1 bg-white/[0.03] rounded-xl"></div>
+                <div className="flex-1 mx-1 bg-white/[0.03] rounded-xl"></div>
+                <div className="flex-1 mx-1 bg-white/[0.03] rounded-xl"></div>
+                <div className="flex-1 mx-1 bg-white/[0.03] rounded-xl"></div>
+                <div className="flex-1 mx-1 bg-white/[0.03] rounded-xl"></div>
               </div>
 
               {/* Tasks */}
-              <div className="relative z-10 py-4 flex flex-col gap-3">
+              <div className="relative z-10 py-4 flex flex-col gap-2">
                 {[
                   { name: "Secondary Research", left: "2%", width: "26%", color: "bg-amber-500/10 text-amber-200/80 border-amber-500/20" },
                   { name: "Primary Research (Survey)", left: "10%", width: "26%", color: "bg-amber-500/10 text-amber-200/80 border-amber-500/20" },
@@ -213,13 +213,13 @@ const sections: Section[] = [
                   { name: "Testing & Iteration", left: "70%", width: "16%", color: "bg-rose-500/10 text-rose-200/80 border-rose-500/20" },
                   { name: "Grad Book", left: "82%", width: "10%", color: "bg-rose-500/10 text-rose-200/80 border-rose-500/20" }
                 ].map((task, i) => (
-                  <div key={i} className="w-full h-9 relative">
+                  <div key={i} className="w-full h-8 relative">
                     <div 
                       className="absolute h-full"
                       style={{ left: task.left, width: task.width }}
                     >
-                      <div className={`h-full min-w-full w-max flex items-center px-4 border rounded-lg transition-all duration-300 hover:scale-[1.02] hover:z-10 hover:brightness-125 ${task.color}`}>
-                        <span className="text-[12px] font-medium tracking-wide whitespace-nowrap">{task.name}</span>
+                      <div className={`h-full w-full flex items-center px-2 border rounded-md transition-all duration-300 hover:scale-[1.02] hover:z-10 hover:brightness-125 ${task.color}`}>
+                        <span className="text-[10px] font-bold tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">{task.name}</span>
                       </div>
                     </div>
                   </div>
@@ -328,7 +328,7 @@ const sections: Section[] = [
           ))}
         </div>
 
-        <div className="mt-8 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group">
+        <div className="mt-8 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Primary Research.png")}>
           <img 
             src="/guruvr/Primary Research.png" 
             alt="User Interview" 
@@ -357,7 +357,7 @@ const sections: Section[] = [
           <li>Navigation in VR was a consistent friction point</li>
         </ul>
 
-        <div className="mt-8 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group">
+        <div className="mt-8 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Focus Group 1.png")}>
           <img 
             src="/guruvr/Focus Group 1.png" 
             alt="Focus Group Study" 
@@ -423,14 +423,14 @@ const sections: Section[] = [
           </div>
         </div>
 
-        <div className="w-full mt-12 mb-12 p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden relative group">
-          <div className="absolute top-0 right-0 p-4">
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/20 animate-pulse">Click nodes to expand logic</span>
-          </div>
-          
-          <div className="relative z-10">
-            <SystemMap />
-          </div>
+        <div className="w-full mt-12 mb-12 aspect-[16/10] rounded-[3rem] overflow-hidden border border-white/10 bg-white/5 shadow-2xl relative transition-all duration-500 hover:border-white/20 group">
+          <iframe 
+            src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2F23gng5WSIz6Ws9vNJ8rEFL%2FGuruVR-Metaversity%3Fnode-id%3D401-10494%26t%3D7PO0mZnBwWvHcTZu-1" 
+            className="w-full h-full bg-[#0b0b12]"
+            allowFullScreen
+          />
+          {/* Subtle Overlay Glow */}
+          <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
         </div>
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-6">Architecture Layers</h3>
@@ -516,13 +516,19 @@ const sections: Section[] = [
           ))}
         </div>
 
-        <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Onboarding Flows</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-          <div className="w-full aspect-[16/9] bg-white/5 border border-white/10 rounded-[5px] flex flex-col items-center justify-center p-6 text-center text-white/50">
-            [ Onboarding Wireframe Placeholder ]
+        <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Onboarding & Storyboards</h3>
+        <div className="flex flex-col gap-8 mt-6">
+          <div className="w-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Onboarding Flow.png")}>
+            <img src="/guruvr/Onboarding Flow.png" alt="Onboarding Flow" className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+            <div className="absolute top-4 left-4 text-[10px] font-bold tracking-[0.2em] uppercase bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 pointer-events-none">
+              Onboarding Flow
+            </div>
           </div>
-          <div className="w-full aspect-[16/9] bg-white/5 border border-white/10 rounded-[5px] flex flex-col items-center justify-center p-6 text-center text-white/50">
-            [ Hi-Fi Onboarding Flow Placeholder ]
+          <div className="w-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Storyboard.png")}>
+            <img src="/guruvr/Storyboard.png" alt="Storyboard" className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+            <div className="absolute top-4 left-4 text-[10px] font-bold tracking-[0.2em] uppercase bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 pointer-events-none">
+              Module Storyboard
+            </div>
           </div>
         </div>
       </div>
@@ -598,7 +604,7 @@ const sections: Section[] = [
           ))}
         </div>
 
-        <div className="w-full mt-12 mb-12 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group">
+        <div className="w-full mt-12 mb-12 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Reward system.png")}>
           <img 
             src="/guruvr/Reward system.png" 
             alt="Reward System" 
@@ -640,7 +646,7 @@ const sections: Section[] = [
             { step: "06. Tower of Equality (XNOR Gate)", detail: "Align both inputs to match — the platform rises.", image: "/guruvr/mystery island/6.1.jpg", color: "bg-indigo-500" },
             { step: "07. Final Ritual", detail: "Build one mega-circuit from gate tokens. Unlock the escape portal.", image: "/guruvr/mystery island/7.1.jpg", color: "bg-pink-500" },
           ].map((item) => (
-            <div key={item.step} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-all duration-500 hover:border-white/20 hover:bg-white/10">
+            <div key={item.step} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-all duration-500 hover:border-white/20 hover:bg-white/10 cursor-zoom-in" onClick={() => (window as any).setSelectedImage(item.image)}>
               <div className="aspect-video w-full overflow-hidden relative">
                 <img 
                   src={item.image} 
@@ -806,266 +812,17 @@ const sections: Section[] = [
 ];
 
 
-const DEEP_ARCH_DATA = {
-  id: "web-portal",
-  label: "Unified Web Portal",
-  type: "web",
-  children: [
-    {
-      id: "landing",
-      label: "Landing Page",
-      type: "web",
-      children: [
-        { id: "hero", label: "Smart Hero (Dynamic)" },
-        { id: "teaser", label: "Teaser Video" },
-        { id: "about", label: "About Metaversity" },
-        { id: "feat", label: "Core Features" },
-        { id: "demo", label: "Demo Experience" },
-        { id: "faq", label: "FAQ's & Support" },
-      ]
-    },
-    {
-      id: "auth",
-      label: "Sign Up / Login",
-      type: "auth",
-      children: [
-        {
-          id: "creators",
-          label: "Creators",
-          type: "role",
-          children: [
-            { id: "c-dash", label: "Dashboard" },
-            { id: "c-studio", label: "Creator Studio" },
-            { id: "c-analytics", label: "Analytics" },
-            { id: "c-port", label: "Portfolio" },
-          ]
-        },
-        {
-          id: "users",
-          label: "Users",
-          type: "role",
-          children: [
-            {
-              id: "students",
-              label: "Students",
-              type: "subrole",
-              children: [
-                { id: "s-dash", label: "Learning Dashboard" },
-                { id: "s-labs", label: "XR Labs & Lectures" },
-                { id: "s-ai", label: "AI Tutor" },
-                { id: "s-reward", label: "Rewards & Gamification" },
-              ]
-            },
-            {
-              id: "faculties",
-              label: "Faculties",
-              type: "subrole",
-              children: [
-                { id: "f-dash", label: "Teaching Hub" },
-                { id: "f-tools", label: "Teaching Tools" },
-                { id: "f-ai", label: "AI Resource Assistant" },
-                { id: "f-xr", label: "Virtual Classroom" },
-              ]
-            },
-            {
-              id: "corp",
-              label: "Corporates (B2B)",
-              type: "subrole",
-              children: [
-                { id: "b2b-cert", label: "Certifications" },
-                { id: "b2b-hr", label: "HR Sync" },
-                { id: "b2b-sim", label: "XR Simulations" },
-              ]
-            },
-            {
-              id: "govt",
-              label: "Government",
-              type: "subrole",
-              children: [
-                { id: "g-adoption", label: "Govt. Adoption" },
-                { id: "g-studio", label: "Govt. Creator Studio" },
-                { id: "g-analytics", label: "Regional Progress" },
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-};
 
-function MindMapNode({ node, level = 0 }: { node: any; level?: number }) {
-  const [isOpen, setIsOpen] = useState(level < 2);
-  const hasChildren = node.children && node.children.length > 0;
-
-  // Layout constants — must match the CSS
-  const NODE_H = 48;   // h-12
-  const GAP    = 16;   // gap-4
-  const STEP   = NODE_H + GAP; // 64px per child slot
-
-  const getStyle = (type: string) => {
-    switch (type) {
-      case 'web':     return { bg: 'bg-[#4FD1C5]', text: 'text-[#1A202C]', border: 'border-[#38B2AC]', line: '#4FD1C5' };
-      case 'auth':    return { bg: 'bg-[#7C3AED]',  text: 'text-white',      border: 'border-[#6D28D9]', line: '#7C3AED' };
-      case 'role':    return { bg: 'bg-[#10B981]',  text: 'text-white',      border: 'border-[#059669]', line: '#10B981' };
-      case 'subrole': return { bg: 'bg-[#8B5CF6]',  text: 'text-white',      border: 'border-[#7C3AED]', line: '#8B5CF6' };
-      default:        return { bg: 'bg-white/10',    text: 'text-white/80',   border: 'border-white/10',  line: '#94A3B8' };
-    }
-  };
-
-  const style = getStyle(node.type);
-
-  // Total height of the expanded children subtree (for the first-level children only)
-  // We use this to size the SVG overlay correctly.
-  const childCount = hasChildren ? node.children.length : 0;
-  const svgH = childCount > 0 ? Math.max(NODE_H, childCount * STEP - GAP) : NODE_H;
-
-  // Y-centre of the parent pill within the SVG coordinate space.
-  // The parent pill sits at the top of the outer flex row (items-start).
-  const parentCY = NODE_H / 2; // = 24
-
-  return (
-    <div className="flex items-start">
-
-      {/* ── Parent pill column ── */}
-      <div className="relative flex-shrink-0" style={{ height: NODE_H }}>
-        <motion.div
-          layout
-          whileHover={{ scale: 1.05 }}
-          onClick={() => hasChildren && setIsOpen(!isOpen)}
-          className={`
-            h-full px-6 py-2 rounded-full border shadow-xl
-            cursor-pointer group/node flex items-center justify-between gap-3
-            min-w-[150px] transition-all duration-300
-            ${style.bg} ${style.text} ${style.border}
-          `}
-        >
-          <span className="text-[10px] font-bold tracking-wider uppercase whitespace-nowrap">
-            {node.label}
-          </span>
-          {hasChildren && (
-            <motion.div animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>
-              <ChevronRight size={14} className="opacity-60 group-hover/node:opacity-100" />
-            </motion.div>
-          )}
-        </motion.div>
-      </div>
-
-      {/* ── Connector + children (only when open) ── */}
-      <AnimatePresence initial={false}>
-        {isOpen && hasChildren && (
-          <motion.div
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
-            transition={{ duration: 0.25 }}
-            className="relative flex-shrink-0"
-            style={{ width: 56 /* ml-16 = 64, svg takes 56, 8 gap */ }}
-          >
-            {/* SVG draws from parent-pill right edge → each child left edge */}
-            <svg
-              width="56"
-              height={svgH}
-              overflow="visible"
-              className="absolute left-0 top-0 pointer-events-none"
-            >
-              {node.children.map((child: any, idx: number) => {
-                const childStyle = getStyle(child.type);
-                // Centre-Y of this child relative to the top of the SVG
-                const childCY = idx * STEP + NODE_H / 2;
-                // Curve: start at right edge of parent (x=0, y=parentCY)
-                // end at left edge of child column (x=56, y=childCY)
-                const d = `M 0 ${parentCY} C 28 ${parentCY}, 28 ${childCY}, 56 ${childCY}`;
-                return (
-                  <path
-                    key={child.id}
-                    d={d}
-                    fill="none"
-                    stroke={childStyle.line}
-                    strokeWidth="2"
-                    strokeOpacity="0.7"
-                    strokeDasharray={level >= 1 ? '5,4' : '0'}
-                  />
-                );
-              })}
-            </svg>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── Children column ── */}
-      <AnimatePresence initial={false}>
-        {isOpen && hasChildren && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="flex flex-col gap-4"
-          >
-            {node.children.map((child: any) => (
-              <MindMapNode key={child.id} node={child} level={level + 1} />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-    </div>
-  );
-}
-
-
-function SystemMap() {
-  return (
-    <div className="w-full overflow-x-auto pb-24 pt-12 px-10 custom-scrollbar">
-      <div className="min-w-[2000px] min-h-[800px] relative py-20">
-        
-        {/* Global SVG Layer for Funneling */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
-          {/* Metaversity to Platforms */}
-          <path d="M 180 400 C 240 400, 240 200, 300 200" fill="none" stroke="#4FD1C5" strokeWidth="3" strokeOpacity="0.4" />
-          <path d="M 180 400 C 240 400, 240 300, 300 300" fill="none" stroke="#4FD1C5" strokeWidth="3" strokeOpacity="0.4" />
-          <path d="M 180 400 C 240 400, 240 400, 300 400" fill="none" stroke="#4FD1C5" strokeWidth="3" strokeOpacity="0.4" />
-          <path d="M 180 400 C 240 400, 240 600, 300 600" fill="none" stroke="#7C3AED" strokeWidth="3" strokeOpacity="0.4" />
-
-          {/* Platforms to Unified Web Funnel */}
-          <path d="M 460 200 C 540 200, 540 375, 620 375" fill="none" stroke="#4FD1C5" strokeWidth="2" strokeDasharray="8,5" strokeOpacity="0.3" />
-          <path d="M 460 300 C 540 300, 540 375, 620 375" fill="none" stroke="#4FD1C5" strokeWidth="2" strokeDasharray="8,5" strokeOpacity="0.3" />
-          <path d="M 460 400 C 540 400, 540 375, 620 375" fill="none" stroke="#4FD1C5" strokeWidth="2" strokeDasharray="8,5" strokeOpacity="0.3" />
-        </svg>
-
-        {/* Level 0: Root */}
-        <div className="absolute left-[20px] top-[375px] z-10">
-          <div className="px-10 py-4 rounded-full bg-[#1A202C] border border-white/20 shadow-2xl text-white font-black text-xs uppercase tracking-[0.3em]">
-            GuruVR Metaversity
-          </div>
-        </div>
-
-        {/* Level 1: Platform Pills */}
-        <div className="absolute left-[300px] top-[180px] z-10 space-y-[65px]">
-          {["Desktop", "Mobile", "Tablet"].map((p) => (
-            <div key={p} className="px-8 py-2.5 rounded-full bg-[#4FD1C5] text-[#1A202C] font-bold text-[10px] uppercase tracking-widest w-40 text-center shadow-lg border border-[#38B2AC]">
-              {p}
-            </div>
-          ))}
-          <div className="absolute top-[395px] px-8 py-2.5 rounded-full bg-[#7C3AED] text-white font-bold text-[10px] uppercase tracking-widest w-40 text-center shadow-lg border border-[#6D28D9]">
-            XR Device (Unity)
-          </div>
-        </div>
-
-        {/* Level 2+: The Recursive Branches (Starting with Unified Hub) */}
-        <div className="absolute left-[620px] top-[350px] z-10">
-          <MindMapNode node={DEEP_ARCH_DATA} />
-        </div>
-
-      </div>
-    </div>
-  );
-}
 
 export default function GuruVRCaseStudy() {
   const [activeSection, setActiveSection] = useState<string>(sections[0].id);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // Expose setSelectedImage to the window for use in section content
+  useEffect(() => {
+    (window as any).setSelectedImage = setSelectedImage;
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1247,6 +1004,37 @@ export default function GuruVRCaseStudy() {
           </div>
         </div>
       </div>
+      {/* Image Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/95 backdrop-blur-sm cursor-zoom-out"
+            onClick={() => setSelectedImage(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative max-w-7xl w-full h-full flex items-center justify-center"
+            >
+              <button
+                className="absolute top-0 right-0 p-4 text-white/50 hover:text-white transition-colors z-[110]"
+                onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
+              >
+                <X size={32} />
+              </button>
+              <img
+                src={selectedImage}
+                alt="Enlarged view"
+                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

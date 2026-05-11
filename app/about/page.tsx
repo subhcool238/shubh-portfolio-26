@@ -48,10 +48,10 @@ const styles = {
 };
 
 const timelineData = [
-  { year: "2026 — PRESENT", title: "XR & AI Consultant", company: "Varahe Analytics", image: "/about/abstract_hero.png" },
-  { year: "JAN 2025 – JUN 2025", title: "XR Designer", company: "FireBirdVR", image: "/about/mountain.png" },
-  { year: "OCT 2020 – OCT 2022", title: "UI/UX Designer", company: "Web Impact Software Solutions", image: "/about/fitness.png" },
-  { year: "OCT 2018 – OCT 2020", title: "Graphic Designer", company: "Convolution Bikes", image: "/about/travel.png" },
+  { year: "2026 — PRESENT", title: "XR & AI Consultant", company: "Varahe Analytics", image: "/about/Shubhanshu_hero.jpg" },
+  { year: "JAN 2025 – JUN 2025", title: "XR Designer", company: "FireBirdVR", image: "/about/Mountain.jpg" },
+  { year: "OCT 2020 – OCT 2022", title: "UI/UX Designer", company: "Web Impact Software Solutions", image: "/about/Expedition.jpg" },
+  { year: "OCT 2018 – OCT 2020", title: "Graphic Designer", company: "Convolution Bikes", image: "/about/Trekking.jpg" },
 ];
 
 const competencies = [
@@ -73,10 +73,10 @@ const competencies = [
 ];
 
 const galleryImages = [
-  { src: "/about/triumph.png", alt: "Expedition", x: -140, y: -60, rotate: -8 },
-  { src: "/about/mountain.png", alt: "Mountain", x: 110, y: 100, rotate: 5 },
-  { src: "/about/fitness.png", alt: "Obsidian", x: 180, y: -90, rotate: -4 },
-  { src: "/about/travel.png", alt: "Trekking", x: -150, y: 90, rotate: 6 },
+  { src: "/about/Obsidian.jpg", alt: "Obsidian", x: -140, y: -60, rotate: -8 },
+  { src: "/about/Mountain.jpg", alt: "Mountain", x: 110, y: 100, rotate: 5 },
+  { src: "/about/Expedition.jpg", alt: "Expedition", x: 180, y: -90, rotate: -4 },
+  { src: "/about/Trekking.jpg", alt: "Trekking", x: -150, y: 90, rotate: 6 },
 ];
 
 export default function AboutPage() {
@@ -86,6 +86,9 @@ export default function AboutPage() {
   const [hoveredTimelineImage, setHoveredTimelineImage] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [zIndices, setZIndices] = useState(galleryImages.map((_, i) => i + 10));
+  const [isHeroHovered, setIsHeroHovered] = useState(false);
+  const [isAnyCardHovered, setIsAnyCardHovered] = useState(false);
+  const heroImageRef = useRef<HTMLDivElement>(null);
 
   const bringToFront = (index: number) => {
     const newZIndices = [...zIndices];
@@ -142,6 +145,8 @@ export default function AboutPage() {
         className="w-200 h-200 rounded-full blur-3xl opacity-20 absolute z-0"
       ></div>
 
+      <FloatingTag text="Sanky" isHovered={isHeroHovered} />
+      <FloatingTag text="Drag" isHovered={isAnyCardHovered} />
       <div className="max-w-300 mx-auto z-10 relative">
         
         {/* Hero Section */}
@@ -165,7 +170,7 @@ export default function AboutPage() {
                 <div className="flex -space-x-3">
                    {[1,2,3,4].map(i => (
                      <div key={i} className="w-10 h-10 rounded-full border-2 border-background bg-stone-800 overflow-hidden shadow-xl">
-                       <img src={`/about/${['triumph', 'mountain', 'fitness', 'travel'][i-1]}.png`} className="w-full h-full object-cover" />
+                       <img src={`/about/${['Obsidian', 'Mountain', 'Expedition', 'Trekking'][i-1]}.jpg`} className="w-full h-full object-cover" />
                      </div>
                    ))}
                 </div>
@@ -173,11 +178,17 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="w-full lg:w-2/5">
-              <div className="reveal relative group" data-cursor-tag="Sanky">
+              <div 
+                ref={heroImageRef} 
+                className="reveal relative group cursor-none" 
+                data-cursor-hide
+                onMouseEnter={() => setIsHeroHovered(true)}
+                onMouseLeave={() => setIsHeroHovered(false)}
+              >
                 <div className="absolute -inset-4 bg-blue-500/10 blur-3xl rounded-full"></div>
                 <div className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden border border-white/10 bg-stone-950 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
                    <img 
-                    src="/about/abstract_hero.png" 
+                    src="/about/Shubhanshu_hero.jpg" 
                     alt="Shubhanshu Hero" 
                     className="w-full h-full object-cover transition-all duration-700 scale-105 group-hover:scale-100" 
                   />
@@ -264,33 +275,7 @@ export default function AboutPage() {
             
             <div className="relative w-full h-full flex items-center justify-center">
               {galleryImages.map((img, i) => (
-                <motion.div 
-                  key={i} 
-                  drag
-                  dragConstraints={galleryRef}
-                  dragElastic={0}
-                  dragMomentum={true}
-                  onDragStart={() => bringToFront(i)}
-                  onTapStart={() => bringToFront(i)}
-                  whileDrag={{ scale: 1.05, rotate: 0 }}
-                  whileTap={{ scale: 1.02 }}
-                  initial={{ x: img.x, y: img.y, rotate: img.rotate, opacity: 0 }}
-                  animate={{ opacity: 1, zIndex: zIndices[i] }}
-                  transition={{ opacity: { delay: i * 0.1 + 0.5, duration: 0.8 }, zIndex: { duration: 0 }, default: { type: "spring", stiffness: 300, damping: 30 } }}
-                  style={{ zIndex: zIndices[i] }}
-                  data-cursor-tag="Drag"
-                  className="absolute w-48 sm:w-56 md:w-64 aspect-[4/5] rounded-[40px] overflow-hidden border border-white/10 shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing group origin-center"
-                >
-                  <div className="w-full h-full relative rounded-[40px] overflow-hidden bg-stone-900">
-                      <img src={img.src} alt={img.alt} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 pointer-events-none select-none rounded-[40px]" />
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700"></div>
-                      <div className="absolute bottom-6 left-6">
-                         <div className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 flex items-center shadow-2xl">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">{img.alt}</span>
-                         </div>
-                      </div>
-                  </div>
-                </motion.div>
+                <GalleryCard key={i} img={img} i={i} galleryRef={galleryRef} bringToFront={bringToFront} zIndex={zIndices[i]} setAnyHover={setIsAnyCardHovered} />
               ))}
             </div>
 
@@ -389,10 +374,84 @@ export default function AboutPage() {
         </div>
       </footer>
 
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes vinylSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .vertical-text { writing-mode: vertical-lr; transform: rotate(180deg); }
+        body:has([data-cursor-hide]:hover) .custom-cursor-element { 
+          opacity: 0 !important;
+          visibility: hidden !important;
+          transition: opacity 0.2s ease, visibility 0.2s ease !important;
+        }
       `}</style>
     </main>
+  );
+}
+
+// Sub-components for Floating Interaction
+function FloatingTag({ text, isHovered }: { text: string; isHovered: boolean }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (!isHovered) return;
+
+    const handleMove = (e: MouseEvent) => {
+      setPos({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMove);
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, [isHovered]);
+
+  return (
+    <AnimatePresence>
+      {isHovered && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          className="fixed pointer-events-none z-[10010]"
+          style={{ left: pos.x, top: pos.y, x: "-50%", y: "-50%" }}
+        >
+          <div className="px-5 py-2.5 rounded-full bg-black/80 backdrop-blur-xl border border-white/20 shadow-2xl">
+            <span className="text-[10px] font-black tracking-[0.3em] uppercase text-white whitespace-nowrap">
+              {text}
+            </span>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function GalleryCard({ img, i, galleryRef, bringToFront, zIndex, setAnyHover }: any) {
+  return (
+    <motion.div 
+      drag
+      dragConstraints={galleryRef}
+      dragElastic={0}
+      dragMomentum={true}
+      onDragStart={() => bringToFront(i)}
+      onTapStart={() => bringToFront(i)}
+      onMouseEnter={() => setAnyHover(true)}
+      onMouseLeave={() => setAnyHover(false)}
+      whileDrag={{ scale: 1.05, rotate: 0 }}
+      whileTap={{ scale: 1.02 }}
+      initial={{ x: img.x, y: img.y, rotate: img.rotate, opacity: 0 }}
+      animate={{ opacity: 1, zIndex }}
+      transition={{ opacity: { delay: i * 0.1 + 0.5, duration: 0.8 }, zIndex: { duration: 0 }, default: { type: "spring", stiffness: 300, damping: 30 } }}
+      style={{ zIndex }}
+      className="absolute w-48 sm:w-56 md:w-64 aspect-[4/5] rounded-[40px] overflow-hidden border border-white/10 shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing group origin-center"
+      data-cursor-hide
+    >
+      <div className="w-full h-full relative rounded-[40px] overflow-hidden bg-stone-900">
+          <img src={img.src} alt={img.alt} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 pointer-events-none select-none rounded-[40px]" />
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700"></div>
+          <div className="absolute bottom-6 left-6">
+              <div className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 flex items-center shadow-2xl">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">{img.alt}</span>
+              </div>
+          </div>
+      </div>
+    </motion.div>
   );
 }

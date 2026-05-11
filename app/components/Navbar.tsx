@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Menu, X } from "lucide-react";
@@ -9,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-function ScrambleLink({ label, href, onClick }: { label: string; href: string; onClick?: () => void }) {
+function ScrambleLink({ label, href, onClick, target }: { label: string; href: string; onClick?: () => void; target?: string }) {
   const [displayText, setDisplayText] = useState(label);
   const frameRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const iterationRef = useRef(0);
@@ -58,6 +59,8 @@ function ScrambleLink({ label, href, onClick }: { label: string; href: string; o
     <Link
       href={href}
       onClick={onClick}
+      target={target}
+      rel={target === "_blank" ? "noopener noreferrer" : undefined}
       onMouseEnter={scramble}
       onMouseLeave={reset}
       className="text-[14px] md:text-[14px] text-[24px] font-normal font-sans tracking-[0.15em] capitalize text-stone-500 hover:text-stone-900 dark:text-white/50 dark:hover:text-white transition-colors duration-300"
@@ -70,6 +73,7 @@ function ScrambleLink({ label, href, onClick }: { label: string; href: string; o
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -82,8 +86,10 @@ export default function Navbar() {
     { label: "Work", href: "#work" },
     { label: "Playground", href: "/playground" },
     { label: "About", href: "/about" },
-    { label: "Resume", href: "#resume" },
+    { label: "Resume", href: "https://drive.google.com/file/d/1dLjk2fGsxcCBWZx8fIagkWNuTvW3zRd2/view?usp=sharing", target: "_blank" },
   ];
+
+  if (pathname === "/playground") return null;
 
   return (
     <>
@@ -105,8 +111,8 @@ export default function Navbar() {
 
           {/* Center: Desktop Navigation Links — Dead Center */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map(({ label, href }) => (
-              <ScrambleLink key={label} label={label} href={href} />
+            {navLinks.map(({ label, href, target }) => (
+              <ScrambleLink key={label} label={label} href={href} target={target} />
             ))}
           </div>
 
@@ -139,7 +145,7 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -20 }}
             className="fixed inset-0 z-[90] bg-white dark:bg-black md:hidden flex flex-col items-center justify-center gap-8 p-10"
           >
-            {navLinks.map(({ label, href }, i) => (
+            {navLinks.map(({ label, href, target }, i) => (
               <motion.div
                 key={label}
                 initial={{ opacity: 0, y: 20 }}
@@ -149,6 +155,7 @@ export default function Navbar() {
                 <ScrambleLink 
                   label={label} 
                   href={href} 
+                  target={target}
                   onClick={() => setIsMenuOpen(false)} 
                 />
               </motion.div>

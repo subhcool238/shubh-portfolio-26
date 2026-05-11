@@ -422,7 +422,7 @@ export default function RGZPCaseStudy() {
                 href="https://www.figma.com/proto/j4iV2AqoFHSJuVY1MZb2lr/Zoo-Adventure-AR?node-id=23-2&p=f&viewport=251%2C395%2C0.03&scaling=scale-down&content-scaling=fixed&starting-point-node-id=23%3A2&page-id=0%3A1" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all font-bold text-sm tracking-widest uppercase flex items-center gap-2"
+                className="w-full md:w-auto px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all font-bold text-sm tracking-widest uppercase flex items-center justify-center gap-2"
               >
                 <Maximize size={16} />
                 Open Fullscreen
@@ -485,9 +485,9 @@ export default function RGZPCaseStudy() {
 
   return (
     <div className="min-h-screen bg-transparent overflow-clip relative selection:bg-white/30 font-sans">
-      {/* Background Glowing Blobs */}
-      <div className="fixed w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
-      <div className="fixed w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
+      {/* Background Glowing Blobs - Hidden on mobile */}
+      <div className="fixed hidden md:block w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
+      <div className="fixed hidden md:block w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
 
       {/* Header Section */}
       <div className="max-w-[800px] mx-auto px-6 pt-40 pb-20 text-center">

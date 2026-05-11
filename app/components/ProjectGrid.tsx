@@ -107,7 +107,7 @@ export default function ProjectGrid() {
               data-cursor-text="View Case Study"
             >
             {/* Image/Video Container */}
-            <div className={`relative w-full aspect-[4/3] rounded-sm overflow-hidden border border-white/10 ${project.placeholderColor} transition-transform duration-700 ease-out group-hover:scale-[0.98]`}>
+            <div className={`relative w-full aspect-[4/3] rounded-[1rem] overflow-hidden border border-white/10 ${project.placeholderColor} transition-transform duration-700 ease-out group-hover:scale-[0.98]`}>
               <div className="absolute inset-0 bg-black/10 z-10 transition-opacity duration-500 group-hover:opacity-0"></div>
               
               {/* Cover Image */}

@@ -1447,9 +1447,9 @@ export default function SamsungCaseStudy() {
 
   return (
     <div className="min-h-screen bg-transparent overflow-clip relative selection:bg-white/30 font-sans">
-      {/* Background Glowing Blobs */}
-      <div className="fixed w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
-      <div className="fixed w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
+      {/* Background Glowing Blobs - Hidden on mobile */}
+      <div className="fixed hidden md:block w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
+      <div className="fixed hidden md:block w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
       
       {/* Header Section - Centered & Narrower */}
       <div className="max-w-[800px] mx-auto px-6 pt-40 pb-20 text-center">

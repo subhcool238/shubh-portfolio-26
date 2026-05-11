@@ -3,7 +3,6 @@ import MouseCursor from "./components/MouseCursor";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 
-import SynChat from "./components/SynChat";
 
 import { ThemeProvider } from "./components/ThemeProvider";
 import ClientOnly from "./components/ClientOnly";
@@ -32,7 +31,6 @@ export default function RootLayout({
           <Navbar />
           {children}
           <GlobalFooter />
-          <SynChat />
         </ThemeProvider>
       </body>
     </html>

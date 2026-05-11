@@ -17,10 +17,9 @@ import Agent from "./Agent";
 function TextScrambleComponent() {
   const textIndex = useRef(0);
   const skills = [
-    "spatial realities",
-    "AI ecosystems",
-    "immersive systems",
-    "human interactions",
+    "Agentic AI Products",
+    "Spatial UX Systems",
+    "User Experiences",
   ];
 
   function getRandomNumber() {
@@ -33,7 +32,7 @@ function TextScrambleComponent() {
   }
 
   const generateWords = () => skills[getRandomNumber()];
-  const [scrambleText, setScrambleText] = useState("XR Experience");
+  const [scrambleText, setScrambleText] = useState("Agentic AI Products");
 
   const { ref } = useScramble({
     text: scrambleText,
@@ -72,8 +71,8 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Syn Agent Container — Absolutely positioned to avoid clipping */}
-        <div className="absolute right-[-40%] md:right-[-28%] top-[60%] md:top-[58%] -translate-y-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] z-10 pointer-events-none opacity-50 md:opacity-100">
+        {/* Syn Agent Container — Responsive Positioning */}
+        <div className="fixed md:absolute bottom-[-51px] md:bottom-auto right-[-56px] md:right-[-10%] md:top-[55%] md:translate-y-[calc(-50%+20px)] md:translate-x-[70px] w-[192px] md:w-[560px] h-[192px] md:h-[560px] z-50 md:z-10 pointer-events-none opacity-100 transition-all duration-1000">
           <Agent />
         </div>
       </div>

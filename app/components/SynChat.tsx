@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
 export default function SynChat() {
+  const pathname = usePathname();
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: "assistant",
@@ -12,6 +14,7 @@ export default function SynChat() {
         "Hi—I'm Syn. I am here to assist with any questions regarding this portfolio, specific project details, or Shubhanshu Sahu's professional background. Where would you like to start?",
     },
   ]);
+
   const [input, setInput] = useState("");
   const [previousChatId, setPreviousChatId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -64,6 +67,8 @@ export default function SynChat() {
   };
 
   const [isOpen, setIsOpen] = useState(false);
+
+  if (pathname === "/playground") return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">

@@ -165,24 +165,24 @@ export default function Agent() {
 
       {/* Breathing Glow Background (only when active) */}
       {callStatus === "active" && (
-        <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all duration-1000 ease-in-out ${isSpeaking ? 'w-[600px] h-[600px] opacity-100' : 'w-[400px] h-[400px] opacity-50'}`}>
-          <div className={`w-full h-full rounded-full blur-[100px] transition-colors duration-1000 ${isSpeaking ? 'bg-fuchsia-500/20' : 'bg-cyan-500/20'} animate-pulse`} />
+        <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all duration-1000 ease-in-out ${isSpeaking ? 'w-[85%] h-[85%] opacity-100' : 'w-[60%] h-[60%] opacity-50'}`}>
+          <div className={`w-full h-full rounded-full blur-[40px] transition-colors duration-1000 ${isSpeaking ? 'bg-fuchsia-500/20' : 'bg-cyan-500/20'} animate-pulse`} />
         </div>
       )}
 
       {/* Syn — High Fidelity Agent */}
       <div className="w-full h-full flex items-center justify-center pointer-events-none relative overflow-visible group">
         {/* Visual Container - Scales on hover of the hit area */}
-        <div className="w-[700px] h-[700px] relative flex items-center justify-center transition-transform duration-700 group-hover:scale-[1.03] pointer-events-none">
-          {/* Status Tag - Relative to the visual container but higher z-index if needed */}
+        <div className="w-full h-full relative flex items-center justify-center transition-transform duration-700 group-hover:scale-[1.05] pointer-events-none">
+          {/* Status Tag - Repositioned for smaller size */}
           <div 
-            className={`absolute top-[60px] z-[100] px-5 py-2.5 rounded-full bg-black/40 backdrop-blur-2xl border border-white/10 transition-all duration-700 ${
-              (callStatus !== "inactive") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+            className={`absolute md:top-[-20px] top-[0px] left-1/2 md:-translate-x-1/2 -translate-x-[calc(50%+20px)] z-[100] px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-2xl border border-white/10 transition-all duration-700 ${
+              (callStatus !== "inactive") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
             }`}
           >
-            <div className="flex items-center gap-4">
-              <div className={`w-1.5 h-1.5 rounded-full ${callStatus === 'loading' ? 'bg-white animate-spin' : isSpeaking ? 'bg-fuchsia-400 animate-pulse' : 'bg-cyan-400 animate-pulse'}`} />
-              <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/90">
+            <div className="flex items-center gap-2">
+              <div className={`w-1 h-1 rounded-full ${callStatus === 'loading' ? 'bg-white animate-spin' : isSpeaking ? 'bg-fuchsia-400 animate-pulse' : 'bg-cyan-400 animate-pulse'}`} />
+              <span className="text-[8px] font-bold tracking-[0.2em] uppercase text-white/90">
                 Syn {callStatus === "active" ? (isSpeaking ? "Speaking" : "Listening") : "Booting"}
               </span>
             </div>
@@ -199,10 +199,10 @@ export default function Agent() {
           />
         </div>
 
-        {/* Interaction Hit Area - Only works over the visual sphere */}
+        {/* Interaction Hit Area - Scaled to ~50% of the small container */}
         <div 
           id="agent-sphere"
-          className="absolute w-[360px] h-[360px] rounded-full z-50 pointer-events-auto cursor-pointer bg-transparent"
+          className="absolute w-[52%] h-[52%] rounded-full z-50 pointer-events-auto cursor-pointer bg-transparent"
           onClick={toggleCall}
           onMouseEnter={() => triggerSpline("Happy Button")}
           onMouseLeave={() => {

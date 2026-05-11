@@ -114,7 +114,12 @@ export default function Footer() {
 
   const pushScore = (n: number) => { scoreRef.current = n; setScore(n); };
   const pushPhase = (p: Phase) => { phaseRef.current = p; setPhase(p); };
-  const getPaddleY = useCallback(() => (canvasRef.current?.height ?? 0) - PADDLE_BOTTOM - PADDLE_H, []);
+  const getPaddleY = useCallback(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    // Mobile: 120px offset for visibility. Desktop: 115px for precise alignment.
+    const bottomOffset = isMobile ? 120 : 115; 
+    return (canvasRef.current?.height ?? 0) - bottomOffset - PADDLE_H;
+  }, []);
   
   const resetBall = useCallback(() => {
     ballRef.current = { x: paddleCx.current, y: getPaddleY() - BALL_R, vx: 0, vy: 0 };

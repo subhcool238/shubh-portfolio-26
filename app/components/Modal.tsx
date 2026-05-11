@@ -28,10 +28,10 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
   return createPortal(
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
       <div 
-        className="relative w-full max-w-7xl h-[95vh] flex flex-col bg-[#0D0D0D] border border-white/10 rounded-[32px] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300"
+        className="relative w-full max-w-7xl h-fit max-h-[95vh] flex flex-col bg-[#0D0D0D] border border-white/10 rounded-[32px] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6 border-b border-white/5 flex items-center justify-between">
+        <div className="p-5 md:p-6 pb-4 border-b border-white/5 flex items-center justify-between">
           <h3 className="text-xl font-bold tracking-tight">{title || "Interaction Lab"}</h3>
           <button 
             onClick={onClose}
@@ -40,7 +40,7 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
             <X className="w-6 h-6" />
           </button>
         </div>
-        <div className="flex-1 p-6 md:p-10 overflow-y-auto custom-scrollbar flex flex-col">
+        <div className="flex-1 p-4 md:p-6 overflow-y-auto custom-scrollbar flex flex-col">
           {children}
         </div>
       </div>

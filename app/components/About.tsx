@@ -11,7 +11,7 @@ export default function About() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start relative z-10">
         <div className="lg:col-span-4">
-          <span className="text-gray-400 text-xs font-bold tracking-[0.2em] uppercase mb-6 block">The System Designer</span>
+          <span className="text-gray-400 text-xs font-bold tracking-[0.2em] uppercase mb-2 md:mb-6 block">The System Designer</span>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Making Sense of Complex Systems</h2>
         </div>
         

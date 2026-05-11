@@ -48,10 +48,34 @@ const styles = {
 };
 
 const timelineData = [
-  { year: "2026 — PRESENT", title: "XR & AI Consultant", company: "Varahe Analytics", image: "/about/Shubhanshu_hero.jpg" },
-  { year: "JAN 2025 – JUN 2025", title: "XR Designer", company: "FireBirdVR", image: "/about/Mountain.jpg" },
-  { year: "OCT 2020 – OCT 2022", title: "UI/UX Designer", company: "Web Impact Software Solutions", image: "/about/Expedition.jpg" },
-  { year: "OCT 2018 – OCT 2020", title: "Graphic Designer", company: "Convolution Bikes", image: "/about/Trekking.jpg" },
+  { 
+    year: "NOV 2026 — PRESENT", 
+    title: "XR Consultant", 
+    company: "Varahe Analytics", 
+    image: "/company images/Varahe.jpg",
+    logo: "/company logos/Varahe Analytics.png"
+  },
+  { 
+    year: "JAN 2025 – JUN 2025", 
+    title: "XR Designer", 
+    company: "FireBirdVR", 
+    image: "/company images/firebird.png",
+    logo: "/company logos/firebirdvr.png"
+  },
+  { 
+    year: "OCT 2020 – OCT 2022", 
+    title: "UI/UX Designer", 
+    company: "Web Impact Software Solutions", 
+    image: "/company images/Web_impact.png",
+    logo: "/company logos/Web Impact.png"
+  },
+  { 
+    year: "OCT 2018 – OCT 2020", 
+    title: "Graphic Designer", 
+    company: "Convolution Bikes", 
+    image: "/company images/Convolution.png",
+    logo: "/company logos/Convolution.png"
+  },
 ];
 
 const competencies = [
@@ -63,13 +87,44 @@ const competencies = [
   {
     title: "AI Product Design",
     icon: <Cpu className="w-5 h-5 text-blue-500" />,
-    description: "Agentic Experience (AX) Design, LLM Integration, Local AI Automation (n8n, Ollama).",
+    description: "Agentic Experience (AX) Design, Advanced Prompt Engineering, Generative AI Workflows.",
   },
   {
     title: "Systems Architecture",
     icon: <Compass className="w-5 h-5 text-blue-500" />,
     description: "Ethnographic Research, Behavioral Mapping, Cross-touchpoint Orchestration.",
   },
+];
+
+const AdobeSuiteIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    <path d="M13.966 22.624l-1.69-4.281H8.122l3.892-9.144 5.662 13.425zM24 22.624V1.376h-9.512l9.512 21.248zM0 1.376v21.248h9.512L0 1.376z"/>
+  </svg>
+);
+
+const SplineIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18C8.68629 18 6 15.3137 6 12ZM10.5 8.5C10.5 9.60457 9.60457 10.5 8.5 10.5C7.39543 10.5 6.5 9.60457 6.5 8.5C6.5 7.39543 7.39543 6.5 8.5 6.5C9.60457 6.5 10.5 7.39543 10.5 8.5ZM13.5 15.5C13.5 16.6046 14.3954 17.5 15.5 17.5C16.6046 17.5 17.5 16.6046 17.5 15.5C17.5 14.3954 16.6046 13.5 15.5 13.5C14.3954 13.5 13.5 14.3954 13.5 15.5Z"/>
+  </svg>
+);
+
+const TouchDesignerIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+    <circle cx="18" cy="5" r="3"/>
+    <circle cx="6" cy="12" r="3"/>
+    <circle cx="18" cy="19" r="3"/>
+    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+  </svg>
+);
+
+const techStack = [
+  { name: "Figma", logo: "https://cdn.simpleicons.org/figma/white" },
+  { name: "Spline", customIcon: SplineIcon },
+  { name: "Unity", logo: "https://cdn.simpleicons.org/unity/white" },
+  { name: "Unreal", logo: "https://cdn.simpleicons.org/unrealengine/white" },
+  { name: "Touch Designer", customIcon: TouchDesignerIcon },
+  { name: "Adobe Suite", customIcon: AdobeSuiteIcon },
 ];
 
 const galleryImages = [
@@ -129,7 +184,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <main ref={containerRef} className="w-full overflow-hidden relative text-stone-950 dark:text-white px-6 min-h-screen transition-colors duration-300">
+    <main ref={containerRef} className="w-full relative text-stone-950 dark:text-white px-6 min-h-screen transition-colors duration-300">
       
       {/* Background Glowing Blobs */}
       <div className="fixed w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-0"></div>
@@ -146,7 +201,7 @@ export default function AboutPage() {
               <motion.span 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="text-white/40 text-xs font-bold tracking-[0.2em] uppercase mb-6 block"
+                className="text-white/40 text-xs font-bold tracking-[0.2em] uppercase mb-2 md:mb-6 block"
               >
                 About Me ↘
               </motion.span>
@@ -189,27 +244,27 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Professional Timeline */}
         <section className="py-32 relative" onMouseMove={handleMouseMove}>
-          <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block">Professional Timeline</span>
+          <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2 md:mb-6 block">Professional Timeline</span>
+          <h2 className="reveal-scroll text-4xl md:text-5xl font-bold mb-16 tracking-tight">The Journey So Far</h2>
           
           <div className="space-y-2" onMouseLeave={() => setHoveredTimelineImage(null)}>
             {timelineData.map((item, index) => (
               <div 
                 key={index} 
                 onMouseEnter={() => setHoveredTimelineImage(item.image)}
-                className="reveal-scroll group relative flex items-center justify-between py-6 px-6 rounded-2xl transition-all duration-300 hover:bg-white/[0.03] border border-transparent hover:border-white/5 cursor-default"
+                className="reveal-scroll group relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-0 py-6 px-6 rounded-2xl transition-all duration-300 hover:bg-white/[0.03] border border-transparent hover:border-white/5 cursor-default"
               >
-                <div className="flex items-center gap-6">
-                  <div className="w-12 h-12 rounded-xl bg-stone-900 border border-white/5 flex items-center justify-center group-hover:border-blue-500/30 transition-colors overflow-hidden">
-                    <img src={item.image} className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity" />
+                <div className="flex items-center gap-4 sm:gap-6">
+                  <div className="w-12 h-12 shrink-0 rounded-full bg-white border border-white/10 flex items-center justify-center group-hover:border-blue-500/30 transition-colors overflow-hidden relative shadow-sm">
+                    <img src={item.logo} className="w-4/5 h-4/5 object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold group-hover:text-blue-400 transition-colors tracking-tight leading-none">{item.title}</h3>
-                    <p className="text-xs font-bold tracking-[0.2em] uppercase text-white/20 mt-2">{item.company}</p>
+                    <h3 className="text-lg font-bold group-hover:text-blue-400 transition-colors tracking-tight leading-tight sm:leading-none">{item.title}</h3>
+                    <p className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-white/20 mt-1 sm:mt-2">{item.company}</p>
                   </div>
                 </div>
-                <div className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold tracking-widest text-stone-400 dark:text-white/40 uppercase group-hover:border-blue-500/30 group-hover:text-blue-400 transition-all">
+                <div className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[9px] sm:text-[10px] font-bold tracking-widest text-stone-400 dark:text-white/40 uppercase group-hover:border-blue-500/30 group-hover:text-blue-400 transition-all self-start sm:self-auto ml-16 sm:ml-0 shrink-0 w-fit">
                   {item.year}
                 </div>
               </div>
@@ -238,11 +293,12 @@ export default function AboutPage() {
 
         {/* Competencies */}
         <section className="py-20">
-          <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block text-center">Competencies</span>
+          <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2 md:mb-6 block text-center">Competencies</span>
+          <h2 className="reveal-scroll text-4xl md:text-5xl font-bold mb-16 tracking-tight text-center">Strategic Toolkit</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {competencies.map((comp, index) => (
               <div key={index} className="reveal-scroll p-8 bg-surface/40 backdrop-blur-sm border border-white/5 rounded-2xl flex flex-col gap-6 hover:border-white/10 transition-all group shadow-xl">
-                <div className="w-10 h-10 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-10 h-10 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center group-hover:border-blue-500/50 transition-all duration-500 group-hover:scale-110">
                   {comp.icon}
                 </div>
                 <div>
@@ -255,11 +311,13 @@ export default function AboutPage() {
         </section>
 
         {/* System Calibration: Beyond the Pixels */}
-        <section className="py-32 overflow-hidden">
-        <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block text-center">Beyond the Pixels</span>
-        
-        <div ref={galleryRef} className="relative h-[400px] md:h-[650px] flex items-center justify-center bg-surface/40 backdrop-blur-md rounded-[40px] border border-white/5 shadow-2xl group/gallery overflow-hidden">
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] text-sm md:text-xl text-white text-center max-w-2xl font-normal pointer-events-none select-none tracking-tight leading-relaxed opacity-100">
+        <section className="py-32">
+          <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2 md:mb-6 block text-center">Beyond the Pixels</span>
+          <h2 className="reveal-scroll text-4xl md:text-5xl font-bold mb-16 tracking-tight text-center">Off The Screen</h2>
+          
+          <div className="relative group/gallery-wrapper transition-all duration-700 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.35),0_30px_60px_-30px_rgba(0,0,0,0.4),0_-2px_20px_rgba(255,255,255,0.01)] hover:shadow-[0_80px_150px_-30px_rgba(0,0,0,0.45)] rounded-[40px]">
+          <div ref={galleryRef} className="relative h-[700px] md:h-[650px] flex items-center justify-center bg-surface/40 backdrop-blur-md rounded-[40px] border border-white/5 overflow-hidden">
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] text-sm md:text-xl text-white text-center max-w-[90%] md:max-w-2xl font-normal pointer-events-none select-none tracking-tight leading-relaxed opacity-100">
               The best systems are built by those who explore multiple disciplines. Outside of design, I focus on human performance through physical training and high-altitude exploration.
             </p>
             
@@ -274,17 +332,25 @@ export default function AboutPage() {
                <span>Drag to rearrange snapshots</span>
             </div>
           </div>
+        </div>
         </section>
 
         {/* Tech Stack */}
         <section className="py-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 opacity-40 hover:opacity-100 transition-opacity duration-1000">
-             {['Figma', 'Spline', 'Three.js', 'Next.js', 'Unity', 'Python'].map(tool => (
-               <div key={tool} className="flex flex-col items-center gap-3 group cursor-default">
-                  <div className="w-12 h-12 rounded-2xl bg-surface/60 backdrop-blur-sm border border-white/5 flex items-center justify-center group-hover:border-blue-500/50 transition-all duration-500 group-hover:-translate-y-1">
-                     <div className="w-2 h-2 rounded-full bg-white/20 group-hover:bg-blue-500 transition-colors"></div>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 opacity-60 hover:opacity-100 transition-opacity duration-1000">
+             {techStack.map(tool => (
+               <div key={tool.name} className="flex flex-col items-center gap-3 group cursor-default">
+                  <div className="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center group-hover:border-blue-500/50 transition-all duration-500 group-hover:-translate-y-1 relative overflow-hidden shadow-lg">
+                     <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                     {tool.logo ? (
+                       <img src={tool.logo} alt={tool.name} className="w-7 h-7 object-contain opacity-50 group-hover:opacity-100 transition-all duration-500 z-10" />
+                     ) : tool.customIcon ? (
+                       <div className="w-7 h-7 opacity-50 group-hover:opacity-100 transition-all duration-500 z-10 text-white flex items-center justify-center">
+                         <tool.customIcon />
+                       </div>
+                     ) : null}
                   </div>
-                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 group-hover:text-white transition-colors">{tool}</span>
+                  <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/40 group-hover:text-white transition-colors">{tool.name}</span>
                </div>
              ))}
           </div>
@@ -297,45 +363,48 @@ export default function AboutPage() {
 
         {/* Interaction Lab */}
         <section className="py-40">
-          <div className="reveal-scroll p-12 bg-surface/40 backdrop-blur-md border border-white/5 rounded-[40px] flex flex-col md:flex-row gap-16 items-center group hover:border-white/10 transition-all duration-700 shadow-2xl">
+          <div className="reveal-scroll p-12 bg-surface/40 backdrop-blur-md border border-white/5 rounded-[40px] flex flex-col md:flex-row gap-16 items-center group hover:border-white/10 transition-all duration-700 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.35),0_30px_60px_-30px_rgba(0,0,0,0.4),0_-2px_20px_rgba(255,255,255,0.01)] hover:shadow-[0_80px_150px_-30px_rgba(0,0,0,0.45)]">
             <div className="w-full md:w-1/2">
-              <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mb-10 shadow-[0_0_40px_rgba(37,99,235,0.3)] group-hover:scale-110 transition-transform duration-500">
-                <Camera className="w-7 h-7 text-white" />
+              <div className="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(255,255,255,0.05)] group-hover:scale-110 group-hover:border-blue-500/50 transition-all duration-500 relative overflow-hidden">
+                <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <Camera className="w-7 h-7 text-white/80 z-10" />
               </div>
-              <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">Interaction Lab</h2>
+
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2 md:mb-6 block">Spatial Capture</span>
+              <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">Interaction Lab</h2>
               <p className="text-stone-500 dark:text-white/40 text-base leading-relaxed mb-12 max-w-md font-light">
                 Experience the intersection of digital identity and spatial interaction. Trigger the interactive Lab-Cam to capture a high-fidelity snapshot within this system.
               </p>
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="px-10 py-5 bg-white text-black rounded-full font-bold hover:bg-blue-600 hover:text-white transition-all transform active:scale-95 shadow-2xl flex items-center gap-3"
+                className="px-8 py-4 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 transition-all duration-300 text-[11px] font-bold uppercase tracking-[0.3em] text-white flex items-center gap-3 active:scale-95 group/btn"
               >
                 Open Lab-Cam
-                <MoveRight className="w-5 h-5" />
+                <MoveRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
               </button>
             </div>
-            
-            <div className="w-full md:w-1/2 flex items-center justify-center relative perspective-1000">
+             <div className="w-full md:w-1/2 flex items-center justify-center relative perspective-1000">
               <motion.div 
-                 initial={{ rotate: 4 }}
-                 whileHover={{ rotate: 0, scale: 1.05 }}
-                 className="w-64 md:w-72 aspect-[3/4] bg-stone-950 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] rounded-3xl border border-white/10 origin-center cursor-pointer transition-all duration-500 flex flex-col overflow-hidden group/lab"
+                 initial={{ rotate: -4, y: 20 }}
+                 whileHover={{ rotate: 0, scale: 1.05, y: 0 }}
+                 className="w-64 md:w-72 aspect-[3.5/4.5] bg-white p-4 pb-12 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] rounded-sm origin-center cursor-pointer transition-all duration-500 flex flex-col relative group/lab"
                  data-cursor-tag="lab identity"
               >
-                 <div className="w-full flex-1 bg-[#0a0a0a] relative overflow-hidden flex items-end justify-center transition-transform duration-700 group-hover/lab:scale-110">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-blue-500/10 blur-3xl rounded-full"></div>
-                    <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-                    <div className="w-24 h-24 bg-[#050505] rounded-t-[60px] relative z-10 shadow-[0_-5px_15px_rgba(0,0,0,0.5)]">
-                       <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-12 h-14 bg-[#050505] rounded-[24px]"></div>
-                    </div>
+                 <div className="w-full h-full bg-[#0a0a0a] relative overflow-hidden flex items-center justify-center transition-transform duration-700">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-rose-500/10"></div>
+                    <Camera className="w-12 h-12 text-white/10 group-hover/lab:scale-110 transition-transform duration-700" />
+                    
+                    {/* Gloss effect */}
+                    <div className="absolute top-0 left-[-100%] w-[200%] h-full bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -rotate-45 transition-all duration-1000 group-hover/lab:left-[100%]"></div>
                  </div>
-                 <div className="absolute bottom-0 left-0 w-full h-16 flex items-center justify-between px-6 bg-gradient-to-t from-black to-transparent">
-                    <span className="text-[10px] font-bold text-white/40 tracking-[0.2em] uppercase font-sans">System Model v.01</span>
-                    <button className="text-white/20 hover:text-white transition-colors">
-                       <Download className="w-4 h-4" />
-                    </button>
+                 
+                 <div className="absolute bottom-3 left-0 w-full text-center">
+                    <span className="text-[9px] font-medium text-black/20 tracking-[0.4em] uppercase font-mono">Capture System v.01</span>
                  </div>
               </motion.div>
+              
+              {/* Secondary offset frame for depth */}
+              <div className="absolute w-64 md:w-72 aspect-[3.5/4.5] bg-white/5 border border-white/10 rounded-sm -z-10 rotate-6 translate-x-4 translate-y-2 blur-[1px]"></div>
             </div>
           </div>
         </section>

@@ -25,6 +25,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-webcam": "^7.2.0",
+    "simple-icons": "^16.19.0",
     "three": "^0.184.0",
     "use-scramble": "^2.2.15"
   },

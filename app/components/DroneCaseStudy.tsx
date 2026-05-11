@@ -463,7 +463,7 @@ export default function DroneCaseStudy() {
               href="https://subhcool238.github.io/Drone-Alert-Management-System/#/" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="flex items-center gap-3 px-10 py-5 rounded-2xl bg-white text-black hover:scale-105 transition-all font-bold text-sm tracking-widest uppercase"
+              className="flex items-center justify-center gap-3 w-full md:w-auto px-10 py-5 rounded-2xl bg-white text-black hover:scale-105 transition-all font-bold text-sm tracking-widest uppercase"
             >
               Open Live Prototype
               <ExternalLink size={18} />
@@ -511,9 +511,9 @@ export default function DroneCaseStudy() {
 
   return (
     <div className="min-h-screen bg-transparent overflow-clip relative selection:bg-white/30 font-sans">
-      {/* Background Glowing Blobs */}
-      <div className="fixed w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
-      <div className="fixed w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
+      {/* Background Glowing Blobs - Hidden on mobile */}
+      <div className="fixed hidden md:block w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
+      <div className="fixed hidden md:block w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
 
       {/* Header Section */}
       <div className="max-w-[800px] mx-auto px-6 pt-40 pb-20 text-center">
@@ -545,7 +545,7 @@ export default function DroneCaseStudy() {
           </div>
           <div className="flex flex-col items-start text-left px-8 mt-8 md:mt-0">
             <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Tools</p>
-            <p className="text-base font-bold text-white/90 leading-snug whitespace-nowrap">Figma, Miro, AI Studio</p>
+            <p className="text-base font-bold text-white/90 leading-snug md:whitespace-nowrap">Figma, Miro, AI Studio</p>
           </div>
         </div>
       </div>

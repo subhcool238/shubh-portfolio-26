@@ -131,19 +131,9 @@ export default function AboutPage() {
   return (
     <main ref={containerRef} className="w-full overflow-hidden relative text-stone-950 dark:text-white px-6 min-h-screen transition-colors duration-300">
       
-      {/* Background Gradients from Home Page */}
-      <div
-        style={styles.gradientCircleOne}
-        className="w-120 h-120 rounded-full blur-3xl opacity-30 absolute z-0"
-      ></div>
-      <div
-        style={styles.gradientCircleTwo}
-        className="w-200 h-200 rounded-full blur-3xl opacity-20 absolute z-0"
-      ></div>
-      <div
-        style={styles.gradientCircleThree}
-        className="w-200 h-200 rounded-full blur-3xl opacity-20 absolute z-0"
-      ></div>
+      {/* Background Glowing Blobs */}
+      <div className="fixed w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-0"></div>
+      <div className="fixed w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-0"></div>
 
       <FloatingTag text="Sanky" isHovered={isHeroHovered} />
       <FloatingTag text="Drag" isHovered={isAnyCardHovered} />
@@ -153,15 +143,15 @@ export default function AboutPage() {
         <section className="pt-48 pb-20">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-12 lg:gap-24">
             <div className="w-full lg:w-3/5">
-              <motion.h4 
+              <motion.span 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="text-blue-500 font-bold tracking-[0.3em] uppercase text-[10px] mb-6"
+                className="text-white/40 text-xs font-bold tracking-[0.2em] uppercase mb-6 block"
               >
                 About Me ↘
-              </motion.h4>
-              <h1 className="reveal text-5xl sm:text-6xl lg:text-7xl font-bold mb-10 leading-[1.1] tracking-tight">
-                Shubhanshu <span className="text-white/20 dark:text-white/20">Sahu</span>
+              </motion.span>
+              <h1 className="reveal text-5xl sm:text-6xl lg:text-8xl font-bold mb-10 leading-[1] tracking-tight">
+                Shubhanshu <span className="text-white/20">Sahu</span>
               </h1>
               <p className="reveal text-lg md:text-xl text-stone-600 dark:text-white/60 leading-relaxed font-light max-w-2xl mb-12">
                 I architect ecosystems where physical environments and generative AI intersect. With an M.Des in Immersive Media Design, I treat every interface as a spatial challenge—moving beyond screens to build scalable, zero-learning-curve products.
@@ -201,7 +191,7 @@ export default function AboutPage() {
 
         {/* Professional Timeline */}
         <section className="py-32 relative" onMouseMove={handleMouseMove}>
-          <h4 className="reveal-scroll text-[11px] font-bold tracking-[0.3em] uppercase text-stone-400 dark:text-white/40 mb-16">Professional Timeline</h4>
+          <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block">Professional Timeline</span>
           
           <div className="space-y-2" onMouseLeave={() => setHoveredTimelineImage(null)}>
             {timelineData.map((item, index) => (
@@ -215,8 +205,8 @@ export default function AboutPage() {
                     <img src={item.image} className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold group-hover:text-blue-400 transition-colors uppercase tracking-tight">{item.title}</h3>
-                    <p className="text-xs font-bold tracking-widest text-stone-400 dark:text-white/20 uppercase mt-1">{item.company}</p>
+                    <h3 className="text-lg font-bold group-hover:text-blue-400 transition-colors tracking-tight leading-none">{item.title}</h3>
+                    <p className="text-xs font-bold tracking-[0.2em] uppercase text-white/20 mt-2">{item.company}</p>
                   </div>
                 </div>
                 <div className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold tracking-widest text-stone-400 dark:text-white/40 uppercase group-hover:border-blue-500/30 group-hover:text-blue-400 transition-all">
@@ -248,7 +238,7 @@ export default function AboutPage() {
 
         {/* Competencies */}
         <section className="py-20">
-          <h4 className="reveal-scroll text-[11px] font-bold tracking-[0.3em] uppercase text-stone-400 dark:text-white/40 mb-16 text-center">Competencies</h4>
+          <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block text-center">Competencies</span>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {competencies.map((comp, index) => (
               <div key={index} className="reveal-scroll p-8 bg-surface/40 backdrop-blur-sm border border-white/5 rounded-2xl flex flex-col gap-6 hover:border-white/10 transition-all group shadow-xl">
@@ -256,8 +246,8 @@ export default function AboutPage() {
                   {comp.icon}
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold tracking-wider mb-3 uppercase">{comp.title}</h4>
-                  <p className="text-xs text-stone-500 dark:text-white/50 leading-relaxed">{comp.description}</p>
+                  <h3 className="text-xl font-bold tracking-tight mb-2">{comp.title}</h3>
+                  <p className="text-sm text-stone-500 dark:text-white/50 leading-relaxed font-light">{comp.description}</p>
                 </div>
               </div>
             ))}
@@ -266,7 +256,7 @@ export default function AboutPage() {
 
         {/* System Calibration: Beyond the Pixels */}
         <section className="py-32 overflow-hidden">
-        <h4 className="reveal-scroll text-[10px] font-bold tracking-[0.3em] uppercase text-blue-500 mb-16 text-center">Beyond the Pixels</h4>
+        <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block text-center">Beyond the Pixels</span>
         
         <div ref={galleryRef} className="relative h-[400px] md:h-[650px] flex items-center justify-center bg-surface/40 backdrop-blur-md rounded-[40px] border border-white/5 shadow-2xl group/gallery overflow-hidden">
             <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] text-sm md:text-xl text-white text-center max-w-2xl font-normal pointer-events-none select-none tracking-tight leading-relaxed opacity-100">
@@ -294,7 +284,7 @@ export default function AboutPage() {
                   <div className="w-12 h-12 rounded-2xl bg-surface/60 backdrop-blur-sm border border-white/5 flex items-center justify-center group-hover:border-blue-500/50 transition-all duration-500 group-hover:-translate-y-1">
                      <div className="w-2 h-2 rounded-full bg-white/20 group-hover:bg-blue-500 transition-colors"></div>
                   </div>
-                  <span className="text-[10px] font-bold tracking-widest uppercase text-stone-400 dark:text-white/40 group-hover:text-stone-900 dark:group-hover:text-white transition-colors">{tool}</span>
+                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 group-hover:text-white transition-colors">{tool}</span>
                </div>
              ))}
           </div>
@@ -312,7 +302,7 @@ export default function AboutPage() {
               <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mb-10 shadow-[0_0_40px_rgba(37,99,235,0.3)] group-hover:scale-110 transition-transform duration-500">
                 <Camera className="w-7 h-7 text-white" />
               </div>
-              <h2 className="text-4xl font-bold mb-6 tracking-tight">Interaction Lab</h2>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">Interaction Lab</h2>
               <p className="text-stone-500 dark:text-white/40 text-base leading-relaxed mb-12 max-w-md font-light">
                 Experience the intersection of digital identity and spatial interaction. Trigger the interactive Lab-Cam to capture a high-fidelity snapshot within this system.
               </p>
@@ -340,7 +330,7 @@ export default function AboutPage() {
                     </div>
                  </div>
                  <div className="absolute bottom-0 left-0 w-full h-16 flex items-center justify-between px-6 bg-gradient-to-t from-black to-transparent">
-                    <span className="text-[10px] font-bold text-white/40 tracking-widest uppercase font-sans">System Model v.01</span>
+                    <span className="text-[10px] font-bold text-white/40 tracking-[0.2em] uppercase font-sans">System Model v.01</span>
                     <button className="text-white/20 hover:text-white transition-colors">
                        <Download className="w-4 h-4" />
                     </button>
@@ -354,25 +344,6 @@ export default function AboutPage() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Interaction Lab: Spatial Capture">
         <PolaroidModule />
       </Modal>
-
-      <footer className="py-20 border-t border-white/5">
-        <div className="max-w-300 mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12">
-          <div className="flex items-center gap-4">
-             <span className="text-xs font-bold tracking-widest uppercase">Shubh Design</span>
-          </div>
-          <div className="flex items-center gap-12">
-            {[{ label: "LinkedIn", icon: <Globe className="w-4 h-4" /> }, { label: "Behance", icon: <Share2 className="w-4 h-4" /> }, { label: "Instagram", icon: <Globe className="w-4 h-4" /> }].map((link, i) => (
-              <a key={i} href="#" className="flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-stone-400 dark:text-white/40 hover:text-stone-900 dark:hover:text-white transition-colors">
-                {link.icon}
-                {link.label}
-              </a>
-            ))}
-          </div>
-          <div className="text-[10px] font-bold tracking-widest uppercase text-stone-300 dark:text-white/20 text-center">
-            © 2026 SHUBH DESIGN. BUILT FOR THE SPATIAL WEB.
-          </div>
-        </div>
-      </footer>
 
       <style jsx global>{`
         @keyframes vinylSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

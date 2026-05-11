@@ -259,7 +259,7 @@ export default function Footer() {
             <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" 
                data-cursor-text={s.label.toUpperCase()}
                data-cursor-icon={s.iconKey}
-               className="group flex flex-col items-center gap-2 text-[11px] tracking-[0.4em] uppercase text-white/30 hover:text-white transition-all duration-300">
+               className="group flex flex-col items-center gap-2 text-xs font-bold tracking-[0.2em] uppercase text-white/40 hover:text-white transition-all duration-300">
               {s.label}
             </a>
           ))}
@@ -295,7 +295,7 @@ export default function Footer() {
       </div>
 
       <div className="absolute bottom-0 left-0 w-full z-20 bg-[#0a0c12] border-t border-white/5 py-12 px-6 pointer-events-none">
-        <div className="max-w-300 mx-auto text-center text-[11px] tracking-[0.25em] uppercase text-white/50">
+        <div className="max-w-300 mx-auto text-center text-xs font-bold tracking-[0.2em] uppercase text-white/40">
            <p>© 2026 SHUBHANSHU SAHU PORTFOLIO · ALL RIGHT RESERVED</p>
         </div>
       </div>

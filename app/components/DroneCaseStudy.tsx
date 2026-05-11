@@ -75,7 +75,7 @@ const PersonaCard = ({ name, role, desc, dotColor }: { name: string; role: strin
       <div className={`w-3 h-3 rounded-full flex-shrink-0 ${dotColor}`} />
       <h4 className="text-lg font-bold text-white/90 tracking-wide">{name}</h4>
     </div>
-    <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4 ml-6">{role}</p>
+    <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-4 ml-6">{role}</p>
     <p className="text-base tracking-wide font-normal text-white/60 leading-relaxed ml-6">{desc}</p>
   </div>
 );
@@ -477,7 +477,7 @@ export default function DroneCaseStudy() {
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -60% 0px",
+      rootMargin: "-10% 0px -40% 0px",
       threshold: 0,
     };
 
@@ -503,6 +503,7 @@ export default function DroneCaseStudy() {
     e.preventDefault();
     const el = document.getElementById(id);
     if (el) {
+      setActiveSection(id);
       const y = el.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
@@ -510,10 +511,9 @@ export default function DroneCaseStudy() {
 
   return (
     <div className="min-h-screen bg-transparent overflow-clip relative selection:bg-white/30 font-sans">
-      {/* Background Glowing Blobs matching GuruVR */}
-      <div className="fixed w-[809px] h-[809px] left-[-20vw] top-[-10vh] origin-top-left -rotate-[17deg] opacity-50 bg-gradient-to-b from-blue-600 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[10s]"></div>
-      <div className="fixed w-[984px] h-[984px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
-      <div className="fixed w-[984px] h-[984px] left-[10vw] bottom-[-20vh] origin-top-left rotate-[60deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+      {/* Background Glowing Blobs */}
+      <div className="fixed w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
+      <div className="fixed w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
 
       {/* Header Section */}
       <div className="max-w-[800px] mx-auto px-6 pt-40 pb-20 text-center">
@@ -532,19 +532,19 @@ export default function DroneCaseStudy() {
         {/* Project Metadata Box */}
         <div className="grid grid-cols-2 md:grid-cols-4 py-12 rounded-3xl bg-white/[0.03] border border-white/10 mb-20 backdrop-blur-sm">
           <div className="flex flex-col items-start text-left px-8 border-r border-white/5">
-            <p className="text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">Role</p>
+            <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Role</p>
             <p className="text-base font-bold text-white/90 leading-snug">Product Designer</p>
           </div>
           <div className="flex flex-col items-start text-left px-8 md:border-r border-white/5">
-            <p className="text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">Team</p>
+            <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Team</p>
             <p className="text-base font-bold text-white/90 leading-snug">Solo Designer</p>
           </div>
           <div className="flex flex-col items-start text-left px-8 border-r border-white/5 mt-8 md:mt-0">
-            <p className="text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">Timeline</p>
+            <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Timeline</p>
             <p className="text-base font-bold text-white/90 leading-snug">4 Weeks</p>
           </div>
           <div className="flex flex-col items-start text-left px-8 mt-8 md:mt-0">
-            <p className="text-xs font-bold text-white/30 uppercase tracking-[0.2em] mb-3">Tools</p>
+            <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Tools</p>
             <p className="text-base font-bold text-white/90 leading-snug whitespace-nowrap">Figma, Miro, AI Studio</p>
           </div>
         </div>
@@ -620,9 +620,9 @@ export default function DroneCaseStudy() {
                 className="scroll-mt-32"
               >
                 <div className="mb-6">
-                  <h2 className="text-sm tracking-widest uppercase text-white/50 font-semibold mb-1">
+                  <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block">
                     {section.label}
-                  </h2>
+                  </span>
                   <h3 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
                     {section.title}
                   </h3>
@@ -637,7 +637,7 @@ export default function DroneCaseStudy() {
       </div>
       
       {/* Footer Navigation */}
-      <div className="max-w-[800px] mx-auto px-6 py-20 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="max-w-[800px] mx-auto px-6 py-20 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8 mt-20">
         <div className="flex flex-col items-center md:items-start">
           <p className="text-xs font-bold text-white/20 uppercase tracking-[0.2em] mb-2">Previous Project</p>
           <Link href="/case-study/samsung" className="group flex items-center gap-3 text-white/60 hover:text-white transition-all font-bold text-lg">

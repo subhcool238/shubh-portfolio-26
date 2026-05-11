@@ -90,7 +90,7 @@ export default function Hero() {
               <path d="M16.85 6.584c.77 0 1.396.626 1.396 1.397v6.651a1.397 1.397 0 11-2.794 0v-6.65c0-.772.626-1.398 1.397-1.398z" />
             </g>
           </svg>
-          <p className="pt-2 font-normal text-sm tracking-widest text-white/70">Scroll</p>
+          <p className="pt-4 text-xs font-bold tracking-[0.2em] uppercase text-white/40">Scroll</p>
         </a>
       </div>
     </section>

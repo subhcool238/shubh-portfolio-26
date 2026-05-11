@@ -1,4 +1,4 @@
-import CaseStudyLayout from "@/app/components/CaseStudyLayout";
+import RGZPCaseStudy from "@/app/components/RGZPCaseStudy";
 
 export const metadata = {
   title: "RGZP Zoo Systems | Case Study",
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function RGZPCaseStudyPage() {
-  return <CaseStudyLayout />;
+  return <RGZPCaseStudy />;
 }

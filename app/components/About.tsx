@@ -11,16 +11,16 @@ export default function About() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start relative z-10">
         <div className="lg:col-span-4">
-          <span className="text-gray-400 text-sm tracking-wider mb-4 block">Background: The System Designer</span>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">The System Designer</h2>
+          <span className="text-gray-400 text-xs font-bold tracking-[0.2em] uppercase mb-6 block">The System Designer</span>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Making Sense of Complex Systems</h2>
         </div>
         
         <div className="lg:col-span-8 flex flex-col gap-8">
           <p className="text-xl md:text-3xl font-normal leading-snug md:leading-snug text-gray-300">
-            I don't just design screens; I map ecosystems. My foundation in Immersive Media Design forces me to treat every interface as a <span className="text-white font-medium bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">spatial challenge</span>.
+            I don't just design interfaces; I figure out how things connect. I treat every design challenge as a <span className="text-white font-medium bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">spatial puzzle</span> waiting to be solved.
           </p>
           <p className="text-lg text-gray-400 leading-relaxed max-w-2xl">
-            Whether I am building projection-mapped AR experiences, mapping human-avatar interactions, or structuring logic gates for a VR Metaversity, my focus is bridging deep cognitive psychology with high-fidelity technical execution.
+            Whether I’m mapping out the operations of a 130-acre zoo, making XR avatars communicate naturally, or building immersive VR classrooms, my goal is always the same: taking messy, complicated technology and turning it into an experience that feels completely natural for the people using it.
           </p>
           
           <div className="pt-4">

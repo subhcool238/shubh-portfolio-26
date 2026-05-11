@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { LucideIcon, ArrowUpRight, Building2, AppWindow, Home, Plane, Box, BrainCircuit, Glasses, Layers } from "lucide-react";
+import { LucideIcon, ArrowUpRight, Building2, AppWindow, Home, Plane, Box, BrainCircuit, Glasses, Layers, Smartphone } from "lucide-react";
 
 interface Tag {
   name: string;
@@ -12,8 +12,11 @@ interface Tag {
 interface Project {
   id: string;
   title: string;
+  label: string;
+  description: string;
   tags: Tag[];
   videoUrl: string;
+  coverImage: string;
   placeholderColor: string;
   link?: string;
 }
@@ -21,51 +24,63 @@ interface Project {
 const projects: Project[] = [
   {
     id: "flytbase",
-    title: "Orchestrating Clarity In Chaos",
+    label: "FlytBase: Drone Command Center",
+    title: "AI-Powered Triage for High-Stakes Security",
+    description: "Designed an AI-driven command center to streamline complex drone telemetry.",
     tags: [
       { name: "FlytBase", icon: Building2 },
       { name: "Web App", icon: AppWindow },
       { name: "Drone Tech", icon: Plane },
     ],
-    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // Replace with actual WebP/MP4
+    videoUrl: "/flytbase/flytbase_preview.mp4",
+    coverImage: "/flytbase/flytebase_cover.png",
     placeholderColor: "bg-stone-900",
     link: "/case-study/flytbase",
   },
   {
     id: "guruvr",
-    title: "Immersive Learning Ecosystem",
+    label: "GuruVR Metaversity",
+    title: "Standardizing Immersive Learning System",
+    description: "Led spatial UX for a educational ecosystem, mapping CLPE-A frameworks to intuitive 3D environments.",
     tags: [
       { name: "GuruVR", icon: Building2 },
       { name: "VR Experience", icon: Glasses },
       { name: "EdTech", icon: Box },
     ],
-    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+    videoUrl: "/guruvr/guruvr_preview.mp4",
+    coverImage: "/guruvr/guruvr_cover.png",
     placeholderColor: "bg-neutral-900",
     link: "/case-study/guru-vr",
   },
   {
-    id: "zoosystem",
-    title: "Complex Enterprise Architecture",
-    tags: [
-      { name: "Zoo Systems", icon: Building2 },
-      { name: "Web App", icon: AppWindow },
-      { name: "System Design", icon: Layers },
-    ],
-    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-    placeholderColor: "bg-zinc-900",
-    link: "/case-study/rgzp",
-  },
-  {
     id: "samsungprism",
-    title: "Intelligence at the Edge",
+    label: "Samsung PRISM: One Avatar, One World",
+    title: "Accessibility-First Spatial Communication",
+    description: "Prototyped intelligent XR avatars to bridge communication gaps.",
     tags: [
       { name: "Samsung", icon: Building2 },
-      { name: "AI Interface", icon: BrainCircuit },
-      { name: "Innovation", icon: Box },
+      { name: "VR Tool", icon: Glasses },
+      { name: "Innovation", icon: BrainCircuit },
     ],
-    videoUrl: "/samsung/Demo%20Video.mp4",
+    videoUrl: "/samsung/samsung_preview.mp4",
+    coverImage: "/samsung/samsung_cover.jpg",
     placeholderColor: "bg-stone-950",
     link: "/case-study/samsung",
+  },
+  {
+    id: "zoosystem",
+    label: "Rajiv Gandhi Zoological Park",
+    title: "Spatial Orchestration & Systems Thinking",
+    description: "Architecting spatial logic for a 130-acre living ecosystem of RGZP Zoo.",
+    tags: [
+      { name: "RGZP", icon: Building2 },
+      { name: "Mobile App", icon: Smartphone },
+      { name: "System Design", icon: Layers },
+    ],
+    videoUrl: "/Zoo/rgzp_preview_video.mp4",
+    coverImage: "/Zoo/rgzp_cover.jpg",
+    placeholderColor: "bg-zinc-900",
+    link: "/case-study/rgzp",
   },
 ];
 
@@ -74,9 +89,9 @@ export default function ProjectGrid() {
 
   return (
     <section className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-      <div className="flex justify-between items-end mb-20">
+      <div className="flex flex-col mb-20">
+        <span className="text-gray-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Case Studies</span>
         <h2 className="text-4xl md:text-6xl font-bold tracking-tight">Selected Work</h2>
-        <span className="text-gray-400 text-sm tracking-wider">Case Studies</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-32">
@@ -92,15 +107,25 @@ export default function ProjectGrid() {
               data-cursor-text="View Case Study"
             >
             {/* Image/Video Container */}
-            <div className={`relative w-full aspect-[4/3] rounded-sm overflow-hidden ${project.placeholderColor} transition-transform duration-700 ease-out group-hover:scale-[0.98]`}>
+            <div className={`relative w-full aspect-[4/3] rounded-sm overflow-hidden border border-white/10 ${project.placeholderColor} transition-transform duration-700 ease-out group-hover:scale-[0.98]`}>
               <div className="absolute inset-0 bg-black/10 z-10 transition-opacity duration-500 group-hover:opacity-0"></div>
               
+              {/* Cover Image */}
+              <img 
+                src={project.coverImage} 
+                alt={project.title}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+                  hoveredProject === project.id ? "opacity-0" : "opacity-100"
+                }`}
+              />
+
+              {/* Preview Video */}
               <video
                 src={project.videoUrl}
                 muted
                 loop
                 playsInline
-                className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
                   hoveredProject === project.id ? "opacity-100" : "opacity-0"
                 }`}
                 ref={(el) => {
@@ -109,6 +134,7 @@ export default function ProjectGrid() {
                       el.play().catch(() => {});
                     } else {
                       el.pause();
+                      el.currentTime = 0; // Reset video to start when not hovered
                     }
                   }
                 }}
@@ -117,22 +143,31 @@ export default function ProjectGrid() {
 
             {/* Meta Info */}
             <div className="mt-8 flex justify-between items-start">
-              <div className="flex flex-col gap-3">
-                <h3 className="text-2xl md:text-3xl font-bold tracking-wide transition-colors group-hover:text-gray-200">
-                  {project.title}
-                </h3>
+              <div className="flex flex-col gap-4 max-w-[90%]">
+                <div className="flex flex-col gap-1">
+                  <span className="text-gray-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">
+                    {project.label}
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-bold tracking-tight transition-colors group-hover:text-gray-200">
+                    {project.title}
+                  </h3>
+                </div>
                 
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-1">
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
                   {project.tags.map((tag, index) => {
                     const Icon = tag.icon;
                     return (
-                      <span key={index} className="flex items-center gap-2 text-gray-400/80 text-sm font-normal tracking-wide">
+                      <span key={index} className="flex items-center gap-2 text-gray-400/80 text-xs font-medium tracking-wide">
                         <Icon className="w-4 h-4 opacity-70" strokeWidth={1.5} />
                         {tag.name}
                       </span>
                     );
                   })}
                 </div>
+
+                <p className="text-gray-500 text-sm leading-relaxed max-w-xl transition-colors group-hover:text-gray-400">
+                  {project.description}
+                </p>
               </div>
 
               <div className="p-3 rounded-full bg-white/5 opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out hidden lg:block">

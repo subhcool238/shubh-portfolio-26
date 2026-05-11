@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { BookOpen, Cpu, Gamepad2, Globe, Building2, User, Target, Route, Layers, Search, Layout, Palette, Glasses, TestTube, Lightbulb, ChevronRight, ChevronDown, Monitor, Smartphone, LayoutDashboard, Share2, ShieldAlert, AlertCircle, Rocket, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 interface Section {
   id: string;
@@ -121,14 +122,28 @@ const sections: Section[] = [
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
           As the XR Design team at FireBirdVR, we ran the full design pipeline — from zero-day research to Unity prototyping — across 5 months of agile sprints.
         </p>
-        <ul className="list-disc pl-6 space-y-4 text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-          <li><span className="font-bold text-white/90">User Research:</span> Survey of 92 students, focus group discussions, competitor benchmarking, affinity mapping.</li>
-          <li><span className="font-bold text-white/90">Platform Architecture:</span> User-specific mind maps, information architecture across VR, desktop, and mobile.</li>
-          <li><span className="font-bold text-white/90">Brand & Design System:</span> Logo, color palette, typography, full component library.</li>
-          <li><span className="font-bold text-white/90">Cross-Platform UX:</span> Onboarding flows, dashboards, gamified interfaces.</li>
-          <li><span className="font-bold text-white/90">XR Module Design:</span> Narrative design, spatial UI, hand-tracked interactions, Unity scene prototyping.</li>
-          <li><span className="font-bold text-white/90">Testing & Iteration:</span> Usability sessions on Meta Quest 2, think-aloud protocol, heuristic evaluation.</li>
-        </ul>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          {[
+            { title: "User Research", desc: "Survey of 92 students, focus group discussions, competitor benchmarking, affinity mapping." },
+            { title: "Platform Architecture", desc: "User-specific mind maps, information architecture across VR, desktop, and mobile." },
+            { title: "Brand & Design System", desc: "Logo, color palette, typography, full component library." },
+            { title: "Cross-Platform UX", desc: "Onboarding flows, dashboards, gamified interfaces." },
+            { title: "XR Module Design", desc: "Narrative design, spatial UI, hand-tracked interactions, Unity scene prototyping." },
+            { title: "Testing & Iteration", desc: "Usability sessions on Meta Quest 2, think-aloud protocol, heuristic evaluation." },
+          ].map((item, i) => (
+            <div key={i} className="group p-8 rounded-[2.5rem] bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 hover:scale-[1.01]">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.4)]" />
+                  <h4 className="text-xl font-bold text-white tracking-tight">{item.title}</h4>
+                </div>
+                <p className="text-lg tracking-wide font-normal text-white/50 leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     ),
   },
@@ -351,11 +366,18 @@ const sections: Section[] = [
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-4">
           <span className="font-bold text-white/90">Focus Groups:</span> One-on-one and group sessions with students and faculty.
         </p>
-        <ul className="list-disc pl-6 space-y-2 text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-          <li>Students lost in abstract theory — need visual anchors</li>
-          <li>Faculty not opposed to XR — just anxious about the curve</li>
-          <li>Navigation in VR was a consistent friction point</li>
-        </ul>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          {[
+            "Students lost in abstract theory — need visual anchors",
+            "Faculty not opposed to XR — just anxious about the curve",
+            "Navigation in VR was a consistent friction point"
+          ].map((finding, i) => (
+            <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20 group">
+              <div className="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)] flex-shrink-0" />
+              <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">{finding}</p>
+            </div>
+          ))}
+        </div>
 
         <div className="mt-8 rounded-2xl overflow-hidden border border-white/10 bg-white/5 relative group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Focus Group 1.png")}>
           <img 
@@ -458,42 +480,42 @@ const sections: Section[] = [
         {/* Bento Grid of Campus Images */}
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-3 gap-4 mt-8 mb-12 h-[500px]">
           {/* R1C1: Square */}
-          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 192449.png")}>
             <img src="/guruvr/metaversity/Screenshot 2025-05-17 192449.png" alt="Social View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R1C2-3: Wide */}
-          <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Zoomed Out Gate.png")}>
             <img src="/guruvr/metaversity/Zoomed Out Gate.png" alt="Main Gate" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R1-2C4: Tall */}
-          <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 184930.png")}>
             <img src="/guruvr/metaversity/Screenshot 2025-05-17 184930.png" alt="Lab View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R2C1: Square */}
-          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 185725.png")}>
             <img src="/guruvr/metaversity/Screenshot 2025-05-17 185725.png" alt="Classroom" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R2C2: Square */}
-          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 185734.png")}>
             <img src="/guruvr/metaversity/Screenshot 2025-05-17 185734.png" alt="UI View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R2-3C3: Tall */}
-          <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 184521.png")}>
             <img src="/guruvr/metaversity/Screenshot 2025-05-17 184521.png" alt="Campus View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R3C1-2: Wide */}
-          <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-01 141742.png")}>
             <img src="/guruvr/metaversity/Screenshot 2025-05-01 141742.png" alt="Module View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R3C4: Square */}
-          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 184251.png")}>
             <img src="/guruvr/metaversity/Screenshot 2025-05-17 184251.png" alt="Detailed View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
         </div>
@@ -566,7 +588,7 @@ const sections: Section[] = [
             { state: "Creator", image: "/guruvr/role based/Creator.png", color: "bg-amber-500", desc: "Creator Studio, concept tagging" },
             { state: "Corporate", image: "/guruvr/role based/Corporate.png", color: "bg-purple-500", desc: "XR safety training, HR sync" },
           ].map((item) => (
-            <div key={item.state} className="group flex flex-col items-start rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:bg-white/10 hover:border-white/20 overflow-hidden">
+            <div key={item.state} className="group flex flex-col items-start rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:bg-white/10 hover:border-white/20 overflow-hidden cursor-zoom-in" onClick={() => (window as any).setSelectedImage(item.image)}>
                <div className="w-full aspect-[4/3] overflow-hidden bg-black/20 p-4">
                  <img src={item.image} alt={item.state} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" />
                </div>
@@ -677,7 +699,7 @@ const sections: Section[] = [
         </p>
         <div className="grid grid-cols-2 gap-4 mt-8">
           {["03.jpg", "04.jpg", "05.jpg", "06.jpg"].map((img) => (
-            <div key={img} className="rounded-xl overflow-hidden border border-white/10 bg-white/5 relative group aspect-video">
+            <div key={img} className="rounded-xl overflow-hidden border border-white/10 bg-white/5 relative group aspect-video cursor-zoom-in" onClick={() => (window as any).setSelectedImage(`/guruvr/unity prototypes/${img}`)}>
               <img 
                 src={`/guruvr/unity prototypes/${img}`} 
                 alt="Unity Prototype" 
@@ -787,11 +809,25 @@ const sections: Section[] = [
           Not a list of achievements. Genuine things that changed how we design — especially in spatial contexts.
         </p>
 
-        <ul className="list-disc pl-6 space-y-4 text-lg tracking-wide font-normal text-white/80 leading-relaxed mt-6">
-          <li><span className="font-bold text-white/90">Design:</span> Immersive narrative unlocks engagement that UI alone can't. Gamification only works when it's earned.</li>
-          <li><span className="font-bold text-white/90">Technical:</span> VR development demands constant trade-offs between visual quality and frame rate. Gesture-based affordances need to feel like natural instinct.</li>
-          <li><span className="font-bold text-white/90">User-Centric:</span> Real users never follow the ideal path. UI placement in 3D space must adapt to user height, direction, and attention speed.</li>
-        </ul>
+        <div className="grid grid-cols-1 gap-6 mt-8">
+          {[
+            { category: "Design", text: "Immersive narrative unlocks engagement that UI alone can't. Gamification only works when it's earned.", color: "bg-blue-500", glow: "rgba(59,130,246,0.3)" },
+            { category: "Technical", text: "VR development demands constant trade-offs between visual quality and frame rate. Gesture-based affordances need to feel like natural instinct.", color: "bg-purple-500", glow: "rgba(168,85,247,0.3)" },
+            { category: "User-Centric", text: "Real users never follow the ideal path. UI placement in 3D space must adapt to user height, direction, and attention speed.", color: "bg-emerald-500", glow: "rgba(16,185,129,0.3)" },
+          ].map((item, i) => (
+            <div key={i} className="group p-8 rounded-[2.5rem] bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 hover:scale-[1.01]">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <div className={`w-2 h-2 rounded-full ${item.color} shadow-[0_0_12px_${item.glow}]`} />
+                  <h4 className="text-xl font-bold text-white tracking-tight">{item.category}</h4>
+                </div>
+                <p className="text-lg tracking-wide font-normal text-white/60 leading-relaxed">
+                  {item.text}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
 
         <div className="mt-16">
           <div className="rounded-2xl bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-rose-500/30 p-[1px]">
@@ -838,7 +874,7 @@ export default function GuruVRCaseStudy() {
 
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -60% 0px", 
+      rootMargin: "-10% 0px -40% 0px", 
       threshold: 0,
     };
 
@@ -867,6 +903,7 @@ export default function GuruVRCaseStudy() {
     e.preventDefault();
     const el = document.getElementById(id);
     if (el) {
+      setActiveSection(id);
       const y = el.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
@@ -874,10 +911,9 @@ export default function GuruVRCaseStudy() {
 
   return (
     <div className="min-h-screen bg-transparent overflow-clip relative selection:bg-white/30 font-sans">
-      {/* Background Glowing Blobs matching Zoo Case Study */}
-      <div className="fixed w-[809px] h-[809px] left-[-20vw] top-[-10vh] origin-top-left -rotate-[17deg] opacity-50 bg-gradient-to-b from-blue-600 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
-      <div className="fixed w-[984px] h-[984px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
-      <div className="fixed w-[984px] h-[984px] left-[10vw] bottom-[-20vh] origin-top-left rotate-[60deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+      {/* Background Glowing Blobs */}
+      <div className="fixed w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
+      <div className="fixed w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
 
       {/* Header Section - Centered & Narrower */}
       <div className="max-w-[800px] mx-auto px-6 pt-40 pb-20">
@@ -891,11 +927,11 @@ export default function GuruVRCaseStudy() {
         </div>
         
         {/* Project Hero Visual */}
-        <div className="w-full mb-20">
+        <div className="w-full mb-20 cursor-zoom-in group" onClick={() => setSelectedImage("/guruvr/guruvr_hero.png")}>
           <img 
             src="/guruvr/guruvr_hero.png" 
             alt="GuruVR Metaversity Hero" 
-            className="w-full h-auto" 
+            className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" 
           />
         </div>
 
@@ -991,9 +1027,9 @@ export default function GuruVRCaseStudy() {
                 className="scroll-mt-32"
               >
                 <div className="mb-6">
-                  <h2 className="text-sm tracking-widest uppercase text-white/50 font-semibold mb-1">
+                  <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block">
                     {section.label}
-                  </h2>
+                  </span>
                   <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
                     {section.title}
                   </h3>
@@ -1004,6 +1040,24 @@ export default function GuruVRCaseStudy() {
           </div>
         </div>
       </div>
+      {/* Footer Navigation */}
+      <div className="max-w-[800px] mx-auto px-6 py-20 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8 mt-20">
+        <div className="flex flex-col items-center md:items-start">
+          <p className="text-xs font-bold text-white/20 uppercase tracking-[0.2em] mb-2">Previous Project</p>
+          <Link href="/case-study/flytbase" className="group flex items-center gap-3 text-white/60 hover:text-white transition-all font-bold text-lg">
+            <ChevronRight className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+            FlytBase
+          </Link>
+        </div>
+        <div className="flex flex-col items-center md:items-end">
+          <p className="text-xs font-bold text-white/20 uppercase tracking-[0.2em] mb-2">Next Project</p>
+          <Link href="/case-study/rgzp" className="group flex items-center gap-3 text-white/60 hover:text-white transition-all font-bold text-lg">
+            RGZP Zoo Systems
+            <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </div>
+
       {/* Image Modal */}
       <AnimatePresence>
         {selectedImage && (

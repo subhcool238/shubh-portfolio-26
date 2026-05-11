@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { 
   Building2, Users, Route, Search, Target, User, Lightbulb, 
   Glasses, Layout, BookOpen, Layers, TestTube, Globe, Settings, Sparkles, Accessibility, Gauge, Repeat, Camera,
-  Smartphone, Monitor, Share2, LayoutDashboard, Video, ShieldAlert, AlertCircle, Star, Apple
+  Smartphone, Monitor, Share2, LayoutDashboard, Video, ShieldAlert, AlertCircle, Star, Apple, Scan
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 
 interface Section {
   id: string;
@@ -30,6 +32,7 @@ const SECTION_ICONS: Record<string, any> = {
   "ideation": Lightbulb,
   "pivot": Route,
   "persona": User,
+  "demo-video": Video,
   "solution": Layout,
   "userflow": Route,
   "outcomes": TestTube
@@ -84,21 +87,68 @@ const sections: Section[] = [
     ),
   },
   {
+    id: "demo-video",
+    navLabel: "Demo Video",
+    label: "Demo",
+    title: "Concept Video",
+    content: (
+      <div className="space-y-6">
+        <div className="w-full rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden p-3 group transition-all duration-500 hover:bg-white/[0.07]">
+          <div className="relative w-full aspect-video rounded-[1.8rem] overflow-hidden shadow-2xl">
+            <video 
+              src="/samsung/Demo Video.mp4" 
+              controls 
+              playsInline 
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
     id: "my-role",
     navLabel: "My Role",
     label: "My Role",
     title: "My Responsibilities",
     content: (
-      <div className="space-y-6">
-        <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed">
+      <div className="space-y-12">
+        <p className="text-xl md:text-2xl font-light tracking-wide text-white/80 leading-relaxed max-w-4xl">
           As the lead XR Concept Designer for this Samsung PRISM project, I steered the design strategy from initial desk research to the final high-fidelity prototype video.
         </p>
-        <ul className="list-disc pl-6 space-y-4 text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-          <li><span className="font-bold text-white/90">Primary Research:</span> Conducted surveys with 45+ participants and synthesized interview data into actionable insights.</li>
-          <li><span className="font-bold text-white/90">Concept Design:</span> Ideated 5+ unique use cases for Samsung Avatars, eventually pivoting to a high-impact accessibility solution.</li>
-          <li><span className="font-bold text-white/90">UI/UX Strategy:</span> Designed the VR-first interaction dictionary and multi-phase user workflows.</li>
-          <li><span className="font-bold text-white/90">Prototyping & Motion:</span> Directed and edited the final high-fidelity prototype video demonstrating the Avatar Translator in action.</li>
-        </ul>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            {
+              title: "Primary Research",
+              desc: "Conducted surveys with 45+ participants and synthesized interview data into actionable insights."
+            },
+            {
+              title: "Concept Design",
+              desc: "Ideated 5+ unique use cases for Samsung Avatars, eventually pivoting to a high-impact accessibility solution."
+            },
+            {
+              title: "UI/UX Strategy",
+              desc: "Designed the VR-first interaction dictionary and multi-phase user workflows."
+            },
+            {
+              title: "Prototyping & Motion",
+              desc: "Directed and edited the final high-fidelity prototype video demonstrating the Avatar Translator in action."
+            }
+          ].map((role, i) => (
+            <div key={i} className="group p-8 rounded-[2.5rem] bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 hover:scale-[1.01]">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.4)]" />
+                  <h4 className="text-xl font-bold text-white tracking-tight">{role.title}</h4>
+                </div>
+                <p className="text-lg tracking-wide font-normal text-white/50 leading-relaxed">
+                  {role.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     ),
   },
@@ -172,7 +222,7 @@ const sections: Section[] = [
   },
   {
     id: "research",
-    navLabel: "Desk Research",
+    navLabel: "Research",
     label: "Desk Research",
     title: "Information Gathered from Online Sources",
     content: (
@@ -218,7 +268,7 @@ const sections: Section[] = [
   },
   {
     id: "competitive",
-    navLabel: "Competitive",
+    navLabel: "Research",
     label: "Competitive Analysis",
     title: "XR Devices — Avatar Landscape",
     content: (
@@ -300,7 +350,7 @@ const sections: Section[] = [
   },
   {
     id: "stakeholders",
-    navLabel: "Stakeholders",
+    navLabel: "Research",
     label: "Stakeholders",
     title: "Identifying Stakeholders",
     content: (
@@ -356,7 +406,7 @@ const sections: Section[] = [
   },
   {
     id: "interviews",
-    navLabel: "User Interviews",
+    navLabel: "Research",
     label: "Primary Research",
     title: "Interview Questions",
     content: (
@@ -388,71 +438,112 @@ const sections: Section[] = [
               </div>
             );
           })}
-        {/* Bottom: Data Visualization */}
-        <div className="w-full py-12 px-4 bg-white/5 rounded-[3rem] border border-white/10 overflow-hidden group transition-all duration-500 hover:bg-white/[0.07]">
-          <div className="relative w-full max-w-5xl mx-auto">
+        </div>
+
+        {/* Interview Results Visualization */}
+        <div className="w-full mt-12 py-8 px-2 md:px-6 bg-white/5 rounded-[2.5rem] border border-white/10 overflow-hidden group transition-all duration-500 hover:bg-white/[0.07]">
+          <div className="relative w-full max-w-[800px] mx-auto">
             <img 
               src="/samsung/Interview result chart.png" 
               alt="Interview Results Visualization" 
-              className="w-full h-auto rounded-2xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.01]"
+              className="w-full h-auto rounded-3xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.01]"
             />
-            {/* Subtle Overlay Glow */}
-            <div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           </div>
-        </div>      </div>
+        </div>
 
-        <div className="mt-16 relative flex flex-col items-center">
-          <div className="flex flex-col items-center gap-2 mb-16">
-            <h3 className="text-3xl font-bold tracking-tight text-white/90">Research Insights</h3>
-            <p className="text-sm text-white/40 tracking-widest uppercase">From Interview Questions</p>
+        <div className="mt-24 mb-16 relative">
+          <div className="flex flex-col mb-12">
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block">Synthesis</span>
+            <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white">Research Insights</h3>
           </div>
 
-          <div className="relative w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 md:gap-0 min-h-auto md:min-h-[600px] py-12 md:py-0">
-            {/* Left Column Hexagons */}
-            <div className="flex flex-col gap-6 w-64 z-10">
-              {[
-                "Gen-Z users have Samsung & Apple Branded gadgets",
-                "Gen-Z have different devices of different brands (major devices: phone, laptops)",
-                "Avatar usage found in social media apps (snapchat) & gaming",
-                "Future usage on social media interaction, virtual meeting & shopping",
-                "Virtual assistance to handle everyday task at home, PM, smart home management"
-              ].map((text, i) => (
-                <div key={i} className="relative group">
-                  <div className="p-4 bg-white/5 border border-white/10 [clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] hover:bg-white/10 transition-all duration-300 shadow-xl backdrop-blur-sm">
-                    <p className="text-[10px] leading-tight text-white/60 text-center font-medium py-2 px-3">{text}</p>
-                  </div>
-                  {/* Connector Line (Dashed) */}
-                  <div className="absolute top-1/2 -right-12 w-12 h-[1px] border-t border-dashed border-white/20 hidden md:block" />
+          <div className="w-full max-w-5xl mx-auto">
+            {/* Category: Device Ecosystem */}
+            <div className="mb-12">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-black tracking-[0.2em] uppercase text-blue-400">
+                  Device Ecosystem
                 </div>
-              ))}
-            </div>
-
-            {/* Central Circle */}
-            <div className="relative md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-purple-500/20 via-blue-500/10 to-rose-500/20 border border-white/10 flex items-center justify-center z-0 shadow-[0_0_100px_rgba(139,92,246,0.1)]">
-              <div className="w-48 h-48 md:w-64 md:h-64 rounded-full border border-dashed border-white/20 flex items-center justify-center p-6 md:p-8 text-center bg-white/5 backdrop-blur-md">
-                <h4 className="text-xl md:text-3xl font-black text-white/90 leading-tight">Gen-Z &<br/>Millennials</h4>
+                <div className="h-px flex-1 bg-gradient-to-r from-blue-500/20 to-transparent" />
               </div>
-              {/* Pulsing Glow */}
-              <div className="absolute inset-0 rounded-full bg-blue-500/5 animate-pulse" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  "Gen-Z users have Samsung & Apple Branded gadgets",
+                  "Major user's gadgets belong to Apple Brand",
+                  "Millennials have different devices with different brands",
+                  "Gen-Z have different devices of different brands"
+                ].map((text, i) => (
+                  <div key={i} className="group p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 hover:scale-[1.02]">
+                    <div className="w-2 h-2 rounded-full bg-blue-500 mb-4 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                    <p className="text-xs leading-relaxed text-white/70 font-medium">{text}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Right Column Hexagons */}
-            <div className="flex flex-col gap-6 w-64 z-10">
-              {[
-                "Single point virtual avatar could be used in expressing body language, F. voice",
-                "Major user's gadgets belong to Apple Brand",
-                "Millennials have different devices with different brands",
-                "Avatar usage found in social media (snapchat) & Avatar looks cartoonish",
-                "Virtual assistance with food command and guide map"
-              ].map((text, i) => (
-                <div key={i} className="relative group">
-                  <div className="p-4 bg-white/5 border border-white/10 [clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] hover:bg-white/10 transition-all duration-300 shadow-xl backdrop-blur-sm">
-                    <p className="text-[10px] leading-tight text-white/60 text-center font-medium py-2 px-3">{text}</p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Category: Usage Patterns */}
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-black tracking-[0.2em] uppercase text-emerald-400">
+                    Usage Patterns
                   </div>
-                  {/* Connector Line (Dashed) */}
-                  <div className="absolute top-1/2 -left-12 w-12 h-[1px] border-t border-dashed border-white/20 hidden md:block" />
+                  <div className="h-px flex-1 bg-gradient-to-r from-emerald-500/20 to-transparent" />
                 </div>
-              ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[
+                    "Avatar usage found in social media apps (Snapchat) & gaming",
+                    "Avatar usage found in social media; current Avatars look cartoonish"
+                  ].map((text, i) => (
+                    <div key={i} className="group p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
+                      <div className="w-2 h-2 rounded-full bg-emerald-500 mb-4 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                      <p className="text-xs leading-relaxed text-white/70 font-medium">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Category: Future Tech */}
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-[10px] font-black tracking-[0.2em] uppercase text-purple-400">
+                    Future Tech
+                  </div>
+                  <div className="h-px flex-1 bg-gradient-to-r from-purple-500/20 to-transparent" />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[
+                    "Future usage on social media interaction, virtual meeting & shopping",
+                    "Single point virtual avatar expressing body language & voice"
+                  ].map((text, i) => (
+                    <div key={i} className="group p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
+                      <div className="w-2 h-2 rounded-full bg-purple-500 mb-4 shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
+                      <p className="text-xs leading-relaxed text-white/70 font-medium">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Category: Virtual Assistance */}
+            <div className="mt-8">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[10px] font-black tracking-[0.2em] uppercase text-amber-400">
+                  Smart Assistance
+                </div>
+                <div className="h-px flex-1 bg-gradient-to-r from-amber-500/20 to-transparent" />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  "Virtual assistance to handle everyday tasks at home & smart home management",
+                  "Virtual assistance with food command and guide map integration"
+                ].map((text, i) => (
+                  <div key={i} className="group p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 flex items-center gap-6">
+                    <div className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0 shadow-[0_0_100px_rgba(245,158,11,0.5)]" />
+                    <p className="text-xs leading-relaxed text-white/70 font-medium">{text}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -461,35 +552,25 @@ const sections: Section[] = [
   },
   {
     id: "initial-problem",
-    navLabel: "Problem",
+    navLabel: "Research",
     label: "Define",
     title: "Problem Statement",
     content: (
       <div className="space-y-6">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-8">Understanding the gap</p>
+
         
         <ProblemCard 
           title="Core Problem" 
           content="Very few Samsung device users are aware of the avatar features available in AR Zone, leading to underutilisation of avatar within the Samsung ecosystem, including the XR domain. We need to explore opportunities for integrating avatars more effectively & increasing user engagement by understanding the needs and preferences of Gen Z."
         />
 
-        {/* Decorative Graphic */}
-        <div className="relative group flex items-center justify-center mt-12">
-          <div className="absolute inset-0 bg-purple-500/10 blur-[100px] rounded-full opacity-50" />
-          <div className="relative z-10 w-full aspect-video max-w-2xl rounded-3xl overflow-hidden border border-white/10 bg-white/5 flex flex-col items-center justify-center text-center p-8">
-            <Sparkles size={48} className="text-purple-400 mb-6 animate-pulse" />
-            <p className="text-white/40 text-sm italic font-light tracking-wide px-8">
-              [ Decorative Avatar Interaction Graphic ]<br/>
-              <span className="text-[10px] uppercase mt-2 block tracking-widest">Gen-Z Engagement Visual</span>
-            </p>
-          </div>
-        </div>
+
       </div>
     ),
   },
   {
     id: "empathy",
-    navLabel: "Empathy Map",
+    navLabel: "Research",
     label: "Synthesis",
     title: "Empathy Mapping",
     content: (
@@ -497,12 +578,27 @@ const sections: Section[] = [
         <p className="text-lg tracking-wide font-normal text-white/80 leading-relaxed mb-4">
           Mapping out the desires, frustrations, and device behaviors of our two primary demographic segments to find overlapping pain points.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-          <div className="w-full rounded-2xl overflow-hidden relative">
-            <img src="/samsung/Genz Students.png" alt="Gen Z Students Empathy Map" className="w-full h-auto object-cover" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+          {/* Gen-Z Students */}
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3 px-2">
+              <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+              <h4 className="text-lg font-bold text-white/90 tracking-tight">Gen-Z Students</h4>
+            </div>
+            <div className="w-full rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.01] group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/Genz Students.png")}>
+              <img src="/samsung/Genz Students.png" alt="Gen Z Students Empathy Map" className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+            </div>
           </div>
-          <div className="w-full rounded-2xl overflow-hidden relative">
-            <img src="/samsung/Millennials Professions.png" alt="Millennials Empathy Map" className="w-full h-auto object-cover" />
+
+          {/* Millennial Professionals */}
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3 px-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+              <h4 className="text-lg font-bold text-white/90 tracking-tight">Millennial Professionals</h4>
+            </div>
+            <div className="w-full rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.01] group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/Millennials Professions.png")}>
+              <img src="/samsung/Millennials Professions.png" alt="Millennials Empathy Map" className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+            </div>
           </div>
         </div>
       </div>
@@ -510,7 +606,7 @@ const sections: Section[] = [
   },
   {
     id: "ideation",
-    navLabel: "Ideation",
+    navLabel: "Research",
     label: "Ideation",
     title: "Concepts",
     content: (
@@ -519,7 +615,7 @@ const sections: Section[] = [
         <section>
           <div className="flex flex-col gap-2 mb-8">
             <h3 className="text-2xl font-bold tracking-tight text-white/90">Round 1 — Initial Ideas</h3>
-            <p className="text-sm text-white/40 tracking-widest uppercase">Linking to Research Insights</p>
+
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -543,7 +639,7 @@ const sections: Section[] = [
         <section>
           <div className="flex flex-col gap-2 mb-8">
             <h3 className="text-2xl font-bold tracking-tight text-white/90">Round 2 — Rethink: Avatar as Hero</h3>
-            <p className="text-sm text-white/40 tracking-widest uppercase">Evolved Value Propositions</p>
+
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="grid grid-cols-1 gap-4">
@@ -554,7 +650,7 @@ const sections: Section[] = [
                 { id: 4, title: "Product Avatars of Samsung Ecosystem", desc: "Integrating avatars as guides for Samsung hardware." }
               ].map((concept) => (
                 <div key={concept.id} className="p-5 rounded-2xl bg-white/5 border border-white/10 flex flex-col gap-2 hover:bg-white/10 transition-all duration-300">
-                  <span className="text-[10px] font-bold text-white/30 uppercase">Concept 0{concept.id}</span>
+                  <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Concept 0{concept.id}</span>
                   <h4 className="text-sm font-bold text-white leading-tight">{concept.title}</h4>
                 </div>
               ))}
@@ -589,76 +685,85 @@ const sections: Section[] = [
   },
   {
     id: "pivot",
-    navLabel: "The Pivot",
+    navLabel: "Research",
     label: "Accessibility",
     title: "Why we choose Accessibility?",
     content: (
       <div className="space-y-8">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-12">Addressing accessibility is important</p>
-        
-        <div className="relative flex flex-col md:flex-row items-center gap-0">
-          {/* Left Visual Element: Hexagon & Icon */}
-          <div className="relative z-10 -mr-8">
-             <div className="w-48 h-48 md:w-56 md:h-56 bg-gradient-to-br from-rose-500/40 to-purple-600/40 border border-white/10 [clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] flex items-center justify-center shadow-2xl">
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-[6px] border-white/20 flex items-center justify-center relative overflow-hidden">
-                   <div className="absolute inset-0 bg-white/5 backdrop-blur-sm" />
-                   <Accessibility size={48} className="text-white relative z-10" />
-                </div>
-             </div>
-          </div>
 
-          {/* Right Column: Stacked Text Boxes */}
-          <div className="flex-1 space-y-4">
-            <div className="p-8 md:p-10 pl-12 md:pl-16 rounded-r-[3rem] rounded-l-[1rem] bg-white/[0.03] border border-white/10 backdrop-blur-md">
-              <p className="text-lg md:text-xl italic font-light leading-relaxed text-white/80">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+          {/* Card 1: Samsung's Philosophy */}
+          <div className="group relative p-10 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
+            {/* Subtle Gradient Backdrop */}
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-rose-500/10 blur-[80px] rounded-full group-hover:bg-rose-500/20 transition-all duration-700" />
+            
+            <div className="relative z-10 flex flex-col h-full">
+              <div className="w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mb-8">
+                <Accessibility size={24} className="text-rose-400" />
+              </div>
+              <h4 className="text-xs font-black tracking-[0.2em] uppercase text-rose-400 mb-6">Samsung Philosophy</h4>
+              <p className="text-xl md:text-2xl font-light leading-relaxed text-white/90">
                 Samsung designs their products with <span className="text-rose-400 font-medium">accessibility in mind</span> & believes that everyone should have equal access to technology, regardless of their abilities.
               </p>
             </div>
+          </div>
+
+          {/* Card 2: Our Strategic Aim */}
+          <div className="group relative p-10 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
+            {/* Subtle Gradient Backdrop */}
+            <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-purple-500/10 blur-[80px] rounded-full group-hover:bg-purple-500/20 transition-all duration-700" />
             
-            <div className="relative ml-8 md:ml-16">
-              <div className="p-8 md:p-10 pl-12 md:pl-16 rounded-r-[3rem] rounded-l-[1rem] bg-gradient-to-r from-purple-900/20 to-transparent border border-white/10 backdrop-blur-md">
-                <p className="text-lg md:text-xl italic font-light leading-relaxed text-white/80">
-                  Our aim is to <span className="text-purple-400 font-medium">bridge the communication gap</span> within deaf & mute individuals with the help of an avatar-based communication tool.
-                </p>
+            <div className="relative z-10 flex flex-col h-full">
+              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-8">
+                <Sparkles size={24} className="text-purple-400" />
               </div>
+              <h4 className="text-xs font-black tracking-[0.2em] uppercase text-purple-400 mb-6">Strategic Aim</h4>
+              <p className="text-xl md:text-2xl font-light leading-relaxed text-white/90">
+                Our aim is to <span className="text-purple-400 font-medium">bridge the communication gap</span> within deaf & mute individuals with the help of an avatar-based communication tool.
+              </p>
             </div>
           </div>
         </div>
 
-        <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-16 mb-6">Samsung's Accessibility Commitment</h3>
+
       </div>
     ),
   },
   {
     id: "research-goals",
-    navLabel: "Research Goals",
+    navLabel: "Research",
     label: "Synthesis",
     title: "Goal of our Research",
     content: (
       <div className="space-y-6">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-8">Understand our Target Audiences</p>
+
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Left Column: Core Goal */}
-          <div className="p-10 rounded-[3rem] bg-purple-500/5 border border-white/10 flex flex-col items-center text-center gap-8 group hover:bg-purple-500/10 transition-all duration-500">
-            <div className="w-40 h-40 rounded-full border-4 border-white/20 flex items-center justify-center p-8">
-               <Accessibility size={80} className="text-white/80 transition-transform duration-500 group-hover:scale-110" />
-            </div>
-            <p className="text-xl font-medium leading-relaxed text-white/90 px-4">
-              Our goals would be to understand the <span className="text-purple-400 font-bold">communication needs of deaf & mute individuals</span>
-            </p>
+        <div className="space-y-12">
+          {/* Hero Goal Statement Wrapped */}
+          <div className="group p-10 rounded-[2.5rem] bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
+            <h4 className="text-xl md:text-2xl font-light leading-tight text-white/90">
+              Our primary goal was to deeply understand the <span className="text-purple-400 font-medium">communication needs</span> and lived experiences of deaf & mute individuals.
+            </h4>
           </div>
 
-          {/* Right Column: Specific Aims */}
-          <div className="grid grid-cols-1 gap-4">
-            <div className="p-8 rounded-[3rem] bg-white/[0.03] border border-white/10 flex items-center transition-all duration-300 hover:bg-white/[0.05]">
-              <p className="text-lg font-medium leading-relaxed text-white/70">
-                Developing solutions that <span className="text-purple-400 font-bold">effectively simplify & enhance their communication experiences.</span>
+          {/* Sub-Goals Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="group p-10 rounded-[2.5rem] bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
+              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-8">
+                <Sparkles size={24} className="text-purple-400" />
+              </div>
+              <p className="text-xl leading-relaxed text-white/70">
+                Developing solutions that <span className="text-white font-medium">simplify and enhance</span> their everyday communication experiences through XR.
               </p>
             </div>
-            <div className="p-8 rounded-[3rem] bg-white/[0.03] border border-white/10 flex items-center transition-all duration-300 hover:bg-white/[0.05]">
-              <p className="text-lg font-medium leading-relaxed text-white/70">
-                Exploring <span className="text-purple-400 font-bold">sign language, lip reading, and writing</span> across different regions & cultures.
+
+            <div className="group p-10 rounded-[2.5rem] bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
+              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-8">
+                <Globe size={24} className="text-blue-400" />
+              </div>
+              <p className="text-xl leading-relaxed text-white/70">
+                Exploring the nuances of <span className="text-white font-medium">sign language, lip reading, and writing</span> across diverse regions and cultures.
               </p>
             </div>
           </div>
@@ -673,56 +778,97 @@ const sections: Section[] = [
   },
   {
     id: "accessibility-insights",
-    navLabel: "Accessibility Insights",
+    navLabel: "Research",
     label: "Synthesis",
     title: "Research Insights.",
     content: (
-      <div className="mt-8 relative flex flex-col items-center">
-        <div className="flex flex-col items-center gap-2 mb-16 text-center">
-          <p className="text-sm text-white/40 tracking-widest uppercase">Key insights from users</p>
-        </div>
-
-        <div className="relative w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 md:gap-0 min-h-auto md:min-h-[600px] py-12 md:py-0">
-          {/* Left Column Hexagons */}
-          <div className="flex flex-col gap-6 w-64 z-10">
-            {[
-              "Communication through sign language, lip reading & writing.",
-              "Ways of learning sign language is different from person, State and nation.",
-              "They are eager to talk to relatives/guest either in person or on VC.",
-              "They love watching movies and talking to new people around them.",
-              "Emotions are conveyed by touching, facial expression, crying, from phones."
-            ].map((text, i) => (
-              <div key={i} className="relative group">
-                <div className="p-4 bg-white/5 border border-white/10 [clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] hover:bg-white/10 transition-all duration-300 shadow-xl backdrop-blur-sm">
-                  <p className="text-[10px] leading-tight text-white/60 text-center font-medium py-2 px-3">{text}</p>
-                </div>
-                <div className="absolute top-1/2 -right-12 w-12 h-[1px] border-t border-dashed border-white/20 hidden md:block" />
+      <div className="mt-8">
+        <div className="w-full max-w-5xl mx-auto">
+          {/* Category: Communication Modes */}
+          <div className="mb-12">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="px-4 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-[10px] font-black tracking-[0.2em] uppercase text-rose-400">
+                Communication Modes
               </div>
-            ))}
-          </div>
-
-          {/* Central Circle */}
-          <div className="relative md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-rose-500/20 via-purple-500/10 to-blue-500/20 border border-white/10 flex items-center justify-center z-0 shadow-[0_0_100px_rgba(244,63,94,0.1)]">
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full border border-dashed border-white/20 flex items-center justify-center p-6 md:p-8 text-center bg-white/5 backdrop-blur-md">
-              <h4 className="text-base md:text-xl font-bold text-white/90 leading-tight">Deaf & mute individuals<br/><span className="text-[10px] md:text-sm font-medium text-white/50">(Millennials on behalf of Gen-Alpha)</span></h4>
+              <div className="h-px flex-1 bg-gradient-to-r from-rose-500/20 to-transparent" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                "Communication through sign language, lip reading & writing.",
+                "Ways of learning sign language varies by region, state, and nation.",
+                "Lip reading cannot be understood by every person."
+              ].map((text, i) => (
+                <div key={i} className="group p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 hover:scale-[1.02] min-h-[160px]">
+                  <div className="w-2 h-2 rounded-full bg-rose-500 mb-4 shadow-[0_0_10px_rgba(244,63,94,0.5)]" />
+                  <p className="text-xs leading-relaxed text-white/70 font-medium">{text}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right Column Hexagons */}
-          <div className="flex flex-col gap-6 w-64 z-10">
-            {[
-              "Interested in using new gadgets",
-              "Typing, painting on computers. Playing games on their mobile phones.",
-              "Visual and emotional representation is important.",
-              "Lip reading can not be understood of every person."
-            ].map((text, i) => (
-              <div key={i} className="relative group">
-                <div className="p-4 bg-white/5 border border-white/10 [clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] hover:bg-white/10 transition-all duration-300 shadow-xl backdrop-blur-sm">
-                  <p className="text-[10px] leading-tight text-white/60 text-center font-medium py-2 px-3">{text}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Category: Social Interaction */}
+            <div>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-black tracking-[0.2em] uppercase text-blue-400">
+                  Social Interaction
                 </div>
-                <div className="absolute top-1/2 -left-12 w-12 h-[1px] border-t border-dashed border-white/20 hidden md:block" />
+                <div className="h-px flex-1 bg-gradient-to-r from-blue-500/20 to-transparent" />
               </div>
-            ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  "Eager to connect with relatives and guests in-person or via Video Calls.",
+                  "Enjoys watching movies and engaging with new people in their environment."
+                ].map((text, i) => (
+                  <div key={i} className="group p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 min-h-[160px]">
+                    <div className="w-2 h-2 rounded-full bg-blue-500 mb-4 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                    <p className="text-xs leading-relaxed text-white/70 font-medium">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Category: Emotional Needs */}
+            <div>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-[10px] font-black tracking-[0.2em] uppercase text-purple-400">
+                  Emotional Expression
+                </div>
+                <div className="h-px flex-1 bg-gradient-to-r from-purple-500/20 to-transparent" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  "Emotions conveyed via touch, facial expressions, and digital cues.",
+                  "Visual and emotional representation is critical for effective communication."
+                ].map((text, i) => (
+                  <div key={i} className="group p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 min-h-[160px]">
+                    <div className="w-2 h-2 rounded-full bg-purple-500 mb-4 shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
+                    <p className="text-xs leading-relaxed text-white/70 font-medium">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Category: Tech Proficiency */}
+          <div className="mt-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-black tracking-[0.2em] uppercase text-emerald-400">
+                Digital Behavior
+              </div>
+              <div className="h-px flex-1 bg-gradient-to-r from-emerald-500/20 to-transparent" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                "Highly interested in exploring and using the latest gadget ecosystems.",
+                "Proficient in digital creation, gaming, and smartphone multitasking."
+              ].map((text, i) => (
+                <div key={i} className="group p-6 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 flex items-center gap-6 min-h-[110px]">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                  <p className="text-xs leading-relaxed text-white/70 font-medium">{text}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -730,14 +876,12 @@ const sections: Section[] = [
   },
   {
     id: "pain-points",
-    navLabel: "Pain Points",
+    navLabel: "Research",
     label: "Synthesis",
     title: "Major Pain points.",
     content: (
       <div className="space-y-6">
-        <p className="text-lg tracking-wide font-normal text-white/40 leading-relaxed -mt-4">
-          Understand our Target Audiences
-        </p>
+
         
         <div className="grid grid-cols-1 gap-4 mt-8">
           {[
@@ -792,21 +936,17 @@ const sections: Section[] = [
   },
   {
     id: "opportunities",
-    navLabel: "Opportunities",
+    navLabel: "Research",
     label: "Strategy",
     title: "Opportunities.",
     content: (
-      <div className="space-y-12">
-        <div className="flex flex-col items-center gap-2 mb-8 text-center">
-          <p className="text-sm text-white/40 tracking-widest uppercase">Understand our Target Audiences</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-12">
           {[
             {
               title: "Avatar Integration",
-              color: "text-blue-400",
-              accent: "border-blue-500/30 bg-blue-500/5",
+              label: "Recognition",
+              color: "bg-blue-500",
+              glow: "bg-blue-500/10",
               points: [
                 "Recognize and translate regional sign languages.",
                 "Convey and interpret emotions effectively."
@@ -814,48 +954,51 @@ const sections: Section[] = [
             },
             {
               title: "Communication Tools",
-              color: "text-emerald-400",
-              accent: "border-emerald-500/30 bg-emerald-500/5",
+              label: "Translation",
+              color: "bg-emerald-500",
+              glow: "bg-emerald-500/10",
               points: [
                 "Sign language-to-speech and speech-to-sign language functionalities."
               ]
             },
             {
               title: "Social Connectivity",
-              color: "text-purple-400",
-              accent: "border-purple-500/30 bg-purple-500/5",
+              label: "Inclusion",
+              color: "bg-purple-500",
+              glow: "bg-purple-500/10",
               points: [
                 "Video calls with avatars that bridge communication gaps between deaf, mute, and hearing individuals."
               ]
             }
           ].map((opp, i) => (
-            <div key={i} className="relative group perspective-1000">
-              {/* Main Card */}
-              <div className={`relative p-10 rounded-[3rem] border ${opp.accent} backdrop-blur-2xl flex flex-col gap-6 shadow-2xl min-h-[320px] transition-all duration-500 group-hover:-translate-y-2 group-hover:brightness-110`}>
-                {/* Sparkle Decoration */}
-                <div className="absolute top-6 right-6">
-                  <Sparkles size={20} className={`${opp.color} opacity-40 group-hover:opacity-100 transition-colors`} />
+            <div key={i} className="group relative p-8 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 hover:scale-[1.02]">
+              {/* Subtle Gradient Backdrop */}
+              <div className={`absolute -bottom-20 -right-20 w-48 h-48 ${opp.glow} blur-[60px] rounded-full group-hover:scale-110 transition-transform duration-700`} />
+              
+              <div className="relative z-10 flex flex-col gap-6">
+                <div className="flex items-center justify-between">
+                  <div className={`w-3 h-3 rounded-full ${opp.color} shadow-[0_0_15px_rgba(59,130,246,0.3)]`} />
+                  <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/20 group-hover:text-white/40 transition-colors">{opp.label}</span>
                 </div>
                 
-                <h4 className={`text-xl font-bold tracking-tight ${opp.color}`}>{opp.title}</h4>
-                <ul className="space-y-4">
+                <h4 className="text-xl font-bold tracking-tight text-white/90 leading-tight">{opp.title}</h4>
+                
+                <div className="space-y-4">
                   {opp.points.map((p, j) => (
-                    <li key={j} className="flex gap-3 text-sm text-white/70 leading-relaxed font-light">
-                      <span className={`${opp.color} mt-1.5 flex-shrink-0`}>•</span>
+                    <p key={j} className="text-sm leading-relaxed text-white/60 font-normal">
                       {p}
-                    </li>
+                    </p>
                   ))}
-                </ul>
+                </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
     ),
   },
   {
     id: "persona",
-    navLabel: "User Persona",
+    navLabel: "Research",
     label: "User Persona",
     title: "Deaf & Mute Student",
     content: (
@@ -864,11 +1007,11 @@ const sections: Section[] = [
           After pivoting to accessibility, we built a persona grounded in real research on deaf and mute communication needs — not assumptions.
         </p>
 
-        <div className="mt-12 rounded-[3rem] overflow-hidden shadow-2xl border border-white/10 group">
+        <div className="mt-8 group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/Persona.png")}>
           <img 
             src="/samsung/Persona.png" 
             alt="User Persona: Saleha" 
-            className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.02]" 
+            className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" 
           />
         </div>
       </div>
@@ -881,7 +1024,7 @@ const sections: Section[] = [
     title: "Revised Problem Statement.",
     content: (
       <div className="space-y-8">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-8">Understand our Target Audiences</p>
+
         
         <ProblemCard 
           title="Revised Problem Statement" 
@@ -889,18 +1032,14 @@ const sections: Section[] = [
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-16">
-          {/* Small Venn Graphic Coded */}
-          <div className="relative w-full max-w-sm h-64 flex items-center justify-center mx-auto">
-            <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-20" />
-            <div className="relative z-10 grid grid-cols-3 grid-rows-3 gap-0 items-center justify-items-center">
-              <div className="col-start-2 row-start-1 text-[10px] text-white/40 uppercase tracking-tighter">Communication</div>
-              <div className="col-start-1 row-start-2 text-[10px] text-white/40 uppercase tracking-tighter pr-4">Sign Language</div>
-              <div className="col-start-2 row-start-2 w-20 h-20 rounded-full bg-white/10 border border-white/20 flex items-center justify-center shadow-2xl backdrop-blur-md">
-                  <span className="text-2xl font-black text-white">XR</span>
-              </div>
-              <div className="col-start-3 row-start-2 text-[10px] text-white/40 uppercase tracking-tighter pl-4">Speech or Text</div>
-              <div className="col-start-2 row-start-3 text-[10px] text-white/40 uppercase tracking-tighter pt-4">1:1 Virtual Avatar</div>
-            </div>
+          {/* XR Communication Diagram Asset */}
+          <div className="relative w-full rounded-3xl overflow-hidden group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/XR Communication.png")}>
+            <div className="absolute inset-0 bg-white/5 blur-3xl opacity-20" />
+            <img 
+              src="/samsung/XR Communication.png" 
+              alt="XR Communication Diagram" 
+              className="relative z-10 w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105" 
+            />
           </div>
 
           {/* Right Column: Large Graphic */}
@@ -924,20 +1063,33 @@ const sections: Section[] = [
     title: "Other Interactions",
     content: (
       <div className="space-y-12">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-12">Understand our Target Audiences</p>
-        
-        <div className="space-y-12 max-w-4xl">
-          <div className="space-y-4">
-            <h4 className="text-xl font-bold text-white tracking-wide">
-              Custom Sign Dictionaries : <span className="font-normal text-white/50">Users can create custom sign gestures to their dictionaries, which the avatar can use to perform specific words/phrases relevant to their needs</span>
-            </h4>
-          </div>
 
-          <div className="space-y-4">
-            <h4 className="text-xl font-bold text-white tracking-wide leading-relaxed">
-              Translation one Language to other : <span className="font-normal text-white/50">People belonging to different regions/countries have different languages of their own. For them to understand other languages can be challenging so with the use of this feature while communicating with other you can hear other individuals speech in you regional/country language.</span>
-            </h4>
-          </div>
+        
+        <div className="grid grid-cols-1 gap-6 mt-8">
+          {[
+            {
+              title: "Custom Sign Dictionaries",
+              desc: "Users can create custom sign gestures to their dictionaries, which the avatar can use to perform specific words/phrases relevant to their needs.",
+              color: "bg-blue-500"
+            },
+            {
+              title: "Multi-Language Translation",
+              desc: "Seamlessly translate between different regional and international languages. Users can hear other individuals' speech translated into their own regional language through their personal avatar.",
+              color: "bg-emerald-500"
+            }
+          ].map((item, i) => (
+            <div key={i} className="group p-8 rounded-[2.5rem] bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20 hover:scale-[1.01]">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <div className={`w-2 h-2 rounded-full ${item.color} shadow-[0_0_10px_rgba(59,130,246,0.3)]`} />
+                  <h4 className="text-xl font-bold text-white tracking-tight">{item.title}</h4>
+                </div>
+                <p className="text-base leading-relaxed text-white/50 font-normal">
+                  {item.desc}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     ),
@@ -949,17 +1101,17 @@ const sections: Section[] = [
     title: "Technical Considerations",
     content: (
       <div className="space-y-8">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-8">Understand our Target Audiences</p>
+
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Left Column: Cards */}
           <div className="grid grid-cols-1 gap-4">
             {[
-              { icon: <Accessibility size={24} />, title: "Precise Upper Body Tracking", color: "bg-purple-500", accent: "border-purple-500/30 bg-purple-500/5", text: "text-purple-400" },
+              { icon: <Scan size={24} />, title: "Precise Upper Body Tracking", color: "bg-purple-500", accent: "border-purple-500/30 bg-purple-500/5", text: "text-purple-400" },
               { icon: <Gauge size={24} />, title: "Speed Adjustment of Avatar", color: "bg-blue-500", accent: "border-blue-500/30 bg-blue-500/5", text: "text-blue-400" },
               { icon: <Repeat size={24} />, title: "Repetition feature", color: "bg-emerald-500", accent: "border-emerald-500/30 bg-emerald-500/5", text: "text-emerald-400" }
             ].map((card, i) => (
-              <div key={i} className={`p-6 rounded-[3rem] border ${card.accent} flex items-center gap-6 transition-all duration-300 hover:scale-[1.02] hover:brightness-110`}>
+              <div key={i} className={`p-6 rounded-[2.5rem] border ${card.accent} flex items-center gap-6 transition-all duration-300 hover:scale-[1.02] hover:brightness-110`}>
                 <div className={`w-12 h-12 rounded-full ${card.color} flex items-center justify-center text-white shadow-lg shrink-0`}>
                   {card.icon}
                 </div>
@@ -988,7 +1140,7 @@ const sections: Section[] = [
     title: "Avatar translator feature for Deaf & Mute individuals",
     content: (
       <div className="space-y-12">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-12">Understand our Target Audiences</p>
+
         
         <div className="space-y-10 max-w-4xl">
           <div className="space-y-3">
@@ -1031,13 +1183,18 @@ const sections: Section[] = [
     title: "User Flow",
     content: (
       <div className="space-y-16">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-12">Step-by-step interaction mapping</p>
+
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Column 1: Setup & Recording */}
-          <div className="space-y-4">
-            <h4 className="text-xs text-blue-400 uppercase tracking-[0.2em] font-black mb-8 px-4">Phase 01: Setup & Recording</h4>
-            {[
+        {/* Unified Grid Header */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8 px-4">
+          <h4 className="text-[10px] text-blue-400 uppercase tracking-[0.2em] font-black">Phase 01: Setup & Recording</h4>
+          <h4 className="text-[10px] text-purple-400 uppercase tracking-[0.2em] font-black">Phase 02: Calibration & Enabling</h4>
+          <h4 className="text-[10px] text-rose-400 uppercase tracking-[0.2em] font-black">Phase 03: The Meeting</h4>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          {(() => {
+            const phase1 = [
               { icon: <User size={20} />, text: "Saleha has a meeting to attend." },
               { icon: <Glasses size={20} />, text: "Puts on the Samsung VR headset and turns it on." },
               { icon: <Settings size={20} />, text: "Goes to settings." },
@@ -1050,20 +1207,8 @@ const sections: Section[] = [
               { icon: <Target size={20} />, text: "Press Y to finish the recording." },
               { icon: <Layout size={20} />, text: "Type a phrase for the gesture in the Text panel." },
               { icon: <Settings size={20} />, text: "\"Save Gestures\"." },
-            ].map((step, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group">
-                <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
-                  {step.icon}
-                </div>
-                <p className="text-sm text-white/70 leading-snug">{step.text}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Column 2: Calibration & Enabling */}
-          <div className="space-y-4">
-            <h4 className="text-xs text-purple-400 uppercase tracking-[0.2em] font-black mb-8 px-4">Phase 02: Calibration & Enabling</h4>
-            {[
+            ];
+            const phase2 = [
               { icon: <TestTube size={20} />, text: "To test the added gestures." },
               { icon: <Target size={20} />, text: "Clicks the test button for one of the added gestures in the dictionary (I am sorry)." },
               { icon: <Accessibility size={20} />, text: "Performs the gestures and checks them." },
@@ -1076,20 +1221,8 @@ const sections: Section[] = [
               { icon: <Sparkles size={20} />, text: "The feature is enabled." },
               { icon: <Globe size={20} />, text: "Chooses the preferred language, ASL (American Sign Language)." },
               { icon: <Settings size={20} />, text: "Closes the setting tab." },
-            ].map((step, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group">
-                <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
-                  {step.icon}
-                </div>
-                <p className="text-sm text-white/70 leading-snug">{step.text}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Column 3: The Meeting */}
-          <div className="space-y-4">
-            <h4 className="text-xs text-rose-400 uppercase tracking-[0.2em] font-black mb-8 px-4">Phase 03: The Meeting</h4>
-            {[
+            ];
+            const phase3 = [
               { icon: <Video size={20} />, text: "Clicks on \"Google Meet Application\"." },
               { icon: <Settings size={20} />, text: "Enable the accessibility features from Samsung XR headset settings in Navigation Panel." },
               { icon: <Video size={20} />, text: "Clicks on \"New Meeting\" to generate a meeting link." },
@@ -1100,15 +1233,43 @@ const sections: Section[] = [
               { icon: <Sparkles size={20} />, text: "At the end of the meeting, Saleha selects the Heart gesture from the reaction options." },
               { icon: <Sparkles size={20} />, text: "Heart emojis appear around the avatar, conveying user's emotions." },
               { icon: <Target size={20} />, text: "The meeting ends." },
-            ].map((step, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group">
-                <div className="w-10 h-10 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform">
-                  {step.icon}
-                </div>
-                <p className="text-sm text-white/70 leading-snug">{step.text}</p>
+            ];
+
+            const maxSteps = Math.max(phase1.length, phase2.length, phase3.length);
+            return Array.from({ length: maxSteps }).map((_, i) => (
+              <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                {/* Phase 1 Item */}
+                {phase1[i] ? (
+                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px] h-full">
+                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform shrink-0">
+                      {phase1[i].icon}
+                    </div>
+                    <p className="text-sm text-white/70 leading-relaxed font-medium">{phase1[i].text}</p>
+                  </div>
+                ) : <div />}
+
+                {/* Phase 2 Item */}
+                {phase2[i] ? (
+                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px] h-full">
+                    <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform shrink-0">
+                      {phase2[i].icon}
+                    </div>
+                    <p className="text-sm text-white/70 leading-relaxed font-medium">{phase2[i].text}</p>
+                  </div>
+                ) : <div />}
+
+                {/* Phase 3 Item */}
+                {phase3[i] ? (
+                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px] h-full">
+                    <div className="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform shrink-0">
+                      {phase3[i].icon}
+                    </div>
+                    <p className="text-sm text-white/70 leading-relaxed font-medium">{phase3[i].text}</p>
+                  </div>
+                ) : <div />}
               </div>
-            ))}
-          </div>
+            ));
+          })()}
         </div>
       </div>
     ),
@@ -1116,29 +1277,22 @@ const sections: Section[] = [
   {
     id: "prototype",
     navLabel: "Prototype",
-    label: "Demo",
-    title: "Interactive Prototype.",
+    label: "Solution",
+    title: "Final Prototype.",
     content: (
-      <div className="space-y-8">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-12">Witness the translation in action</p>
-        
-        <div className="w-full rounded-[2rem] overflow-hidden border border-white/10 bg-white/5 shadow-[0_0_50px_rgba(168,85,247,0.15)] group relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          <video 
-            src="/samsung/Prototype Video.mp4" 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            className="w-full aspect-video object-cover transition-transform duration-1000 group-hover:scale-[1.01]" 
-          />
-          
-          {/* Decorative Overlay */}
-          <div className="absolute top-8 right-8">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
-              <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-              <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">Live Demo</span>
-            </div>
+      <div className="space-y-6">
+        <div className="w-full rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden p-3 group transition-all duration-500 hover:bg-white/[0.07]">
+          <div className="relative w-full aspect-video rounded-[1.8rem] overflow-hidden shadow-2xl">
+            <video 
+              src="/samsung/Prototype Video.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              controls 
+              playsInline 
+              style={{ clipPath: 'inset(0 0 0 0)' }} // Ensures no visual artifacts
+              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.01] [&::-webkit-media-controls-volume-slider]:hidden [&::-webkit-media-controls-mute-button]:hidden" 
+            />
           </div>
         </div>
       </div>
@@ -1151,41 +1305,36 @@ const sections: Section[] = [
     title: "Future Scope",
     content: (
       <div className="space-y-12">
-        <div className="flex flex-col items-center gap-2 mb-8 text-center">
-          <p className="text-sm text-white/40 tracking-widest uppercase">Deaf & Mute communicating with Normal User</p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center px-4">
+
+        <div className="flex flex-col gap-6 px-4">
           {[
             {
               title: "Emotional Intelligence",
               desc: "Recognise and convey emotions in both spoken and sign language, fostering empathetic communication.",
-              delay: "0ms"
+              dotColor: "bg-purple-500",
+              glowColor: "rgba(168,85,247,0.4)"
             },
             {
               title: "Context-Aware Translations",
               desc: "Understand conversation contexts (e.g., formal, casual) for more accurate and appropriate sign language translations.",
-              delay: "100ms"
+              dotColor: "bg-blue-500",
+              glowColor: "rgba(59,130,246,0.4)"
             },
             {
               title: "AR Integration",
               desc: "Enabling users to see the avatar's sign language translations and real-time visual support in educational settings.",
-              delay: "200ms"
+              dotColor: "bg-emerald-500",
+              glowColor: "rgba(16,185,129,0.4)"
             }
           ].map((scope, i) => (
-            <div key={i} className="relative group perspective-1000">
-              {/* Background Glow/Bubble */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-blue-600/20 blur-3xl opacity-40 rounded-full group-hover:opacity-60 transition-opacity duration-500" />
-              
-              {/* Main Card */}
-              <div className="relative p-10 rounded-[3rem] bg-white/[0.03] border border-white/10 backdrop-blur-2xl flex flex-col gap-6 shadow-2xl min-h-[320px] transition-all duration-500 group-hover:-translate-y-2 group-hover:bg-white/[0.06] group-hover:border-white/20">
-                {/* Sparkle Decoration */}
-                <div className="absolute top-6 right-6">
-                  <Sparkles size={20} className="text-white/20 group-hover:text-white/40 transition-colors" />
+            <div key={i} className="group relative">
+              <div className="relative p-8 md:p-10 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-md transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className={`w-2 h-2 rounded-full ${scope.dotColor} shadow-[0_0_12px_${scope.glowColor}]`} />
+                  <h4 className="text-xl md:text-2xl font-bold text-white tracking-tight">{scope.title}</h4>
                 </div>
-                
-                <h4 className="text-xl font-bold text-white tracking-tight">{scope.title}</h4>
-                <p className="text-sm text-white/60 leading-relaxed font-light">
+                <p className="text-base md:text-lg text-white/60 leading-relaxed font-light max-w-4xl">
                   {scope.desc}
                 </p>
               </div>
@@ -1202,7 +1351,7 @@ const sections: Section[] = [
     title: "Learnings",
     content: (
       <div className="space-y-12">
-        <p className="text-sm text-white/40 tracking-widest uppercase -mt-4 mb-12">Stepping stone towards success</p>
+
         
         <div className="relative space-y-12 pl-4">
           {/* Timeline Line */}
@@ -1261,7 +1410,7 @@ export default function SamsungCaseStudy() {
 
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -60% 0px", 
+      rootMargin: "-10% 0px -40% 0px", 
       threshold: 0,
     };
 
@@ -1290,6 +1439,7 @@ export default function SamsungCaseStudy() {
     e.preventDefault();
     const el = document.getElementById(id);
     if (el) {
+      setActiveSection(id);
       const y = el.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
@@ -1297,9 +1447,9 @@ export default function SamsungCaseStudy() {
 
   return (
     <div className="min-h-screen bg-transparent overflow-clip relative selection:bg-white/30 font-sans">
-      <div className="fixed w-[809px] h-[809px] left-[-20vw] top-[-10vh] origin-top-left -rotate-[17deg] opacity-50 bg-gradient-to-b from-blue-600 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
-      <div className="fixed w-[984px] h-[984px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
-      <div className="fixed w-[984px] h-[984px] left-[10vw] bottom-[-20vh] origin-top-left rotate-[60deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+      {/* Background Glowing Blobs */}
+      <div className="fixed w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
+      <div className="fixed w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
       
       {/* Header Section - Centered & Narrower */}
       <div className="max-w-[800px] mx-auto px-6 pt-40 pb-20 text-center">
@@ -1318,19 +1468,19 @@ export default function SamsungCaseStudy() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 py-10 rounded-3xl bg-white/5 border border-white/10 mb-20">
           <div className="flex flex-col items-start text-left px-8 border-r border-white/10">
-            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Role</p>
+            <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Role</p>
             <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">XR Concept Designer</p>
           </div>
           <div className="flex flex-col items-start text-left px-8 md:border-r border-white/10">
-            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Team</p>
+            <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Team</p>
             <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">4 People (Abhishek, Saleha, Shubhanshu, Sumesh)</p>
           </div>
           <div className="flex flex-col items-start text-left px-8 border-r border-white/10 mt-8 md:mt-0">
-            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Timeline</p>
+            <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Timeline</p>
             <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">6 Weeks</p>
           </div>
           <div className="flex flex-col items-start text-left px-8 mt-8 md:mt-0">
-            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Tools</p>
+            <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Tools</p>
             <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">UE5, Figma, Blender, After Effects</p>
           </div>
         </div>
@@ -1349,30 +1499,37 @@ export default function SamsungCaseStudy() {
                 className="sticky top-0 h-screen flex flex-col justify-center"
               >
                 <nav className="flex flex-col gap-4">
-                  {sections.map((section) => {
-                    const isActive = activeSection === section.id;
-                    const Icon = SECTION_ICONS[section.id] || Building2;
-                    
-                    return (
-                      <a
-                        key={section.id}
-                        href={`#${section.id}`}
-                        onClick={(e) => scrollToSection(e, section.id)}
-                        className="group flex items-center gap-4 py-2"
-                      >
-                        <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-                          <Icon 
-                            className={`transition-all duration-300 ${isActive ? "text-white scale-110" : "text-white/40 group-hover:text-white/90 group-hover:scale-105"}`}
-                            size={20}
-                            strokeWidth={isActive ? 2.5 : 2}
-                          />
-                        </div>
-                        <span className={`text-base tracking-wide transition-all duration-300 ${isActive ? "font-bold text-white opacity-100" : "font-medium text-white/60 group-hover:text-white/90"}`}>
-                          {section.navLabel}
-                        </span>
-                      </a>
-                    );
-                  })}
+                  {(() => {
+                    const seenLabels = new Set();
+                    return sections.map((section) => {
+                      if (seenLabels.has(section.navLabel)) return null;
+                      seenLabels.add(section.navLabel);
+
+                      // Check if any section with this navLabel is currently active
+                      const isActive = sections.find(s => s.id === activeSection)?.navLabel === section.navLabel;
+                      const Icon = SECTION_ICONS[section.id] || Building2;
+                      
+                      return (
+                        <a
+                          key={section.id}
+                          href={`#${section.id}`}
+                          onClick={(e) => scrollToSection(e, section.id)}
+                          className="group flex items-center gap-4 py-2"
+                        >
+                          <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
+                            <Icon 
+                              className={`transition-all duration-300 ${isActive ? "text-white scale-110" : "text-white/40 group-hover:text-white/90 group-hover:scale-105"}`}
+                              size={20}
+                              strokeWidth={isActive ? 2.5 : 2}
+                            />
+                          </div>
+                          <span className={`text-base tracking-wide transition-all duration-300 ${isActive ? "font-bold text-white opacity-100" : "font-medium text-white/60 group-hover:text-white/90"}`}>
+                            {section.navLabel}
+                          </span>
+                        </a>
+                      );
+                    });
+                  })()}
                 </nav>
               </motion.div>
             )}
@@ -1383,19 +1540,25 @@ export default function SamsungCaseStudy() {
         <div className="w-full">
           <div className="lg:hidden mb-16">
             <nav className="flex flex-wrap gap-4">
-              {sections.map((section) => {
-                const isActive = activeSection === section.id;
-                return (
-                  <a
-                    key={section.id}
-                    href={`#${section.id}`}
-                    onClick={(e) => scrollToSection(e, section.id)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${isActive ? "bg-white text-black" : "bg-white/5 text-white/60"}`}
-                  >
-                    {section.navLabel}
-                  </a>
-                );
-              })}
+              {(() => {
+                const seenLabels = new Set();
+                return sections.map((section) => {
+                  if (seenLabels.has(section.navLabel)) return null;
+                  seenLabels.add(section.navLabel);
+
+                  const isActive = sections.find(s => s.id === activeSection)?.navLabel === section.navLabel;
+                  return (
+                    <a
+                      key={section.id}
+                      href={`#${section.id}`}
+                      onClick={(e) => scrollToSection(e, section.id)}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${isActive ? "bg-white text-black" : "bg-white/5 text-white/60"}`}
+                    >
+                      {section.navLabel}
+                    </a>
+                  );
+                });
+              })()}
             </nav>
           </div>
 
@@ -1407,9 +1570,9 @@ export default function SamsungCaseStudy() {
                 className="scroll-mt-32"
               >
                 <div className="mb-6">
-                  <h2 className="text-sm tracking-widest uppercase text-white/50 font-semibold mb-1">
+                  <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-6 block">
                     {section.label}
-                  </h2>
+                  </span>
                   <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
                     {section.title}
                   </h3>
@@ -1417,9 +1580,27 @@ export default function SamsungCaseStudy() {
                 {section.content}
               </section>
             ))}
-          </div>
         </div>
       </div>
     </div>
-  );
+
+    {/* Footer Navigation */}
+    <div className="max-w-[800px] mx-auto px-6 py-20 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8 mt-20">
+      <div className="flex flex-col items-center md:items-start">
+        <p className="text-xs font-bold text-white/20 uppercase tracking-[0.2em] mb-2">Previous Project</p>
+        <Link href="/case-study/rgzp" className="group flex items-center gap-3 text-white/60 hover:text-white transition-all font-bold text-lg">
+          <ChevronRight className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+          RGZP Zoo Systems
+        </Link>
+      </div>
+      <div className="flex flex-col items-center md:items-end">
+        <p className="text-xs font-bold text-white/20 uppercase tracking-[0.2em] mb-2">Next Project</p>
+        <Link href="/case-study/flytbase" className="group flex items-center gap-3 text-white/60 hover:text-white transition-all font-bold text-lg">
+          FlytBase
+          <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
+    </div>
+  </div>
+);
 }

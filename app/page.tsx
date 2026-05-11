@@ -1,7 +1,6 @@
 import Hero from "./components/Hero";
 import ProjectGrid from "./components/ProjectGrid";
 import About from "./components/About";
-import Footer from "./components/Footer";
 
 const styles = {
   gradientCircleOne: {
@@ -25,19 +24,9 @@ const styles = {
 export default function Home() {
   return (
     <main className="w-full overflow-hidden relative text-stone-950 dark:text-white px-6 min-h-screen transition-colors duration-300">
-      {/* Background Gradients */}
-      <div
-        style={styles.gradientCircleOne}
-        className="w-120 h-120 rounded-full blur-3xl opacity-30 absolute z-0"
-      ></div>
-      <div
-        style={styles.gradientCircleTwo}
-        className="w-200 h-200 rounded-full blur-3xl opacity-20 absolute z-0"
-      ></div>
-      <div
-        style={styles.gradientCircleThree}
-        className="w-200 h-200 rounded-full blur-3xl opacity-20 absolute z-0"
-      ></div>
+      {/* Background Glowing Blobs */}
+      <div className="fixed w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-0"></div>
+      <div className="fixed w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-0"></div>
 
       <div className="max-w-300 mx-auto z-10 relative">
         <div className="relative">
@@ -50,7 +39,6 @@ export default function Home() {
         
         <About />
       </div>
-      <Footer />
     </main>
   );
 }

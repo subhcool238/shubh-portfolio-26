@@ -7,6 +7,7 @@ import SynChat from "./components/SynChat";
 
 import { ThemeProvider } from "./components/ThemeProvider";
 import ClientOnly from "./components/ClientOnly";
+import GlobalFooter from "./components/GlobalFooter";
 
 export const metadata: Metadata = {
   title: "Shubhanshu | Portfolio",
@@ -30,6 +31,7 @@ export default function RootLayout({
           <MouseCursor />
           <Navbar />
           {children}
+          <GlobalFooter />
           <SynChat />
         </ThemeProvider>
       </body>

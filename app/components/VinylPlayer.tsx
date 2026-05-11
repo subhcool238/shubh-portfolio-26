@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Repairing encoding
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';

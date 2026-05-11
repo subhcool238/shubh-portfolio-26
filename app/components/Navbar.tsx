@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Repairing encoding
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";

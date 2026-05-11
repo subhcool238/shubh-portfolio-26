@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Repairing encoding
 
 import { motion } from "framer-motion";
 import Link from "next/link";

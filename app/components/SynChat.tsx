@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Repairing encoding
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";

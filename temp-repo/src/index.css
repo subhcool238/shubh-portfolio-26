@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Casanova";
+  src: url("https://res.cloudinary.com/dym0xfe7y/raw/upload/v1731841242/Casanova_Scotia.otf");
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.hover-scale:hover {
+  scale: 1.2;
+  transition: 500ms;
+}

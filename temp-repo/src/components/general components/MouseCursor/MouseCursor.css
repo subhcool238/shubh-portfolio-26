@@ -1,0 +1,55 @@
+* {
+  cursor: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+}
+
+.cursor {
+  z-index: 10000;
+  width: 40px; /* Size of the outer cursor */
+  height: 40px;
+  border-radius: 100%; /* Circular shape */
+  border: 1px solid white; /* Border color */
+  transition: all 200ms ease-out; /* Smooth transition */
+  position: fixed; /* Fixed position on screen */
+  pointer-events: none; /* Prevents interference with other elements */
+}
+
+.cursor2 {
+  z-index: 10000;
+  width: 10px; /* Size of the inner cursor */
+  height: 10px;
+  border-radius: 100%; /* Circular shape */
+  background-color: white; /* Inner cursor color */
+  opacity: 0.9; /* Slightly transparent */
+  position: fixed; /* Fixed position on screen */
+  transform: translate(-50%, -50%); /* Centering */
+  pointer-events: none; /* Prevents interference with other elements */
+}
+
+.cursor3 {
+  z-index: 10000;
+  width: 55px; /* Size of the outer cursor */
+  height: 55px;
+  border-radius: 100%; /* Circular shape */
+  border: 1px solid white; /* Border color */
+  transition: all 200ms ease-out; /* Smooth transition */
+  position: fixed; /* Fixed position on screen */
+  pointer-events: none; /* Prevents interference with other elements */
+}
+
+.hover {
+  /* background-color: red;  */
+}
+
+.cursorinnerhover {
+  width: 50px; /* Size change on inner hover */
+  height: 50px; /* Size change on inner hover */
+}

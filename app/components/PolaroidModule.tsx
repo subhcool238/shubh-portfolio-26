@@ -15,6 +15,13 @@ export const PolaroidModule = () => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isMusicOn, setIsMusicOn] = useState(true);
 
+  const [showShutterHint, setShowShutterHint] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowShutterHint(false), 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const capture = useCallback(() => {
     // Prevent capturing if already processing
     if (isCapturing || previewImg || ejectedImg) return; 
@@ -152,7 +159,7 @@ export const PolaroidModule = () => {
 
   return (
     <div 
-      className="relative w-full py-8 md:py-12 flex flex-col items-center justify-center bg-[#111] overflow-hidden rounded-[24px]"
+      className="relative w-full pt-24 pb-20 md:py-12 flex flex-col items-center justify-center bg-[#111] overflow-hidden rounded-[24px]"
       onClick={() => {
         if (isMusicOn && audioRef.current && audioRef.current.paused) {
           audioRef.current.play().catch(() => {});
@@ -162,16 +169,17 @@ export const PolaroidModule = () => {
       <audio 
         ref={audioRef}
         loop
-        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"
+        autoPlay
+        src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3"
       />
       
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
-      <div className={`flex flex-col lg:flex-row w-full items-center justify-center gap-12 lg:gap-24 relative z-10 px-6 lg:p-4 lg:-translate-y-5 ${previewImg ? 'hidden lg:flex' : ''}`}>
+      <div className={`flex flex-col lg:flex-row w-full items-center justify-center gap-6 lg:gap-24 relative z-10 px-6 lg:p-4 lg:-translate-y-5 ${previewImg ? 'hidden lg:flex' : ''}`}>
         
         {/* CSS Polaroid Camera */}
-        <div className="relative flex flex-col items-center scale-90 sm:scale-100">
+        <div className="relative flex flex-col items-center scale-90 sm:scale-100 z-40">
           
           <div className="relative w-72 h-[380px] md:w-[360px] md:h-[440px] rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col z-20 bg-gradient-to-b from-[#222] to-[#111]">
             
@@ -230,11 +238,31 @@ export const PolaroidModule = () => {
                   </div>
 
                   {/* Shutter Button */}
-                  <button 
-                     onClick={capture}
-                     data-cursor-tag="click to capture"
-                     className="absolute left-5 md:left-6 top-[110px] md:top-[130px] w-8 h-8 md:w-10 md:h-10 rounded-full bg-red-600 border-[3px] border-red-800 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_4px_10px_rgba(220,38,38,0.5)] active:scale-95 active:shadow-inner transition-all hover:brightness-110 z-30 pointer-events-auto"
-                  ></button>
+                  <div className="absolute left-5 md:left-6 top-[110px] md:top-[130px] z-40 flex items-center">
+                     <button 
+                        onClick={capture}
+                        data-cursor-tag="click to capture"
+                        className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-red-600 border-[3px] border-red-800 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_4px_10px_rgba(220,38,38,0.5)] active:scale-95 active:shadow-inner transition-all hover:brightness-110 pointer-events-auto block"
+                     ></button>
+                     <AnimatePresence>
+                       {showShutterHint && (
+                         <motion.div 
+                           initial={{ opacity: 0, x: -10 }}
+                           animate={{ opacity: 1, x: 0 }}
+                           exit={{ opacity: 0 }}
+                           className="md:hidden absolute right-full mr-2 flex items-center pointer-events-none"
+                         >
+                           <motion.div 
+                             animate={{ x: [0, 5, 0] }} 
+                             transition={{ repeat: Infinity, duration: 1 }}
+                             className="text-white font-bold text-3xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                           >
+                             ➔
+                           </motion.div>
+                         </motion.div>
+                       )}
+                     </AnimatePresence>
+                  </div>
 
                   <div className="absolute right-6 md:right-8 bottom-4 w-5 h-5 md:w-6 md:h-6 rounded-full bg-black shadow-inner flex items-center justify-center">
                     <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gray-800"></div>
@@ -278,26 +306,43 @@ export const PolaroidModule = () => {
           </div>
 
           {/* Desktop Instructions */}
-          <div className="hidden md:flex items-center gap-8 mt-12 text-[10px] font-mono tracking-[0.25em] text-white/60 uppercase">
-             <span className="flex items-center gap-2 transition-colors hover:text-white"><kbd className="px-1.5 py-0.5 border border-white/30 rounded text-white shadow-sm bg-white/10 font-bold">↵</kbd> Capture</span>
-             <span className="flex items-center gap-2 transition-colors hover:text-white"><kbd className="px-1.5 py-0.5 border border-white/30 rounded text-white shadow-sm bg-white/10 font-bold">G</kbd> Gallery</span>
-             <span className="flex items-center gap-2 transition-colors hover:text-white"><kbd className="px-1.5 py-0.5 border border-white/30 rounded text-white shadow-sm bg-white/10 font-bold">M</kbd> Music {isMusicOn ? 'ON' : 'OFF'}</span>
+          <div className="hidden md:flex items-center justify-center gap-10 mt-8 text-[10px] font-mono tracking-widest text-white/50 uppercase font-bold w-full">
+             <span className="flex items-center gap-2 transition-all hover:text-white cursor-pointer" onClick={(e) => { e.stopPropagation(); capture(); }}>
+               <kbd className="px-1.5 py-0.5 border border-white/20 rounded text-white/80 bg-white/5 font-bold text-[9px]">ENTER ↵</kbd> 
+               Capture
+             </span>
+             <span className="flex items-center gap-2 transition-all hover:text-white cursor-pointer" onClick={(e) => { e.stopPropagation(); setIsGalleryOpen(true); }}>
+               <kbd className="px-1.5 py-0.5 border border-white/20 rounded text-white/80 bg-white/5 font-bold text-[9px]">G</kbd> 
+               Gallery
+             </span>
+             <span className="flex items-center gap-2 transition-all hover:text-white cursor-pointer" onClick={(e) => { e.stopPropagation(); setIsMusicOn(prev => !prev); }}>
+               <kbd className="px-1.5 py-0.5 border border-white/20 rounded text-white/80 bg-white/5 font-bold text-[9px]">M</kbd> 
+               Music <span className={isMusicOn ? "text-green-400" : "text-white/30"}>{isMusicOn ? 'ON' : 'OFF'}</span>
+             </span>
           </div>
 
           {/* Mobile Tap Instructions */}
-          <div className="md:hidden mt-8 text-[10px] font-mono tracking-widest text-white/40 uppercase text-center">
-             Tap Shutter to Capture
+          <div className="md:hidden mt-4 flex flex-col items-center gap-4 w-full">
+             <div className="text-xs font-mono font-bold tracking-[0.3em] text-white/80 uppercase text-center bg-white/10 py-2 px-5 rounded-full border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)] animate-[pulse_2s_ease-in-out_infinite]">
+                Tap Shutter to Capture
+             </div>
+             <button 
+                onClick={(e) => { e.stopPropagation(); setIsMusicOn(prev => !prev); }}
+                className="text-[10px] font-mono font-bold tracking-[0.2em] text-white/60 uppercase text-center bg-white/5 py-1.5 px-4 rounded-full border border-white/10 hover:bg-white/10 transition-colors"
+             >
+                Music: <span className={isMusicOn ? "text-green-400" : "text-white/40"}>{isMusicOn ? 'ON' : 'OFF'}</span>
+             </button>
           </div>
         </div>
 
         {/* Compiled Photos Stack on Right */}
         <div 
-          className="relative w-48 h-64 md:w-56 md:h-72 perspective-1000 cursor-pointer group/stack"
+          className="relative w-40 h-52 md:w-56 md:h-72 perspective-1000 cursor-pointer group/stack mt-4 md:mt-0"
           onClick={() => setIsGalleryOpen(true)}
         >
           {photos.length === 0 ? (
-            <div className="w-full h-full border-2 border-dashed border-white/10 rounded-xl flex items-center justify-center text-white/20 text-[10px] font-mono uppercase tracking-widest text-center px-4 bg-white/[0.02] group-hover/stack:border-white/20 transition-colors">
-              Awaiting Capture
+            <div className="w-full h-full border-2 border-dashed border-white/20 rounded-xl flex items-center justify-center text-white/60 text-[11px] font-mono font-bold uppercase tracking-[0.3em] text-center px-4 bg-white/[0.05] group-hover/stack:border-white/40 transition-colors shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+              <span className="animate-[pulse_2s_ease-in-out_infinite]">Awaiting Capture</span>
             </div>
           ) : (
             <div className="relative w-full h-full group-hover/stack:scale-105 transition-transform duration-500">
@@ -331,14 +376,16 @@ export const PolaroidModule = () => {
       </div>
 
       {/* Privacy Disclaimer - Static on Mobile, Absolute Bottom Center on Desktop */}
-      <div className={`w-full justify-center z-20 mt-8 lg:mt-0 lg:absolute lg:bottom-8 left-0 ${previewImg ? 'hidden lg:flex' : 'flex'}`}>
-        <p className="text-[8px] md:text-[9px] font-mono tracking-[0.4em] text-white/20 uppercase text-center px-4 leading-relaxed">
-           *Privacy: Processed locally in-browser. No data stored.*
+      <div className={`w-full justify-center z-0 mt-8 mb-6 lg:mb-0 lg:mt-0 lg:absolute lg:bottom-6 left-0 flex-col items-center gap-1 ${previewImg ? 'hidden lg:flex' : 'flex'}`}>
+        <p className="text-[9px] md:text-[10px] font-mono font-bold tracking-[0.3em] text-white/40 uppercase text-center">
+           *Privacy: Processed locally in-browser.*
+        </p>
+        <p className="text-[9px] md:text-[10px] font-mono font-bold tracking-[0.3em] text-rose-400/80 uppercase text-center">
+           No data stored.
         </p>
       </div>
 
-      {/* Pre-render audio tag for potential browser compatibility */}
-      <audio ref={audioRef} loop style={{ display: 'none' }} />
+      {/* Privacy Disclaimer ends here */}
 
       {/* Preview Modal Overlay (IP-1 Reference) */}
       <AnimatePresence>
@@ -347,19 +394,25 @@ export const PolaroidModule = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="absolute inset-0 max-lg:relative max-lg:inset-auto max-lg:w-full z-[100] flex flex-col items-center justify-center bg-[#0D0D0D]/95 backdrop-blur-md rounded-[24px]"
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0D0D0D]/95 backdrop-blur-md overflow-y-auto p-6 md:p-12"
             onClick={handleSkip}
           >
             <div 
-              className="relative flex flex-col items-center w-full max-w-2xl px-6"
+              className="relative flex flex-col items-center w-full max-w-2xl my-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              
+              <button 
+                onClick={handleSkip}
+                className="absolute -top-12 md:-top-8 right-0 md:-right-8 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-[110]"
+              >
+                <X className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              </button>
+
               {/* The Big Polaroid */}
               <motion.div 
                 initial={{ y: 20 }}
                 animate={{ y: 0 }}
-                className="w-[260px] sm:w-[320px] md:w-[400px] relative drop-shadow-2xl"
+                className="w-[230px] sm:w-[280px] md:w-[360px] relative drop-shadow-2xl"
               >
                 <img src={previewImg} alt="Preview" className="w-full h-auto" />
               </motion.div>
@@ -381,10 +434,14 @@ export const PolaroidModule = () => {
                    Skip
                  </button>
               </div>
-              
-              <p className="mt-8 text-[9px] font-mono tracking-widest text-white/30 uppercase">
-                 *Privacy: Processed locally in-browser. No data stored.*
-              </p>
+              <div className="mt-8 flex flex-col items-center gap-1 opacity-80">
+                <p className="text-[9px] md:text-[10px] font-mono font-bold tracking-[0.3em] text-white/60 uppercase text-center">
+                   *Privacy: Processed locally in-browser.*
+                </p>
+                <p className="text-[9px] md:text-[10px] font-mono font-bold tracking-[0.3em] text-rose-400/80 uppercase text-center">
+                   No data stored.
+                </p>
+              </div>
             </div>
           </motion.div>
         )}

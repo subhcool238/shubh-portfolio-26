@@ -143,7 +143,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-[90] bg-white dark:bg-black md:hidden flex flex-col items-center justify-center gap-8 p-10"
+            className="fixed inset-0 z-[95] bg-white dark:bg-black md:hidden flex flex-col items-center justify-center gap-8 p-10"
           >
             {navLinks.map(({ label, href, target }, i) => (
               <motion.div
@@ -160,6 +160,19 @@ export default function Navbar() {
                 />
               </motion.div>
             ))}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: navLinks.length * 0.1 }}
+            >
+              <Link
+                href="mailto:hello@shubh.design"
+                onClick={() => setIsMenuOpen(false)}
+                className="mt-4 flex items-center px-8 py-3 rounded-full border border-stone-200 dark:border-white/20 hover:border-stone-400 dark:hover:border-white/50 bg-stone-100 dark:bg-white/5 hover:bg-stone-200 dark:hover:bg-white/10 transition-all duration-300 text-xs font-bold uppercase tracking-[0.2em] text-stone-900 dark:text-white"
+              >
+                Let's Connect
+              </Link>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

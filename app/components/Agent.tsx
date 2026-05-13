@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Vapi from "@vapi-ai/web";
 import { Loader2 } from "lucide-react";
 
-export default function Agent() {
+export default function Agent({ isSticky }: { isSticky?: boolean }) {
   const [callStatus, setCallStatus] = useState<"inactive" | "loading" | "active">("inactive");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -190,13 +190,13 @@ export default function Agent() {
         >
           {/* Status Tag - Repositioned for smaller size */}
           <div 
-            className={`absolute md:top-[-20px] top-[0px] left-1/2 md:-translate-x-1/2 -translate-x-[calc(50%+20px)] z-[100] px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-2xl border border-white/10 transition-all duration-700 ${
+            className={`absolute md:top-[10px] top-[0px] left-1/2 md:-translate-x-1/2 -translate-x-[calc(50%+3px)] z-[100] px-3 py-1.5 md:px-[18px] md:py-[9px] rounded-full bg-black/60 backdrop-blur-2xl border border-white/10 transition-all duration-700 ${
               (callStatus !== "inactive") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
-            }`}
+            } ${isSticky ? 'scale-75' : 'scale-100'}`}
           >
             <div className="flex items-center gap-2">
               <div className={`w-1 h-1 rounded-full ${callStatus === 'loading' ? 'bg-white animate-spin' : isSpeaking ? 'bg-fuchsia-400 animate-pulse' : 'bg-cyan-400 animate-pulse'}`} />
-              <span className="text-[8px] font-bold tracking-[0.2em] uppercase text-white/90">
+              <span className="text-[8px] md:text-[12px] font-bold tracking-[0.2em] uppercase text-white/90">
                 Syn {callStatus === "active" ? (isSpeaking ? "Speaking" : "Listening") : "Booting"}
               </span>
             </div>

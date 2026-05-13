@@ -146,7 +146,7 @@ export default function DroneCaseStudy() {
               &quot;With 65,000 square metres and over 400 rooms, it&apos;s impossible to have eyes everywhere. We almost lost a Degas worth €30 million when sensors failed in the east wing.&quot;
             </p>
             <div className="mt-8 flex items-center gap-4 relative z-10">
-              <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-bold text-white/40">M</div>
+              <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-bold text-white/40 shrink-0">M</div>
               <div>
                 <p className="text-base font-bold text-white/90">Marc</p>
                 <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Head of Security, Le Musée d&apos;Art Précieux</p>
@@ -163,9 +163,7 @@ export default function DroneCaseStudy() {
             <StatBox value="24/7" label="Operational" sub="Requirement" colorClass="text-emerald-500" accent="border-emerald-500/20 bg-emerald-500/5" />
           </div>
 
-          <div className="my-12 cursor-zoom-in" onClick={() => setSelectedImage("/flytbase/challenge.png")}>
-            <img src="/flytbase/challenge.png" alt="The Security Challenge" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10" />
-          </div>
+
         </div>
       ),
     },
@@ -310,7 +308,7 @@ export default function DroneCaseStudy() {
           <p className="text-xl tracking-wide font-normal text-white/80 leading-relaxed">
             The command centre UI is built on a modular widget-based grid. We prioritize Live Camera Feed and Drone Telemetry.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 mt-12">
             {[
               { img: "/flytbase/dashboard.png", name: "Dashboard", desc: "Live incidents & AI triage" },
               { img: "/flytbase/fleet.png", name: "Fleet Management", desc: "Drone health & docking" },
@@ -426,18 +424,7 @@ export default function DroneCaseStudy() {
               over="Instead of: Full automation dispatch" 
               why="Accountability cannot be delegated to models in high-stakes security." 
             />
-            <RationaleCard 
-              title="Decision 03" 
-              val="Focused V1 over feature breadth" 
-              over="Instead of: Solving every possible scenario" 
-              why="V1 focuses on three pain clusters: understanding alerts, handling multiple incidents, and preserving shift context. Depth in the right places beats surface coverage of everything." 
-            />
-            <RationaleCard 
-              title="Decision 04" 
-              val="Scenario-driven design" 
-              over="Instead of: Generic dashboard conventions" 
-              why="Primary flows are anchored in concrete 2-3 AM scenarios from the brief. UI decisions are grounded in the operational moment, not borrowed from SaaS patterns that serve no one in particular." 
-            />
+
           </div>
         </div>
       ),
@@ -541,11 +528,11 @@ export default function DroneCaseStudy() {
           </div>
           <div className="flex flex-col items-start text-left px-8 border-r border-white/5 mt-8 md:mt-0">
             <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Timeline</p>
-            <p className="text-base font-bold text-white/90 leading-snug">4 Weeks</p>
+            <p className="text-base font-bold text-white/90 leading-snug">48 hours</p>
           </div>
           <div className="flex flex-col items-start text-left px-8 mt-8 md:mt-0">
             <p className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Tools</p>
-            <p className="text-base font-bold text-white/90 leading-snug md:whitespace-nowrap">Figma, Miro, AI Studio</p>
+            <p className="text-base font-bold text-white/90 leading-snug">Figma, Eraser.io, Stitch, Google AI Studio</p>
           </div>
         </div>
       </div>

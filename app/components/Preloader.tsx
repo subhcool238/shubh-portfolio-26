@@ -56,7 +56,7 @@ export default function Preloader() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
-          className="fixed inset-0 z-[9999] bg-[#0a0a0c] flex flex-col items-center justify-center"
+          className="fixed inset-0 z-[9999] bg-[#0a0a0c] flex flex-col items-center justify-center skip-preloader-hide"
         >
           <div className="flex flex-col items-center max-w-sm w-full px-6">
             {/* Logo */}

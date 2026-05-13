@@ -228,7 +228,7 @@ const sections: Section[] = [
     content: (
       <div className="space-y-6">
         {/* Horizontal Topic Timeline */}
-        <div className="w-full flex flex-wrap lg:flex-nowrap items-start justify-start gap-0 py-10 border-b border-white/5 overflow-x-auto no-scrollbar">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-y-12 gap-x-0 py-10 border-b border-white/5">
           {[
             { icon: Globe, title: "Samsung", sub: "Ecosystem" },
             { icon: BookOpen, title: "Samsung", sub: "VR History" },
@@ -236,8 +236,8 @@ const sections: Section[] = [
             { icon: Users, title: "Competitors", sub: "Their ecosystem" },
             { icon: Glasses, title: "Immersive Spaces", sub: "Roblox, Fortnite etc." },
             { icon: TestTube, title: "Samsung", sub: "Avatar Synthesis" }
-          ].map((topic, i, arr) => (
-            <div key={i} className="flex flex-col items-center text-center group min-w-[160px] lg:min-w-0 lg:flex-1">
+          ].map((topic, i) => (
+            <div key={i} className="flex flex-col items-center text-center group">
               <div className="flex items-center w-full mb-6">
                 <div className="flex-1 h-[2px] border-t-2 border-dotted border-white/30 opacity-0 lg:opacity-100 group-first:opacity-0" />
                 <div className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:text-black shrink-0 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
@@ -359,30 +359,35 @@ const sections: Section[] = [
           Defining the stakeholders.
         </p>
         
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <h4 className="text-sm font-black tracking-[0.3em] uppercase text-white/90">Primary</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Primary Column */}
+          <div className="space-y-4">
+            <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center text-center min-h-[80px]">
+              <h4 className="text-xs font-black tracking-[0.3em] uppercase text-white/90">Primary</h4>
             </div>
-            <div className="md:col-span-3 p-6 rounded-3xl bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center text-center min-h-[100px]">
-              <h4 className="text-sm font-black tracking-[0.3em] uppercase text-white/90">Secondary</h4>
+            <div className="p-6 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-center flex items-center justify-center min-h-[60px]">
+              <span className="text-xs font-bold text-purple-200/80">Inclusive GenZ's & Millennials</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-center flex items-center justify-center">
-              <span className="text-xs font-bold text-purple-200/80">Inclusive Genz's & Millenials</span>
+          {/* Secondary Column */}
+          <div className="space-y-4">
+            <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center text-center min-h-[80px]">
+              <h4 className="text-xs font-black tracking-[0.3em] uppercase text-white/90">Secondary</h4>
             </div>
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center flex items-center justify-center">
-              <span className="text-xs font-bold text-white/60">Gamers</span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center flex items-center justify-center">
-              <span className="text-xs font-bold text-white/60">Developers</span>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center flex items-center justify-center">
-              <span className="text-xs font-bold text-white/60">Content Creators</span>
+            <div className="grid grid-cols-1 gap-4">
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center flex items-center justify-center min-h-[60px]">
+                <span className="text-xs font-bold text-white/60">Gamers</span>
+              </div>
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center flex items-center justify-center min-h-[60px]">
+                <span className="text-xs font-bold text-white/60">Developers</span>
+              </div>
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center flex items-center justify-center min-h-[60px]">
+                <span className="text-xs font-bold text-white/60">Content Creators</span>
+              </div>
             </div>
           </div>
+        </div>
 
           {/* Target Audience Banner */}
           <div className="w-full p-8 md:p-12 rounded-3xl bg-gradient-to-r from-purple-900/40 via-fuchsia-900/40 to-pink-900/40 border border-white/10 flex flex-col md:flex-row items-center gap-8 group transition-all duration-500 hover:border-purple-500/30">
@@ -401,9 +406,8 @@ const sections: Section[] = [
             </h2>
           </div>
         </div>
-      </div>
-    ),
-  },
+      ),
+    },
   {
     id: "interviews",
     navLabel: "Research",
@@ -739,7 +743,7 @@ const sections: Section[] = [
       <div className="space-y-6">
 
         
-        <div className="space-y-12">
+        <div className="space-y-12 py-8">
           {/* Hero Goal Statement Wrapped */}
           <div className="group p-10 rounded-[2.5rem] bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
             <h4 className="text-xl md:text-2xl font-light leading-tight text-white/90">
@@ -748,7 +752,7 @@ const sections: Section[] = [
           </div>
 
           {/* Sub-Goals Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="group p-10 rounded-[2.5rem] bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/20">
               <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-8">
                 <Sparkles size={24} className="text-purple-400" />
@@ -1186,90 +1190,88 @@ const sections: Section[] = [
 
         
         {/* Unified Grid Header */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8 px-4">
-          <h4 className="text-[10px] text-blue-400 uppercase tracking-[0.2em] font-black">Phase 01: Setup & Recording</h4>
-          <h4 className="text-[10px] text-purple-400 uppercase tracking-[0.2em] font-black">Phase 02: Calibration & Enabling</h4>
-          <h4 className="text-[10px] text-rose-400 uppercase tracking-[0.2em] font-black">Phase 03: The Meeting</h4>
-        </div>
-
-        <div className="flex flex-col gap-4">
-          {(() => {
-            const phase1 = [
-              { icon: <User size={20} />, text: "Saleha has a meeting to attend." },
-              { icon: <Glasses size={20} />, text: "Puts on the Samsung VR headset and turns it on." },
-              { icon: <Settings size={20} />, text: "Goes to settings." },
-              { icon: <BookOpen size={20} />, text: "Opens the \"Gesture Dictionary.\"" },
-              { icon: <Sparkles size={20} />, text: "\"Add New Gesture\"." },
-              { icon: <Video size={20} />, text: "\"Record New Gesture\"." },
-              { icon: <Settings size={20} />, text: "The device asks permission to use the camera." },
-              { icon: <Camera size={20} />, text: "\"Enable Device Camera\"." },
-              { icon: <Target size={20} />, text: "Press X to start the recording." },
-              { icon: <Target size={20} />, text: "Press Y to finish the recording." },
-              { icon: <Layout size={20} />, text: "Type a phrase for the gesture in the Text panel." },
-              { icon: <Settings size={20} />, text: "\"Save Gestures\"." },
-            ];
-            const phase2 = [
-              { icon: <TestTube size={20} />, text: "To test the added gestures." },
-              { icon: <Target size={20} />, text: "Clicks the test button for one of the added gestures in the dictionary (I am sorry)." },
-              { icon: <Accessibility size={20} />, text: "Performs the gestures and checks them." },
-              { icon: <Settings size={20} />, text: "The gestures could be edited/ saved if now changes are made." },
-              { icon: <Accessibility size={20} />, text: "Then in settings \"Accessibility Section\"" },
-              { icon: <Accessibility size={20} />, text: "\"Hearing enhancement\"." },
-              { icon: <Globe size={20} />, text: "\"Preferred Language\" turns on the feature." },
-              { icon: <Settings size={20} />, text: "A pop-up comes indicating \"Avatar Translator Feature is Off\"." },
-              { icon: <Settings size={20} />, text: "\"Enable Avatar Translator\"." },
-              { icon: <Sparkles size={20} />, text: "The feature is enabled." },
-              { icon: <Globe size={20} />, text: "Chooses the preferred language, ASL (American Sign Language)." },
-              { icon: <Settings size={20} />, text: "Closes the setting tab." },
-            ];
-            const phase3 = [
-              { icon: <Video size={20} />, text: "Clicks on \"Google Meet Application\"." },
-              { icon: <Settings size={20} />, text: "Enable the accessibility features from Samsung XR headset settings in Navigation Panel." },
-              { icon: <Video size={20} />, text: "Clicks on \"New Meeting\" to generate a meeting link." },
-              { icon: <Globe size={20} />, text: "Share the link with the participant to join the meeting." },
-              { icon: <Users size={20} />, text: "The participant joins, and the meeting begins." },
-              { icon: <Accessibility size={20} />, text: "Saleha makes gestures that are converted into speech by the avatar." },
-              { icon: <User size={20} />, text: "Abhishek speaks, and his speech is converted into sign language." },
-              { icon: <Sparkles size={20} />, text: "At the end of the meeting, Saleha selects the Heart gesture from the reaction options." },
-              { icon: <Sparkles size={20} />, text: "Heart emojis appear around the avatar, conveying user's emotions." },
-              { icon: <Target size={20} />, text: "The meeting ends." },
-            ];
-
-            const maxSteps = Math.max(phase1.length, phase2.length, phase3.length);
-            return Array.from({ length: maxSteps }).map((_, i) => (
-              <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                {/* Phase 1 Item */}
-                {phase1[i] ? (
-                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px] h-full">
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform shrink-0">
-                      {phase1[i].icon}
-                    </div>
-                    <p className="text-sm text-white/70 leading-relaxed font-medium">{phase1[i].text}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+          {/* Phase 01 */}
+          <div className="space-y-6">
+            <h4 className="text-[10px] text-blue-400 uppercase tracking-[0.2em] font-black mb-4">Phase 01: Setup & Recording</h4>
+            <div className="flex flex-col gap-4">
+              {[
+                { icon: <User size={20} />, text: "Saleha has a meeting to attend." },
+                { icon: <Glasses size={20} />, text: "Puts on the Samsung VR headset and turns it on." },
+                { icon: <Settings size={20} />, text: "Goes to settings." },
+                { icon: <BookOpen size={20} />, text: "Opens the \"Gesture Dictionary.\"" },
+                { icon: <Sparkles size={20} />, text: "\"Add New Gesture\"." },
+                { icon: <Video size={20} />, text: "\"Record New Gesture\"." },
+                { icon: <Settings size={20} />, text: "The device asks permission to use the camera." },
+                { icon: <Camera size={20} />, text: "\"Enable Device Camera\"." },
+                { icon: <Target size={20} />, text: "Press X to start the recording." },
+                { icon: <Target size={20} />, text: "Press Y to finish the recording." },
+                { icon: <Layout size={20} />, text: "Type a phrase for the gesture in the Text panel." },
+                { icon: <Settings size={20} />, text: "\"Save Gestures\"." },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px]">
+                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform shrink-0">
+                    {item.icon}
                   </div>
-                ) : <div />}
+                  <p className="text-sm text-white/70 leading-relaxed font-medium">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-                {/* Phase 2 Item */}
-                {phase2[i] ? (
-                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px] h-full">
-                    <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform shrink-0">
-                      {phase2[i].icon}
-                    </div>
-                    <p className="text-sm text-white/70 leading-relaxed font-medium">{phase2[i].text}</p>
+          {/* Phase 02 */}
+          <div className="space-y-6">
+            <h4 className="text-[10px] text-purple-400 uppercase tracking-[0.2em] font-black mb-4">Phase 02: Calibration & Enabling</h4>
+            <div className="flex flex-col gap-4">
+              {[
+                { icon: <TestTube size={20} />, text: "To test the added gestures." },
+                { icon: <Target size={20} />, text: "Clicks the test button for one of the added gestures in the dictionary (I am sorry)." },
+                { icon: <Accessibility size={20} />, text: "Performs the gestures and checks them." },
+                { icon: <Settings size={20} />, text: "The gestures could be edited/ saved if now changes are made." },
+                { icon: <Accessibility size={20} />, text: "Then in settings \"Accessibility Section\"" },
+                { icon: <Accessibility size={20} />, text: "\"Hearing enhancement\"." },
+                { icon: <Globe size={20} />, text: "\"Preferred Language\" turns on the feature." },
+                { icon: <Settings size={20} />, text: "A pop-up comes indicating \"Avatar Translator Feature is Off\"." },
+                { icon: <Settings size={20} />, text: "\"Enable Avatar Translator\"." },
+                { icon: <Sparkles size={20} />, text: "The feature is enabled." },
+                { icon: <Globe size={20} />, text: "Chooses the preferred language, ASL (American Sign Language)." },
+                { icon: <Settings size={20} />, text: "Closes the setting tab." },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px]">
+                  <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform shrink-0">
+                    {item.icon}
                   </div>
-                ) : <div />}
+                  <p className="text-sm text-white/70 leading-relaxed font-medium">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-                {/* Phase 3 Item */}
-                {phase3[i] ? (
-                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px] h-full">
-                    <div className="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform shrink-0">
-                      {phase3[i].icon}
-                    </div>
-                    <p className="text-sm text-white/70 leading-relaxed font-medium">{phase3[i].text}</p>
+          {/* Phase 03 */}
+          <div className="space-y-6">
+            <h4 className="text-[10px] text-rose-400 uppercase tracking-[0.2em] font-black mb-4">Phase 03: The Meeting</h4>
+            <div className="flex flex-col gap-4">
+              {[
+                { icon: <Video size={20} />, text: "Clicks on \"Google Meet Application\"." },
+                { icon: <Settings size={20} />, text: "Enable the accessibility features from Samsung XR headset settings in Navigation Panel." },
+                { icon: <Video size={20} />, text: "Clicks on \"New Meeting\" to generate a meeting link." },
+                { icon: <Globe size={20} />, text: "Share the link with the participant to join the meeting." },
+                { icon: <Users size={20} />, text: "The participant joins, and the meeting begins." },
+                { icon: <Accessibility size={20} />, text: "Saleha makes gestures that are converted into speech by the avatar." },
+                { icon: <User size={20} />, text: "Abhishek speaks, and his speech is converted into sign language." },
+                { icon: <Sparkles size={20} />, text: "At the end of the meeting, Saleha selects the Heart gesture from the reaction options." },
+                { icon: <Sparkles size={20} />, text: "Heart emojis appear around the avatar, conveying user's emotions." },
+                { icon: <Target size={20} />, text: "The meeting ends." },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px]">
+                  <div className="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform shrink-0">
+                    {item.icon}
                   </div>
-                ) : <div />}
-              </div>
-            ));
-          })()}
+                  <p className="text-sm text-white/70 leading-relaxed font-medium">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     ),
@@ -1307,7 +1309,7 @@ const sections: Section[] = [
       <div className="space-y-12">
 
 
-        <div className="flex flex-col gap-6 px-4">
+        <div className="flex flex-col gap-6">
           {[
             {
               title: "Emotional Intelligence",
@@ -1383,7 +1385,7 @@ const sections: Section[] = [
                 "The most powerful thing a Samsung Avatar can do isn't look like you. It's speak for you — especially when the world hasn't given everyone an equal voice."
               </p>
               <p className="text-base tracking-wide font-bold text-white/60 leading-relaxed uppercase">
-                — Shubhanshu Sahu
+                — Shubhanshu
               </p>
             </div>
           </div>

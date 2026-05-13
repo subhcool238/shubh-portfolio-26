@@ -315,3 +315,11 @@
 spline-viewer::part(logo) {
   display: none !important;
 }
+
+/* Ensure preloader is instantly hidden if user has seen it before */
+html.skip-preloader .skip-preloader-hide {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}

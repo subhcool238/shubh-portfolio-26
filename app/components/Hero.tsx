@@ -12,7 +12,7 @@ const styles = {
   },
 };
 
-import Agent from "./Agent";
+
 
 function TextScrambleComponent() {
   const textIndex = useRef(0);
@@ -70,14 +70,16 @@ export default function Hero() {
             </p>
           </div>
         </div>
-
-        {/* Syn Agent Container — Responsive Positioning */}
-        <div className="fixed md:absolute bottom-[-51px] md:bottom-auto right-[-56px] md:right-[-10%] md:top-[55%] md:translate-y-[calc(-50%+20px)] md:translate-x-[70px] w-[192px] md:w-[560px] h-[192px] md:h-[560px] z-50 md:z-10 pointer-events-none opacity-100 transition-all duration-1000">
-          <Agent />
-        </div>
       </div>
       <div className="text-2xl text-center absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-        <a href="#work" className="flex flex-col items-center group">
+        <a 
+          href="#work" 
+          onClick={(e) => {
+            e.preventDefault();
+            document.querySelector('#work')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="flex flex-col items-center group"
+        >
           <svg
             viewBox="0 0 34 47"
             fill="none"

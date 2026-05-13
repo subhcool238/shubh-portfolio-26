@@ -195,7 +195,7 @@ export default function AboutPage() {
       <div className="max-w-300 mx-auto z-10 relative">
         
         {/* Hero Section */}
-        <section className="pt-48 pb-20">
+        <section className="pt-[142px] md:pt-48 pb-20">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-12 lg:gap-24">
             <div className="w-full lg:w-3/5">
               <motion.span 
@@ -311,7 +311,7 @@ export default function AboutPage() {
         </section>
 
         {/* System Calibration: Beyond the Pixels */}
-        <section className="py-32">
+        <section className="pt-32 pb-20 md:py-32">
           <span className="reveal-scroll text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2 md:mb-6 block text-center">Beyond the Pixels</span>
           <h2 className="reveal-scroll text-4xl md:text-5xl font-bold mb-16 tracking-tight text-center">Off The Screen</h2>
           
@@ -327,7 +327,7 @@ export default function AboutPage() {
               ))}
             </div>
 
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3 text-[9px] font-bold tracking-[0.3em] text-white/60 uppercase animate-pulse">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3 text-[9px] font-bold tracking-[0.3em] text-white/60 uppercase animate-pulse whitespace-nowrap">
                <div className="w-1 h-1 rounded-full bg-blue-500"></div>
                <span>Drag to rearrange snapshots</span>
             </div>
@@ -464,13 +464,15 @@ function FloatingTag({ text, isHovered }: { text: string; isHovered: boolean }) 
 }
 
 function GalleryCard({ img, i, galleryRef, bringToFront, zIndex, setAnyHover }: any) {
+  const [isDragging, setIsDragging] = useState(false);
   return (
     <motion.div 
       drag
       dragConstraints={galleryRef}
       dragElastic={0}
       dragMomentum={true}
-      onDragStart={() => bringToFront(i)}
+      onDragStart={() => { bringToFront(i); setIsDragging(true); }}
+      onDragEnd={() => setIsDragging(false)}
       onTapStart={() => bringToFront(i)}
       onMouseEnter={() => setAnyHover(true)}
       onMouseLeave={() => setAnyHover(false)}
@@ -480,12 +482,12 @@ function GalleryCard({ img, i, galleryRef, bringToFront, zIndex, setAnyHover }: 
       animate={{ opacity: 1, zIndex }}
       transition={{ opacity: { delay: i * 0.1 + 0.5, duration: 0.8 }, zIndex: { duration: 0 }, default: { type: "spring", stiffness: 300, damping: 30 } }}
       style={{ zIndex }}
-      className="absolute w-48 sm:w-56 md:w-64 aspect-[4/5] rounded-[40px] overflow-hidden border border-white/10 shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing group origin-center"
+      className={`absolute w-48 sm:w-56 md:w-64 aspect-[4/5] rounded-[40px] overflow-hidden border border-white/10 shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing group origin-center ${isDragging ? 'is-dragging' : ''}`}
       data-cursor-hide
     >
       <div className="w-full h-full relative rounded-[40px] overflow-hidden bg-stone-900">
-          <img src={img.src} alt={img.alt} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 pointer-events-none select-none rounded-[40px]" />
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700"></div>
+          <img src={img.src} alt={img.alt} className={`w-full h-full object-cover transition-all duration-1000 pointer-events-none select-none rounded-[40px] ${isDragging ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} />
+          <div className={`absolute inset-0 transition-colors duration-700 ${isDragging ? 'bg-transparent' : 'bg-black/20 group-hover:bg-transparent'}`}></div>
           <div className="absolute bottom-6 left-6">
               <div className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 flex items-center shadow-2xl">
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">{img.alt}</span>

@@ -7,9 +7,9 @@ const BALL_R        = 18;
 const PADDLE_W      = 120;
 const PADDLE_H      = 14;
 const PADDLE_BOTTOM = 110; 
-const LAUNCH_VY     = -10;
+const LAUNCH_VY     = -7.5;
 const SPEED_INC     = 0.015;
-const MAX_SPEED     = 18;
+const MAX_SPEED     = 13.5;
 const MISS_PAUSE    = 100;
 
 type Phase = 'idle' | 'playing' | 'miss';
@@ -163,6 +163,16 @@ export default function Footer() {
     if (phaseRef.current === 'idle') { ballRef.current.x = paddleCx.current; ballRef.current.y = getPaddleY() - BALL_R; }
   }, [getPaddleY]);
 
+  const launchBall = useCallback(() => {
+    if (phaseRef.current === 'playing') return;
+    pushScore(0); const lean = (Math.random() - 0.5) * 0.55;
+    ballRef.current.vx = Math.sin(lean) * Math.abs(LAUNCH_VY); 
+    ballRef.current.vy = LAUNCH_VY; 
+    pushPhase('playing');
+    isHoveringBall.current = false;
+    window.dispatchEvent(new CustomEvent('cursor-update', { detail: { state: 'default' } }));
+  }, []);
+
   const onDown = useCallback((e: MouseEvent | TouchEvent) => {
     const canvas = canvasRef.current; if (!canvas || phaseRef.current === 'playing') return;
     const rect = canvas.getBoundingClientRect();
@@ -171,11 +181,15 @@ export default function Footer() {
     const mx = clientX - rect.left; const my = clientY - rect.top;
     const b = ballRef.current; const dx = mx - b.x; const dy = my - b.y;
     if (Math.sqrt(dx * dx + dy * dy) > BALL_R + 22) return;
-    pushScore(0); const lean = (Math.random() - 0.5) * 0.55;
-    b.vx = Math.sin(lean) * Math.abs(LAUNCH_VY); b.vy = LAUNCH_VY; pushPhase('playing');
-    isHoveringBall.current = false;
-    window.dispatchEvent(new CustomEvent('cursor-update', { detail: { state: 'default' } }));
-  }, []);
+    launchBall();
+  }, [launchBall]);
+
+  const onKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.code === 'Space' && phaseRef.current === 'idle') {
+      e.preventDefault();
+      launchBall();
+    }
+  }, [launchBall]);
 
   const loop = useCallback(() => {
     const canvas = canvasRef.current; if (!canvas) { rafRef.current = requestAnimationFrame(loop); return; }
@@ -221,15 +235,17 @@ export default function Footer() {
     resize(); window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMove as EventListener);
     window.addEventListener('touchmove', onMove as EventListener, { passive: false });
+    window.addEventListener('keydown', onKeyDown);
     canvas.addEventListener('mousedown', onDown as EventListener);
     canvas.addEventListener('touchstart', onDown as EventListener, { passive: false });
     rafRef.current = requestAnimationFrame(loop);
     return () => {
       cancelAnimationFrame(rafRef.current); window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMove as EventListener); window.removeEventListener('touchmove', onMove as EventListener);
+      window.removeEventListener('keydown', onKeyDown);
       canvas.removeEventListener('mousedown', onDown as EventListener); canvas.removeEventListener('touchstart', onDown as EventListener);
     };
-  }, [resize, onMove, onDown, loop]);
+  }, [resize, onMove, onDown, onKeyDown, loop]);
 
   const copyEmail = () => {
     navigator.clipboard.writeText("hello@shubh.design");
@@ -301,7 +317,7 @@ export default function Footer() {
 
       <div className="absolute bottom-0 left-0 w-full z-20 bg-[#0a0c12] border-t border-white/5 py-12 px-6 pointer-events-none">
         <div className="max-w-300 mx-auto text-center text-xs font-bold tracking-[0.2em] uppercase text-white/40">
-           <p>© 2026 SHUBHANSHU SAHU PORTFOLIO · ALL RIGHT RESERVED</p>
+           <p>© 2026 SHUBHANSHU SAHU PORTFOLIO <span className="hidden md:inline">· </span><span className="block md:inline">ALL RIGHT RESERVED</span></p>
         </div>
       </div>
     </footer>

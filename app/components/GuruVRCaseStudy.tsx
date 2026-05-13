@@ -165,7 +165,7 @@ const sections: Section[] = [
             { label: "Theory Curriculum", value: "70%", sub: "30% practice", textColor: "text-blue-500", accent: "border-blue-500/30 bg-blue-500/5" },
             { label: "Hands-on Learning", value: "68%", sub: "Lack access", textColor: "text-emerald-500", accent: "border-emerald-500/30 bg-emerald-500/5" },
             { label: "Faculty Readiness", value: "63%", sub: "Unprepared for XR", textColor: "text-amber-500", accent: "border-amber-500/30 bg-amber-500/5" },
-            { label: "Implementation", value: "71%", sub: "Cite high costs", textColor: "text-purple-500", accent: "border-purple-500/30 bg-purple-500/5" },
+            { label: "Implementation", value: "71%", sub: "High cost", textColor: "text-purple-500", accent: "border-purple-500/30 bg-purple-500/5" },
           ].map((stat) => (
             <div key={stat.label} className={`p-6 rounded-2xl border ${stat.accent} flex flex-col items-start transition-all duration-300 hover:scale-[1.02] hover:brightness-110 w-full`}>
               <p className={`text-4xl md:text-5xl font-bold tracking-tight ${stat.textColor}`}>{stat.value}</p>
@@ -191,8 +191,8 @@ const sections: Section[] = [
         </p>
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Timeline</h3>
-        <div className="w-full mt-8">
-          <div className="w-full relative">
+        <div className="w-full mt-8 overflow-x-auto pb-6">
+          <div className="min-w-[700px] md:min-w-full w-full relative px-2">
             {/* Header */}
             <div className="grid grid-cols-5 text-center mb-6 px-2">
               {['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY'].map((month) => (
@@ -225,8 +225,7 @@ const sections: Section[] = [
                   { name: "Dashboard & Gamification UX", left: "62%", width: "20%", color: "bg-blue-500/10 text-blue-200/80 border-blue-500/20" },
                   { name: "Onboarding UX (XR/Web/Mobile)", left: "50%", width: "26%", color: "bg-blue-500/10 text-blue-200/80 border-blue-500/20" },
                   { name: "XR Module Design", left: "65%", width: "14%", color: "bg-rose-500/10 text-rose-200/80 border-rose-500/20" },
-                  { name: "Testing & Iteration", left: "70%", width: "16%", color: "bg-rose-500/10 text-rose-200/80 border-rose-500/20" },
-                  { name: "Grad Book", left: "82%", width: "10%", color: "bg-rose-500/10 text-rose-200/80 border-rose-500/20" }
+                  { name: "Testing & Iteration", left: "70%", width: "16%", color: "bg-rose-500/10 text-rose-200/80 border-rose-500/20" }
                 ].map((task, i) => (
                   <div key={i} className="w-full h-8 relative">
                     <div 
@@ -234,7 +233,7 @@ const sections: Section[] = [
                       style={{ left: task.left, width: task.width }}
                     >
                       <div className={`h-full w-full flex items-center px-2 border rounded-md transition-all duration-300 hover:scale-[1.02] hover:z-10 hover:brightness-125 ${task.color}`}>
-                        <span className="text-[10px] font-bold tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">{task.name}</span>
+                        <span className="text-[11px] md:text-xs font-bold tracking-tight whitespace-nowrap overflow-visible z-20 relative">{task.name}</span>
                       </div>
                     </div>
                   </div>
@@ -289,7 +288,7 @@ const sections: Section[] = [
           ].map((item) => (
             <div key={item.step} className={`p-6 rounded-2xl border ${item.accent} transition-all duration-300 hover:scale-[1.01] hover:brightness-110`}>
               <div className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-full ${item.color} flex items-center justify-center text-white font-bold text-sm shadow-lg`}>
+                <div className={`w-10 h-10 flex-shrink-0 rounded-full ${item.color} flex items-center justify-center text-white font-bold text-sm shadow-lg`}>
                   {item.step.charAt(0)}
                 </div>
                 <div className="flex flex-col">
@@ -303,13 +302,7 @@ const sections: Section[] = [
 
 
 
-        <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Learning theories it's built on</h3>
-        <ul className="list-disc pl-6 space-y-4 text-lg tracking-wide font-normal text-white/80 leading-relaxed">
-          <li><span className="font-bold text-white/90">Constructivism:</span> Build knowledge through doing. Learners construct understanding through real interactions — activating a circuit, not watching one.</li>
-          <li><span className="font-bold text-white/90">Cognitive Load:</span> One temple. One gate. One idea. Gamified metaphors carry the abstract weight so working memory stays clear.</li>
-          <li><span className="font-bold text-white/90">Kolb's Cycle:</span> Experience → Reflect → Apply. Every temple follows Kolb: hands-on interaction → quiz feedback → UI guidance.</li>
-          <li><span className="font-bold text-white/90">Bloom's Taxonomy:</span> From Remember to Create. The module scaffolds from remembering facts to creating knowledge.</li>
-        </ul>
+
       </div>
     ),
   },
@@ -522,7 +515,7 @@ const sections: Section[] = [
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
-            { state: "Welcome Atrium", color: "bg-blue-500", desc: "Onboarding + avatar" },
+            { state: "Welcome Entrance", color: "bg-blue-500", desc: "Onboarding + avatar" },
             { state: "Dept. Labs", color: "bg-emerald-500", desc: "EEE / Mech / CS" },
             { state: "XR Classrooms", color: "bg-amber-500", desc: "Live + async sessions" },
             { state: "Peer Zones", color: "bg-purple-500", desc: "Avatar interaction" },
@@ -837,7 +830,7 @@ const sections: Section[] = [
                 "This project wasn't just about designing an XR module — it was a deep exploration into how technology, storytelling, and education converge. GuruVR Metaversity has potential beyond logic gates. It offers a new blueprint for how India's technical education system can evolve — more experiential, inclusive, and future-ready."
               </p>
               <p className="text-base tracking-wide font-bold text-white/60 leading-relaxed uppercase">
-                — Shubhanshu Sahu
+                — Shubhanshu
               </p>
             </div>
           </div>
@@ -943,15 +936,15 @@ export default function GuruVRCaseStudy() {
           </div>
           <div className="flex flex-col items-start text-left px-8 md:border-r border-white/10">
             <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Team</p>
-            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">1 Solo Designer, 5 Developers, 3D Artists</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">3 Designers, 2 Developers, 2 3D Artists</p>
           </div>
           <div className="flex flex-col items-start text-left px-8 border-r border-white/10 mt-8 md:mt-0">
             <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Timeline</p>
-            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">5 months (2024–25)</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">5 Months</p>
           </div>
           <div className="flex flex-col items-start text-left px-8 mt-8 md:mt-0">
             <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3">Tools</p>
-            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">Unity, Prototyping, Design Systems</p>
+            <p className="text-sm md:text-base font-semibold text-white/90 leading-snug">Unity, Figma, Miro, ShapesXR, Blender</p>
           </div>
         </div>
       </div>

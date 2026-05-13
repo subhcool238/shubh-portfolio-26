@@ -321,7 +321,7 @@ export default function VinylPlayer() {
 
   return (
     <div className="relative group/vinyl-wrapper transition-all duration-700 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.35),0_30px_60px_-30px_rgba(0,0,0,0.4),0_-2px_20px_rgba(255,255,255,0.01)] hover:shadow-[0_80px_150px_-30px_rgba(0,0,0,0.45)] rounded-[40px] w-full max-w-5xl mx-auto">
-      <div className="bg-surface/40 backdrop-blur-md rounded-[40px] border border-white/5 p-8 md:p-12 w-full flex flex-col gap-12 overflow-hidden relative group/player">
+      <div className="bg-surface/40 backdrop-blur-md rounded-[40px] border border-white/5 p-6 md:p-8 w-full flex flex-col gap-6 md:gap-8 overflow-hidden relative group/player">
       
       {/* Hidden YT Container */}
       <div className="fixed -top-full -left-full w-1 h-1 opacity-0 overflow-hidden pointer-events-none">
@@ -334,12 +334,12 @@ export default function VinylPlayer() {
           <div className="w-8 h-8 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center">
             <Music className="w-4 h-4 text-white/40" />
           </div>
-          <h3 className="text-sm font-bold tracking-[0.2em] uppercase text-white/50">What I'm Listening To</h3>
+          <h3 className="text-xs md:text-sm font-bold tracking-[0.1em] md:tracking-[0.2em] uppercase text-white/50">What I'm Listening To</h3>
           {phase === 'searching' && <RefreshCw className="w-3 h-3 text-blue-500 animate-spin ml-2" />}
         </div>
 
         {/* Status Chip */}
-        <div className={`px-4 py-1.5 rounded-full border text-[10px] font-bold tracking-widest uppercase transition-all duration-500 ${
+        <div className={`px-2 md:px-4 py-1.5 rounded-full border text-[8px] md:text-[10px] font-bold tracking-wider md:tracking-widest uppercase transition-all duration-500 ${
           ytReady ? phase === 'playing' ? 'bg-blue-500/10 border-blue-500/20 text-blue-500' : 'bg-white/5 border-white/10 text-white/40' : 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500'
         }`}>
           {ytReady ? phase === 'playing' ? '● Playing' : phase === 'loading' || phase === 'searching' ? '◌ Searching' : '○ Ready' : '◌ Initializing'}
@@ -347,13 +347,13 @@ export default function VinylPlayer() {
       </div>
 
       {/* Main UI */}
-      <div className="flex flex-col items-center justify-center gap-6 md:gap-10 w-full max-w-2xl mx-auto">
+      <div className="flex flex-col items-center justify-center gap-4 md:gap-6 w-full max-w-2xl mx-auto">
         
         {/* Horizontal Controls & Turntable */}
-        <div className="flex items-center justify-between w-full px-2 md:px-8">
+        <div className="flex items-center justify-between w-full px-2 md:px-8 -translate-y-2.5">
           
           {/* Left: Play Button */}
-          <div className="flex-shrink-0">
+          <div className="flex-1 flex justify-start">
             <button onClick={togglePlay} className="relative flex items-center justify-center rounded-full h-12 w-12 md:h-14 md:w-14 transition-all duration-500 bg-black/40 border border-white/10 shadow-xl group/btn hover:scale-105 active:scale-95">
                <svg width="100%" height="100%" viewBox="0 0 56 56" className="absolute inset-0 -rotate-90">
                  <circle cx="28" cy="28" r="26.5" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="3" />
@@ -429,16 +429,18 @@ export default function VinylPlayer() {
 
               {!current && (
                 <div className="absolute bottom-[-40px] md:bottom-[-50px] left-1/2 -translate-x-1/2 w-40 md:w-48 py-2 md:py-3 rounded-2xl border border-dashed border-white/10 text-[8px] md:text-[9px] uppercase tracking-[0.4em] text-white/20 flex items-center justify-center bg-black/20 backdrop-blur-sm whitespace-nowrap">
-                  Drag or Click to play
+                  <span className="md:hidden">Click to play</span>
+                  <span className="hidden md:inline">Drag to play</span>
                 </div>
               )}
             </div>
           </div>
 
           {/* Right: Volume */}
-          <div className="flex-shrink-0 flex flex-col items-center gap-2 md:gap-3">
-             <span className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-white/20 font-bold">Vol</span>
-             <div className="relative rounded-xl p-1.5 md:p-2 bg-black/40 border border-white/5 shadow-inner">
+          <div className="flex-1 flex justify-end">
+            <div className="flex flex-col items-center gap-2 md:gap-3">
+               <span className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-white/20 font-bold">Vol</span>
+               <div className="relative rounded-xl p-1.5 md:p-2 bg-black/40 border border-white/5 shadow-inner">
                 <div className="relative h-20 md:h-32 w-1.5 md:w-3 rounded-full bg-black/60 overflow-hidden">
                    <div className="absolute bottom-0 left-0 w-full bg-blue-500/20 transition-all duration-300" style={{ height: `${volume}%` }}></div>
                 </div>
@@ -449,14 +451,15 @@ export default function VinylPlayer() {
                     ytPlayerRef.current.setVolume(v);
                   }
                 }} className="absolute inset-0 w-full h-full opacity-0 cursor-ns-resize" style={{ writingMode: 'vertical-lr', direction: 'rtl' } as any} />
-                <div className="absolute left-1/2 -translate-x-1/2 w-5 md:w-7 h-2 md:h-3 bg-gradient-to-b from-[#888] via-[#555] to-[#333] rounded-[2px] shadow-xl pointer-events-none z-20 border border-white/10"
+                 <div className="absolute left-1/2 -translate-x-1/2 w-5 md:w-7 h-2 md:h-3 bg-gradient-to-b from-[#888] via-[#555] to-[#333] rounded-[2px] shadow-xl pointer-events-none z-20 border border-white/10"
                   style={{ bottom: `calc(${volume}% - 4px)` }} />
-             </div>
+               </div>
+            </div>
           </div>
         </div>
 
         {/* Bottom: Song Info */}
-        <div className="text-center h-12 md:h-16 flex flex-col justify-center">
+        <div className="text-center h-10 md:h-12 flex flex-col justify-center md:mt-5">
           <AnimatePresence mode="wait">
             {current ? (
               <motion.div key="playing" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
@@ -473,11 +476,11 @@ export default function VinylPlayer() {
       </div>
 
       {/* Album Grid */}
-      <div className="border-t border-white/5 pt-12">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 md:gap-12 px-4">
+      <div className="border-t border-white/5 pt-6 md:pt-8 mt-[15px]">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 px-2 md:px-4">
           {fetching ? Array(4).fill(0).map((_, i) => <div key={i} className="aspect-square rounded-2xl bg-white/5 animate-pulse" />)
             : tracks.map((t) => (
-            <div key={t.name} className="flex flex-col gap-4 group/album items-center cursor-pointer md:cursor-grab md:active:cursor-grabbing" onClick={() => playTrack(t)}>
+            <div key={t.name} className="flex flex-col gap-4 group/album items-center cursor-pointer md:cursor-grab md:active:cursor-grabbing" onClick={() => { if (window.innerWidth < 768) playTrack(t); }}>
               <div className="relative w-full aspect-square">
                 {/* Draggable Vinyl Disk - Behind the cover */}
                 <motion.div 
@@ -519,7 +522,8 @@ export default function VinylPlayer() {
                    
                    {/* Hover Prompt */}
                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover/vinyl:opacity-100 transition-opacity bg-white text-black px-2 py-1 rounded text-[8px] font-bold uppercase whitespace-nowrap pointer-events-none z-50 shadow-xl">
-                     Click or Drag
+                     <span className="md:hidden">Click</span>
+                     <span className="hidden md:inline">Drag</span>
                    </div>
 
                    {/* Active Indicator Dot */}

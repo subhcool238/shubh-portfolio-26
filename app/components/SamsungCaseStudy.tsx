@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { 
   Building2, Users, Route, Search, Target, User, Lightbulb, 
   Glasses, Layout, BookOpen, Layers, TestTube, Globe, Settings, Sparkles, Accessibility, Gauge, Repeat, Camera,
-  Smartphone, Monitor, Share2, LayoutDashboard, Video, ShieldAlert, AlertCircle, Star, Apple, Scan
+  Smartphone, Monitor, Share2, LayoutDashboard, Video, ShieldAlert, AlertCircle, Star, Apple, Scan, Lock, ArrowLeft
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -1396,6 +1396,21 @@ const sections: Section[] = [
 export default function SamsungCaseStudy() {
   const [activeSection, setActiveSection] = useState<string>(sections[0].id);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+
+  const handleUnlock = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "shubh238") {
+      setIsUnlocked(true);
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1444,6 +1459,73 @@ export default function SamsungCaseStudy() {
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
+
+  if (!isUnlocked) {
+    return (
+      <div className="fixed inset-0 z-[90] bg-[#0a0a0c] selection:bg-white/30 font-sans flex items-center justify-center p-6">
+        {/* Background Glowing Blobs */}
+        <div className="absolute w-[400px] h-[400px] left-[-10vw] top-[-5vh] origin-top-left -rotate-[17deg] opacity-30 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse duration-[60s]"></div>
+        <div className="absolute w-[740px] h-[740px] right-[-10vw] top-[30vh] origin-top-left -rotate-45 opacity-20 bg-gradient-to-b from-blue-600/0 to-rose-600 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse duration-[75s]"></div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md w-full bg-white/5 border border-white/10 rounded-[2.5rem] p-10 md:p-12 text-center backdrop-blur-md shadow-2xl relative z-10"
+        >
+          <div className="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(244,63,94,0.2)]">
+            <Lock size={32} className="text-rose-400" />
+          </div>
+          
+          <div className="mb-4 inline-block px-4 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-[10px] font-black tracking-[0.2em] uppercase text-rose-400">
+            NDA Project
+          </div>
+          
+          <h1 className="text-3xl font-bold tracking-tight text-white mb-4">Samsung PRISM</h1>
+          
+          <p className="text-white/60 mb-8 leading-relaxed font-medium">
+            This project is under a Non-Disclosure Agreement. Please mail me on <a href="mailto:hello@shubh.design" className="text-white font-bold hover:underline">hello@shubh.design</a> to get the password.
+          </p>
+
+          <form onSubmit={handleUnlock} className="flex flex-col gap-4">
+            <div className="relative">
+              <input 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter Password" 
+                className={`w-full bg-black/40 border ${error ? 'border-rose-500' : 'border-white/10 focus:border-white/30'} rounded-xl px-6 py-4 text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-widest font-mono`}
+              />
+              {error && <span className="absolute -bottom-6 left-0 right-0 text-rose-400 text-xs font-bold">Incorrect password</span>}
+            </div>
+            <button 
+              type="submit"
+              className="w-full bg-white text-black font-bold tracking-widest uppercase text-sm py-4 rounded-xl hover:bg-white/90 transition-colors mt-2"
+            >
+              Unlock Project
+            </button>
+          </form>
+        </motion.div>
+
+        {/* Footer Navigation for Locked State */}
+        <div className="absolute bottom-0 left-0 right-0 max-w-[1200px] mx-auto px-6 py-8 flex flex-row items-center justify-between pointer-events-none z-10">
+          <div className="flex flex-col items-start pointer-events-auto">
+            <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em] mb-2">Previous Project</p>
+            <Link href="/case-study/rgzp" className="group flex items-center gap-2 text-white/50 hover:text-white transition-all font-bold text-sm">
+              <ChevronRight size={16} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+              RGZP Zoo
+            </Link>
+          </div>
+          <div className="flex flex-col items-end pointer-events-auto">
+            <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em] mb-2">Next Project</p>
+            <Link href="/case-study/flytbase" className="group flex items-center gap-2 text-white/50 hover:text-white transition-all font-bold text-sm">
+              FlytBase
+              <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-transparent overflow-clip relative selection:bg-white/30 font-sans">

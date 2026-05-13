@@ -100,7 +100,7 @@ export default function Navbar() {
           <div className="absolute left-[27px] h-full flex items-center">
             <Link href="/" className="relative h-8 w-8 md:h-9 md:w-9 transition-transform duration-300 hover:scale-110 active:scale-90">
               <Image
-                src="/logo/White Logo.png"
+                src="/Logo/White Logo.png"
                 alt="Logo"
                 fill
                 className="object-contain"

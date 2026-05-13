@@ -480,43 +480,43 @@ const sections: Section[] = [
         {/* Bento Grid of Campus Images */}
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-3 gap-4 mt-8 mb-12 h-[500px]">
           {/* R1C1: Square */}
-          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 192449.png")}>
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 192449.png" alt="Social View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
+          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Metaversity/Screenshot 2025-05-17 192449.png")}>
+            <img src="/guruvr/Metaversity/Screenshot 2025-05-17 192449.png" alt="Social View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R1C2-3: Wide */}
-          <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Zoomed Out Gate.png")}>
-            <img src="/guruvr/metaversity/Zoomed Out Gate.png" alt="Main Gate" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
+          <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Metaversity/Zoomed Out Gate.png")}>
+            <img src="/guruvr/Metaversity/Zoomed Out Gate.png" alt="Main Gate" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R1-2C4: Tall */}
-          <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 184930.png")}>
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 184930.png" alt="Lab View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
+          <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Metaversity/Screenshot 2025-05-17 184930.png")}>
+            <img src="/guruvr/Metaversity/Screenshot 2025-05-17 184930.png" alt="Lab View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R2C1: Square */}
-          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 185725.png")}>
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 185725.png" alt="Classroom" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
+          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Metaversity/Screenshot 2025-05-17 185725.png")}>
+            <img src="/guruvr/Metaversity/Screenshot 2025-05-17 185725.png" alt="Classroom" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R2C2: Square */}
-          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 185734.png")}>
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 185734.png" alt="UI View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
+          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Metaversity/Screenshot 2025-05-17 185734.png")}>
+            <img src="/guruvr/Metaversity/Screenshot 2025-05-17 185734.png" alt="UI View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R2-3C3: Tall */}
-          <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 184521.png")}>
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 184521.png" alt="Campus View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
+          <div className="md:row-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Metaversity/Screenshot 2025-05-17 184521.png")}>
+            <img src="/guruvr/Metaversity/Screenshot 2025-05-17 184521.png" alt="Campus View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R3C1-2: Wide */}
-          <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-01 141742.png")}>
-            <img src="/guruvr/metaversity/Screenshot 2025-05-01 141742.png" alt="Module View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
+          <div className="md:col-span-2 relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Metaversity/Screenshot 2025-05-01 141742.png")}>
+            <img src="/guruvr/Metaversity/Screenshot 2025-05-01 141742.png" alt="Module View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
 
           {/* R3C4: Square */}
-          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/metaversity/Screenshot 2025-05-17 184251.png")}>
-            <img src="/guruvr/metaversity/Screenshot 2025-05-17 184251.png" alt="Detailed View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
+          <div className="relative group overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/guruvr/Metaversity/Screenshot 2025-05-17 184251.png")}>
+            <img src="/guruvr/Metaversity/Screenshot 2025-05-17 184251.png" alt="Detailed View" className="w-full h-full object-cover scale-[1.03] transition-transform duration-700 group-hover:scale-110" />
           </div>
         </div>
 
@@ -583,10 +583,10 @@ const sections: Section[] = [
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
           {[
-            { state: "Student", image: "/guruvr/role based/Students.png", color: "bg-blue-500", desc: "Progress tracking, XR Launchpad, AI Tutor" },
-            { state: "Faculty", image: "/guruvr/role based/Faculty.png", color: "bg-emerald-500", desc: "Engagement analytics, classroom management" },
-            { state: "Creator", image: "/guruvr/role based/Creator.png", color: "bg-amber-500", desc: "Creator Studio, concept tagging" },
-            { state: "Corporate", image: "/guruvr/role based/Corporate.png", color: "bg-purple-500", desc: "XR safety training, HR sync" },
+            { state: "Student", image: "/guruvr/Role Based/Students.png", color: "bg-blue-500", desc: "Progress tracking, XR Launchpad, AI Tutor" },
+            { state: "Faculty", image: "/guruvr/Role Based/Faculty.png", color: "bg-emerald-500", desc: "Engagement analytics, classroom management" },
+            { state: "Creator", image: "/guruvr/Role Based/Creator.png", color: "bg-amber-500", desc: "Creator Studio, concept tagging" },
+            { state: "Corporate", image: "/guruvr/Role Based/Corporate.png", color: "bg-purple-500", desc: "XR safety training, HR sync" },
           ].map((item) => (
             <div key={item.state} className="group flex flex-col items-start rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:bg-white/10 hover:border-white/20 overflow-hidden cursor-zoom-in" onClick={() => (window as any).setSelectedImage(item.image)}>
                <div className="w-full aspect-[4/3] overflow-hidden bg-black/20 p-4">
@@ -660,13 +660,13 @@ const sections: Section[] = [
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Scene by scene</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 mb-12">
           {[
-            { step: "01. Crash Site", detail: "Orientation — no pressure to perform yet.", image: "/guruvr/mystery island/1.1.jpg", color: "bg-blue-500" },
-            { step: "02. Temple of Unity (AND Gate)", detail: "Pull both levers simultaneously to activate the gate.", image: "/guruvr/mystery island/2.1.jpg", color: "bg-emerald-500" },
-            { step: "03. Temple of Acceptance (OR Gate)", detail: "Step on pressure pads in different combinations.", image: "/guruvr/mystery island/3.1.jpg", color: "bg-amber-500" },
-            { step: "04. Chamber of Inversion (NOT Gate)", detail: "Insert an orb into the gate — the inverse shoots out as a beam.", image: "/guruvr/mystery island/4.1.jpg", color: "bg-[#EF4444]" },
-            { step: "05. Temple of Divergence (XOR Gate)", detail: "Select mismatched input pairs to activate the gate.", image: "/guruvr/mystery island/5.1.jpg", color: "bg-purple-500" },
-            { step: "06. Tower of Equality (XNOR Gate)", detail: "Align both inputs to match — the platform rises.", image: "/guruvr/mystery island/6.1.jpg", color: "bg-indigo-500" },
-            { step: "07. Final Ritual", detail: "Build one mega-circuit from gate tokens. Unlock the escape portal.", image: "/guruvr/mystery island/7.1.jpg", color: "bg-pink-500" },
+            { step: "01. Crash Site", detail: "Orientation — no pressure to perform yet.", image: "/guruvr/Mystery Island/1.1.jpg", color: "bg-blue-500" },
+            { step: "02. Temple of Unity (AND Gate)", detail: "Pull both levers simultaneously to activate the gate.", image: "/guruvr/Mystery Island/2.1.jpg", color: "bg-emerald-500" },
+            { step: "03. Temple of Acceptance (OR Gate)", detail: "Step on pressure pads in different combinations.", image: "/guruvr/Mystery Island/3.1.jpg", color: "bg-amber-500" },
+            { step: "04. Chamber of Inversion (NOT Gate)", detail: "Insert an orb into the gate — the inverse shoots out as a beam.", image: "/guruvr/Mystery Island/4.1.jpg", color: "bg-[#EF4444]" },
+            { step: "05. Temple of Divergence (XOR Gate)", detail: "Select mismatched input pairs to activate the gate.", image: "/guruvr/Mystery Island/5.1.jpg", color: "bg-purple-500" },
+            { step: "06. Tower of Equality (XNOR Gate)", detail: "Align both inputs to match — the platform rises.", image: "/guruvr/Mystery Island/6.1.jpg", color: "bg-indigo-500" },
+            { step: "07. Final Ritual", detail: "Build one mega-circuit from gate tokens. Unlock the escape portal.", image: "/guruvr/Mystery Island/7.1.jpg", color: "bg-pink-500" },
           ].map((item) => (
             <div key={item.step} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-all duration-500 hover:border-white/20 hover:bg-white/10 cursor-zoom-in" onClick={() => (window as any).setSelectedImage(item.image)}>
               <div className="aspect-video w-full overflow-hidden relative">
@@ -699,9 +699,9 @@ const sections: Section[] = [
         </p>
         <div className="grid grid-cols-2 gap-4 mt-8">
           {["03.jpg", "04.jpg", "05.jpg", "06.jpg"].map((img) => (
-            <div key={img} className="rounded-xl overflow-hidden border border-white/10 bg-white/5 relative group aspect-video cursor-zoom-in" onClick={() => (window as any).setSelectedImage(`/guruvr/unity prototypes/${img}`)}>
+            <div key={img} className="rounded-xl overflow-hidden border border-white/10 bg-white/5 relative group aspect-video cursor-zoom-in" onClick={() => (window as any).setSelectedImage(`/guruvr/Unity Prototypes/${img}`)}>
               <img 
-                src={`/guruvr/unity prototypes/${img}`} 
+                src={`/guruvr/Unity Prototypes/${img}`} 
                 alt="Unity Prototype" 
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
               />

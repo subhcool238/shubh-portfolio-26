@@ -19,12 +19,12 @@ export default function Agent() {
       
       vapiInstance.on("call-start", () => {
         setCallStatus("active");
-        triggerSpline("Happy Button");
+        triggerSpline("Happy");
       });
       vapiInstance.on("call-end", () => {
         setCallStatus("inactive");
         setIsSpeaking(false);
-        triggerSpline("Normal Button");
+        triggerSpline("Normal");
       });
       vapiInstance.on("speech-start", () => {
         setIsSpeaking(true);
@@ -36,7 +36,7 @@ export default function Agent() {
         console.error("Vapi error", e);
         setCallStatus("inactive");
         setIsSpeaking(false);
-        triggerSpline("Normal Button");
+        triggerSpline("Normal");
       });
     } catch (e) {
       console.error("Failed to init Vapi", e);
@@ -44,13 +44,22 @@ export default function Agent() {
   }, []);
 
   // Helper to trigger events inside Spline
-  const triggerSpline = (objectName: string) => {
+  const triggerSpline = (state: "Happy" | "Normal") => {
     const viewer = document.querySelector('spline-viewer') as any;
     if (viewer && viewer.spline) {
       try {
-        viewer.spline.emitEvent("mouseDown", objectName);
+        if (state === "Happy") {
+          viewer.spline.emitEvent("mouseDown", "Happy Face");
+          viewer.spline.emitEvent("mouseDown", "Happy Eyes");
+          viewer.spline.emitEvent("mouseHover", "Happy Face");
+        } else {
+          viewer.spline.emitEvent("mouseDown", "Normal Face");
+          viewer.spline.emitEvent("mouseDown", "Normal  Face"); // Handle potential double space
+          viewer.spline.emitEvent("mouseDown", "Normal Eyes");
+          viewer.spline.emitEvent("mouseHover", "Normal Face");
+        }
       } catch (e) {
-        console.warn(`Spline trigger failed for ${objectName}:`, e);
+        console.warn(`Spline trigger failed for ${state}:`, e);
       }
     }
   };
@@ -66,10 +75,10 @@ export default function Agent() {
     const handleLoad = () => {
       setLoading(false);
       
-      // Aggressively try to trigger Normal Button a few times
+      // Aggressively try to trigger Normal a few times
       let attempts = 0;
       const eyeInterval = setInterval(() => {
-        triggerSpline("Normal Button");
+        triggerSpline("Normal");
         attempts++;
         if (attempts > 5) clearInterval(eyeInterval);
       }, 500);
@@ -172,8 +181,13 @@ export default function Agent() {
 
       {/* Syn — High Fidelity Agent */}
       <div className="w-full h-full flex items-center justify-center pointer-events-none relative overflow-visible group">
-        {/* Visual Container - Scales on hover of the hit area */}
-        <div className="w-full h-full relative flex items-center justify-center transition-transform duration-700 group-hover:scale-[1.05] pointer-events-none">
+        {/* Visual Container - Handles both Spline rendering and React interactions */}
+        <div 
+          id="agent-sphere"
+          className="w-full h-full relative flex items-center justify-center transition-transform duration-700 hover:scale-[1.05] pointer-events-auto cursor-pointer"
+          onClick={toggleCall}
+          data-cursor-text={callStatus === "active" ? "stop syn" : "talk to syn"}
+        >
           {/* Status Tag - Repositioned for smaller size */}
           <div 
             className={`absolute md:top-[-20px] top-[0px] left-1/2 md:-translate-x-1/2 -translate-x-[calc(50%+20px)] z-[100] px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-2xl border border-white/10 transition-all duration-700 ${
@@ -190,7 +204,7 @@ export default function Agent() {
 
           {/* @ts-ignore */}
           <spline-viewer 
-            url="/aiassistant/scene.splinecode"
+            url="/aiassistant/scene.splinecode?v=4"
             events-target="global"
             hint="false"
             logo="false"
@@ -198,18 +212,6 @@ export default function Agent() {
             style={{ width: '100%', height: '100%' }}
           />
         </div>
-
-        {/* Interaction Hit Area - Scaled to ~50% of the small container */}
-        <div 
-          id="agent-sphere"
-          className="absolute w-[52%] h-[52%] rounded-full z-50 pointer-events-auto cursor-pointer bg-transparent"
-          onClick={toggleCall}
-          onMouseEnter={() => triggerSpline("Happy Button")}
-          onMouseLeave={() => {
-            if (callStatus === "inactive") triggerSpline("Normal Button");
-          }}
-          data-cursor-text={callStatus === "active" ? "stop syn" : "talk to syn"}
-        />
       </div>
     </>
   );

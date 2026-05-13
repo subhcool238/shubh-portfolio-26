@@ -157,9 +157,9 @@ export default function RGZPCaseStudy() {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
           {[
-            { label: "Figma", desc: "UI/UX & Prototyping", icon: "/zoo/Figma.png", accent: "border-blue-500/20 bg-blue-500/5", color: "text-blue-400" },
-            { label: "Miro", desc: "Mind mapping & Ideation", icon: "/zoo/Miro.png", accent: "border-amber-500/20 bg-amber-500/5", color: "text-amber-400" },
-            { label: "PowerPoint", desc: "Presentation & Delivery", icon: "/zoo/Power Point.png", accent: "border-rose-500/20 bg-rose-500/5", color: "text-rose-400" },
+            { label: "Figma", desc: "UI/UX & Prototyping", icon: "/Zoo/Figma.png", accent: "border-blue-500/20 bg-blue-500/5", color: "text-blue-400" },
+            { label: "Miro", desc: "Mind mapping & Ideation", icon: "/Zoo/Miro.png", accent: "border-amber-500/20 bg-amber-500/5", color: "text-amber-400" },
+            { label: "PowerPoint", desc: "Presentation & Delivery", icon: "/Zoo/Power Point.png", accent: "border-rose-500/20 bg-rose-500/5", color: "text-rose-400" },
           ].map((tool) => (
             <div key={tool.label} className={`p-10 rounded-[2.5rem] border ${tool.accent} flex flex-col items-center justify-center transition-all duration-500 hover:scale-[1.02] hover:brightness-110 w-full text-center group`}>
               <img src={tool.icon} alt={tool.label} className="h-16 w-auto object-contain mb-8 group-hover:scale-110 transition-transform duration-500" />
@@ -198,8 +198,8 @@ export default function RGZPCaseStudy() {
               </div>
             ))}
           </div>
-          <div className="my-16 cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Double Diamond jpg-01 1.png")}>
-            <img src="/zoo/Double Diamond jpg-01 1.png" alt="Double Diamond Diagram" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+          <div className="my-16 cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Double Diamond jpg-01 1.png")}>
+            <img src="/Zoo/Double Diamond jpg-01 1.png" alt="Double Diamond Diagram" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
           </div>
         </div>
       ),
@@ -211,8 +211,8 @@ export default function RGZPCaseStudy() {
       title: "Immersive Research",
       content: (
         <div className="space-y-12">
-          <div className="w-full mb-12 cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Mind Map.png")}>
-             <img src="/zoo/Mind Map.png" alt="Mind Map" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+          <div className="w-full mb-12 cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Mind Map.png")}>
+             <img src="/Zoo/Mind Map.png" alt="Mind Map" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
           </div>
           <p className="text-xl tracking-wide font-normal text-white/80 leading-relaxed">
             Multiple visits to RGZP allowed us to interview directors and visitors, uncovering the true operational heart of the zoo.
@@ -258,8 +258,8 @@ export default function RGZPCaseStudy() {
             ))}
           </div>
 
-          <div className="my-16 cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Feedback Loop-01 1.png")}>
-             <img src="/zoo/Feedback Loop-01 1.png" alt="Feedback Loop" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+          <div className="my-16 cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Feedback Loop-01 1.png")}>
+             <img src="/Zoo/Feedback Loop-01 1.png" alt="Feedback Loop" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
           </div>
         </div>
       ),
@@ -273,41 +273,41 @@ export default function RGZPCaseStudy() {
         <div className="space-y-32">
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">Management Architecture</h3>
-            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Zoo management.svg")}>
-              <img src="/zoo/Zoo management.svg" alt="Zoo Management Diagram" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Zoo management.svg")}>
+              <img src="/Zoo/Zoo management.svg" alt="Zoo Management Diagram" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
             </div>
           </div>
 
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">Visitor Typology</h3>
-            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Visitors journey Map.png")}>
-              <img src="/zoo/Visitors journey Map.png" alt="Types of Visitors" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Visitors journey Map.png")}>
+              <img src="/Zoo/Visitors journey Map.png" alt="Types of Visitors" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
             </div>
           </div>
           
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">Visitor Journey Map</h3>
-            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/vistors journey map.svg")}>
-              <img src="/zoo/vistors journey map.svg" alt="Visitors Journey Map" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/vistors journey map.svg")}>
+              <img src="/Zoo/vistors journey map.svg" alt="Visitors Journey Map" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
             </div>
           </div>
           
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">User Personas</h3>
             <div className="flex flex-col gap-12">
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Haresh Persona.png")}>
-                <img src="/zoo/Haresh Persona.png" alt="User Persona Haresh" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Haresh Persona.png")}>
+                <img src="/Zoo/Haresh Persona.png" alt="User Persona Haresh" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Abhishek Baccha.png")}>
-                <img src="/zoo/Abhishek Baccha.png" alt="User Persona Abhishek" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Abhishek Baccha.png")}>
+                <img src="/Zoo/Abhishek Baccha.png" alt="User Persona Abhishek" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
           </div>
 
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">Iceberg Model</h3>
-            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Iceberb Model.png")}>
-              <img src="/zoo/Iceberb Model.png" alt="Iceberg Model" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Iceberb Model.png")}>
+              <img src="/Zoo/Iceberb Model.png" alt="Iceberg Model" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
             </div>
           </div>
         </div>
@@ -361,11 +361,11 @@ export default function RGZPCaseStudy() {
           <div className="space-y-12">
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Drawing Competition</h3>
             <div className="flex flex-col gap-8">
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Ticket Design-01 1.png")}>
-                <img src="/zoo/Ticket Design-01 1.png" alt="Ticket Design 1" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Ticket Design-01 1.png")}>
+                <img src="/Zoo/Ticket Design-01 1.png" alt="Ticket Design 1" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Ticket Design-02 1.png")}>
-                <img src="/zoo/Ticket Design-02 1.png" alt="Ticket Design 2" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Ticket Design-02 1.png")}>
+                <img src="/Zoo/Ticket Design-02 1.png" alt="Ticket Design 2" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
           </div>
@@ -373,11 +373,11 @@ export default function RGZPCaseStudy() {
           <div className="space-y-12">
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Unique Themed QR Codes</h3>
             <div className="grid grid-cols-2 gap-8">
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Unique Themed QR Code 1.png")}>
-                <img src="/zoo/Unique Themed QR Code 1.png" alt="QR Code 1" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Unique Themed QR Code 1.png")}>
+                <img src="/Zoo/Unique Themed QR Code 1.png" alt="QR Code 1" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Unique Themed QR Code 2.png")}>
-                <img src="/zoo/Unique Themed QR Code 2.png" alt="QR Code 2" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Unique Themed QR Code 2.png")}>
+                <img src="/Zoo/Unique Themed QR Code 2.png" alt="QR Code 2" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
           </div>
@@ -389,21 +389,21 @@ export default function RGZPCaseStudy() {
             </p>
             <div className="relative inline-block group">
               <div className="absolute inset-0 bg-orange-500/20 blur-[100px] rounded-full opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
-              <img src="/zoo/TIgo 1.png" alt="Mascot Tigo" className="relative z-10 w-full max-w-[350px] h-auto object-contain mx-auto drop-shadow-[0_0_50px_rgba(249,115,22,0.3)] transition-transform duration-700 group-hover:scale-105" />
+              <img src="/Zoo/TIgo 1.png" alt="Mascot Tigo" className="relative z-10 w-full max-w-[350px] h-auto object-contain mx-auto drop-shadow-[0_0_50px_rgba(249,115,22,0.3)] transition-transform duration-700 group-hover:scale-105" />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <h3 className="text-2xl md:text-3xl font-bold tracking-tight">DIY Kit</h3>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/DIY Kit.png")}>
-                <img src="/zoo/DIY Kit.png" alt="DIY Kit" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/DIY Kit.png")}>
+                <img src="/Zoo/DIY Kit.png" alt="DIY Kit" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
             <div className="space-y-6">
               <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Badge & Keychain</h3>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/zoo/Badge & Keychain 1.png")}>
-                <img src="/zoo/Badge & Keychain 1.png" alt="Badge and Keychain" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Badge & Keychain 1.png")}>
+                <img src="/Zoo/Badge & Keychain 1.png" alt="Badge and Keychain" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
           </div>
@@ -514,10 +514,10 @@ export default function RGZPCaseStudy() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
           className="w-full mb-20 cursor-zoom-in group" 
-          onClick={() => setSelectedImage("/zoo/Zoo UI Mockup top hero image.png")}
+          onClick={() => setSelectedImage("/Zoo/Zoo UI Mockup top hero image.png")}
         >
           <img 
-            src="/zoo/Zoo UI Mockup top hero image.png" 
+            src="/Zoo/Zoo UI Mockup top hero image.png" 
             alt="RGZP Hero" 
             className="w-full h-auto rounded-3xl object-cover shadow-2xl transition-transform duration-700 group-hover:scale-[1.01]" 
           />

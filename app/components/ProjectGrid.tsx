@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { LucideIcon, ArrowUpRight, Building2, AppWindow, Home, Plane, Box, BrainCircuit, Glasses, Layers, Smartphone } from "lucide-react";
+import { LucideIcon, ArrowUpRight, Building2, AppWindow, Home, Plane, Box, BrainCircuit, Glasses, Layers, Smartphone, Lock } from "lucide-react";
 
 interface Tag {
   name: string;
@@ -19,6 +19,7 @@ interface Project {
   coverImage: string;
   placeholderColor: string;
   link?: string;
+  isNDA?: boolean;
 }
 
 const projects: Project[] = [
@@ -66,6 +67,7 @@ const projects: Project[] = [
     coverImage: "/samsung/samsung_cover.jpg",
     placeholderColor: "bg-stone-950",
     link: "/case-study/samsung",
+    isNDA: true,
   },
   {
     id: "zoosystem",
@@ -163,6 +165,12 @@ export default function ProjectGrid() {
                       </span>
                     );
                   })}
+                  {project.isNDA && (
+                    <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-black tracking-[0.2em] uppercase text-white/40 self-center transition-colors duration-500 group-hover:bg-rose-500/10 group-hover:border-rose-500/20 group-hover:text-rose-400">
+                      <Lock size={10} className="shrink-0" />
+                      NDA
+                    </span>
+                  )}
                 </div>
 
                 <p className="text-gray-500 text-sm leading-relaxed max-w-xl transition-colors group-hover:text-gray-400">

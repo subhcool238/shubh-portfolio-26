@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./components/ThemeProvider";
 import ClientOnly from "./components/ClientOnly";
 import GlobalFooter from "./components/GlobalFooter";
+import Preloader from "./components/Preloader";
 
 export const metadata: Metadata = {
   title: "Shubhanshu | Portfolio",
@@ -27,6 +28,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Preloader />
           <MouseCursor />
           <Navbar />
           {children}

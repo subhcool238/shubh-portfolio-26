@@ -9,6 +9,20 @@ export default function PersistentAgent() {
   const [scrollPos, setScrollPos] = useState(0);
   const [mode, setMode] = useState<"hero" | "sticky" | "hidden">("hero");
   const [isMounted, setIsMounted] = useState(false);
+  const [showAgent, setShowAgent] = useState(false);
+
+  useEffect(() => {
+    const hasSeen = typeof window !== 'undefined' && sessionStorage.getItem("hasSeenPreloader");
+    if (hasSeen) {
+      setShowAgent(true);
+    } else {
+      // Sync with Preloader timing (~3.8s total)
+      const timer = setTimeout(() => {
+        setShowAgent(true);
+      }, 3800);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   useEffect(() => {
     setIsMounted(true);
@@ -39,7 +53,7 @@ export default function PersistentAgent() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
-  if (!isMounted) return null;
+  if (!isMounted || !showAgent) return null;
 
   const getContainerClasses = () => {
     const base = "absolute pointer-events-auto transition-all duration-1000 ease-in-out";
@@ -59,7 +73,7 @@ export default function PersistentAgent() {
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] pointer-events-none flex justify-center">
+    <div className="fixed inset-0 z-[5000] pointer-events-none flex justify-center">
       <div className="w-full max-w-7xl relative h-full">
         <div className={getContainerClasses()}>
           <Agent isSticky={mode === 'sticky'} />

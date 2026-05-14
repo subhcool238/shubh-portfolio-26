@@ -38,9 +38,11 @@ export default function Preloader() {
       
       currentProgress += step;
       
-      // Don't go past 90% until Syn is ready
+      // If Syn is NOT ready, crawl slowly after 90% but don't finish
       if (currentProgress >= 90 && !synReady) {
-        currentProgress = 90;
+        // Slow down to a crawl (e.g., 0.1% per tick)
+        currentProgress = 90 + (currentProgress - 90) * 0.1;
+        if (currentProgress >= 98) currentProgress = 98; 
       }
 
       if (currentProgress >= 99.5) {

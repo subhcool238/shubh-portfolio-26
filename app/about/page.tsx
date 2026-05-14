@@ -209,7 +209,7 @@ export default function AboutPage() {
                 Shubhanshu <span className="text-white/20">Sahu</span>
               </h1>
               <p className="reveal text-lg md:text-xl text-stone-600 dark:text-white/60 leading-relaxed font-light max-w-2xl mb-12">
-                I architect ecosystems where physical environments and generative AI intersect. With an M.Des in Immersive Media Design, I treat every interface as a spatial challenge—moving beyond screens to build scalable, zero-learning-curve products.
+                I architect ecosystems where physical environments and generative AI intersect; M.Des in Immersive Media Design, has taught me to treat every interface as a spatial challenge—moving beyond screens to build scalable, zero-learning-curve products.
               </p>
               <div className="reveal flex items-center gap-6">
                 <div className="flex -space-x-3">

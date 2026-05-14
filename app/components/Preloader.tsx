@@ -20,8 +20,7 @@ export default function Preloader() {
     document.body.style.overflow = "hidden";
 
     // Simulate loading
-    const duration = 2800; // minimum duration
-    const interval = 20; 
+    const interval = 30; 
     
     let currentProgress = 0;
     let synReady = false;
@@ -29,30 +28,29 @@ export default function Preloader() {
     const handleSynLoaded = () => { synReady = true; };
     window.addEventListener('syn-loaded', handleSynLoaded);
     
-    // Safety timeout: don't hang preloader if Syn fails to load
-    const safetyTimer = setTimeout(() => { synReady = true; }, 5000);
+    const safetyTimer = setTimeout(() => { synReady = true; }, 8000);
     
     const timer = setInterval(() => {
-      const remaining = 100 - currentProgress;
-      const step = Math.max(0.5, remaining * 0.05); 
+      // Very gradual increase
+      // If Syn is ready, move fast. If not, move slow but steady.
+      const increment = synReady ? 2.5 : 0.4;
       
-      currentProgress += step;
+      currentProgress += increment;
       
-      // If Syn is NOT ready, crawl slowly after 90% but don't finish
-      if (currentProgress >= 90 && !synReady) {
-        // Slow down to a crawl (e.g., 0.1% per tick)
-        currentProgress = 90 + (currentProgress - 90) * 0.1;
-        if (currentProgress >= 98) currentProgress = 98; 
+      // Cap at 95% if not ready
+      if (currentProgress >= 95 && !synReady) {
+        currentProgress = 95;
       }
 
-      if (currentProgress >= 99.5) {
+      if (currentProgress >= 100) {
         currentProgress = 100;
         clearInterval(timer);
         setTimeout(() => {
           setIsLoading(false);
+          window.dispatchEvent(new CustomEvent('preloader-finished'));
           document.body.style.overflow = "";
           sessionStorage.setItem("hasSeenPreloader", "true");
-        }, 400); 
+        }, 500); 
       }
       setProgress(Math.round(currentProgress));
     }, interval);

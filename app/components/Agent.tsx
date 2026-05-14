@@ -185,7 +185,7 @@ export default function Agent({ isSticky }: { isSticky?: boolean }) {
         {/* Visual Container - Handles both Spline rendering and React interactions */}
         <div 
           id="agent-sphere"
-          className="w-full h-full relative flex items-center justify-center transition-transform duration-700 hover:scale-[1.05] pointer-events-auto cursor-pointer"
+          className={`w-full h-full relative flex items-center justify-center transition-all duration-1000 hover:scale-[1.05] pointer-events-auto cursor-pointer ${loading ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}
           onClick={toggleCall}
           data-cursor-text={callStatus === "active" ? "stop syn" : "talk to syn"}
         >

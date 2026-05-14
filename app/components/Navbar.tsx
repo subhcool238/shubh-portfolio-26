@@ -86,7 +86,7 @@ export default function Navbar() {
     { label: "Work", href: "#work" },
     { label: "Playground", href: "/playground" },
     { label: "About", href: "/about" },
-    { label: "Resume", href: "https://drive.google.com/file/d/1dLjk2fGsxcCBWZx8fIagkWNuTvW3zRd2/view?usp=sharing", target: "_blank" },
+    { label: "Resume", href: "https://drive.google.com/file/d/1rIlCpF8HYNW9d7m7ABtvyJYANE8vBMFb/view?usp=drive_link", target: "_blank" },
   ];
 
   if (pathname === "/playground") return null;

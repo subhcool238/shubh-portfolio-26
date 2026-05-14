@@ -20,7 +20,8 @@ export default function Preloader() {
     document.body.style.overflow = "hidden";
 
     // Simulate loading
-    const interval = 30; 
+    const duration = 2800; // minimum duration
+    const interval = 20; 
     
     let currentProgress = 0;
     let synReady = false;
@@ -28,31 +29,33 @@ export default function Preloader() {
     const handleSynLoaded = () => { synReady = true; };
     window.addEventListener('syn-loaded', handleSynLoaded);
     
-    const safetyTimer = setTimeout(() => { synReady = true; }, 8000);
+    // Safety timeout: don't hang preloader if Syn fails to load
+    const safetyTimer = setTimeout(() => { synReady = true; }, 5000);
     
     const timer = setInterval(() => {
-      // Very gradual increase
-      // If Syn is ready, move fast. If not, move slow but steady.
-      const increment = synReady ? 2.5 : 0.4;
+      // Gradual, more linear increment
+      let step = 0.35; // Takes ~6 seconds to reach 100% naturally
       
-      currentProgress += increment;
-      
-      // Cap at 95% if not ready
-      if (currentProgress >= 95 && !synReady) {
-        currentProgress = 95;
+      if (synReady) {
+        // Accelerate to finish once Syn is ready
+        step = Math.max(0.8, (100 - currentProgress) * 0.3);
+      } else if (currentProgress >= 88) {
+        // Slow down to a crawl near the end if Syn isn't ready yet
+        step = (98 - currentProgress) * 0.05;
       }
-
-      if (currentProgress >= 100) {
+      
+      currentProgress += step;
+      
+      if (currentProgress >= 99.8) {
         currentProgress = 100;
         clearInterval(timer);
         setTimeout(() => {
           setIsLoading(false);
-          window.dispatchEvent(new CustomEvent('preloader-finished'));
           document.body.style.overflow = "";
           sessionStorage.setItem("hasSeenPreloader", "true");
         }, 500); 
       }
-      setProgress(Math.round(currentProgress));
+      setProgress(Math.min(100, Math.round(currentProgress)));
     }, interval);
 
     return () => {

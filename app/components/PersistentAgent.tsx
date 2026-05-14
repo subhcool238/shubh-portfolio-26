@@ -1,57 +1,61 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { usePathname } from "next/navigation";
 import Agent from "./Agent";
 
 export default function PersistentAgent() {
   const pathname = usePathname();
   const [scrollPos, setScrollPos] = useState(0);
-  const [mode, setMode] = useState<"hero" | "sticky" | "hidden">("hero");
   const [isMounted, setIsMounted] = useState(false);
   const [showAgent, setShowAgent] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
 
+  // 1. Handle Sync with Preloader & Syn Loading
   useEffect(() => {
+    setIsMounted(true);
     const hasSeen = typeof window !== 'undefined' && sessionStorage.getItem("hasSeenPreloader");
+    
+    const reveal = () => setShowAgent(true);
+
     if (hasSeen) {
-      setShowAgent(true);
+      reveal();
     } else {
-      // Sync with Preloader timing (~3.8s total)
-      const timer = setTimeout(() => {
-        setShowAgent(true);
-      }, 3800);
-      return () => clearTimeout(timer);
+      window.addEventListener('syn-loaded', reveal);
+      // Fallback reveal in case event is missed
+      const timer = setTimeout(reveal, 6000);
+      return () => {
+        window.removeEventListener('syn-loaded', reveal);
+        clearTimeout(timer);
+      };
     }
   }, []);
 
+  // 2. Handle Scroll & Footer Visibility
   useEffect(() => {
-    setIsMounted(true);
     const handleScroll = () => {
-      const currentScroll = window.scrollY;
-      setScrollPos(currentScroll);
+      setScrollPos(window.scrollY);
       
       const footer = document.querySelector('footer');
-      let footerVisible = false;
       if (footer) {
         const footerTop = footer.getBoundingClientRect().top;
-        footerVisible = footerTop < window.innerHeight;
-      }
-
-      const isHome = window.location.pathname === "/";
-      
-      if (footerVisible) {
-        setMode("hidden");
-      } else if (isHome && currentScroll < window.innerHeight * 0.4) {
-        setMode("hero");
-      } else {
-        setMode("sticky");
+        setIsFooterVisible(footerTop < window.innerHeight);
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    setTimeout(handleScroll, 100);
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
+
+  // 3. Determine Mode Instantly during Render to avoid Navigation Flicker
+  const isHome = pathname === "/";
+  // The threshold should match the Hero section height logic
+  const isHeroActive = isHome && scrollPos < 300; 
+  
+  let mode: "hero" | "sticky" | "hidden" = "sticky";
+  if (isFooterVisible) mode = "hidden";
+  else if (isHeroActive) mode = "hero";
 
   if (!isMounted || !showAgent) return null;
 
@@ -63,12 +67,11 @@ export default function PersistentAgent() {
     }
 
     if (mode === "hero") {
-      // Hero Mode: Moved 100px to the left (from +70px to -30px)
+      // Hero Mode: Positioned for the Home Page Hero Section
       return `${base} opacity-100 bottom-[-61px] right-[-36px] w-[192px] h-[192px] md:bottom-auto md:right-[-10%] md:top-[55%] md:translate-y-[calc(-50%+20px)] md:translate-x-[-30px] md:w-[560px] md:h-[560px]`;
     }
 
-    // Sticky mode: Shifted further down (additional 30px)
-    // On mobile, we keep the size (192px) and bottom/right same as hero mode to satisfy "keep the place same"
+    // Sticky mode: Default for all other pages and scrolled-down home page
     return `${base} opacity-100 w-[192px] h-[192px] md:w-[240px] md:h-[240px] bottom-[-61px] right-[-36px] md:bottom-[-50px] md:right-[calc(min(0px,640px-50vw)-10px)]`;
   };
 

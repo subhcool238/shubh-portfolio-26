@@ -20,18 +20,29 @@ export default function Preloader() {
     document.body.style.overflow = "hidden";
 
     // Simulate loading
-    const duration = 2800; // 2.8 seconds total for an elegant loading feel
-    const interval = 20; // update every 20ms for smooth counting
+    const duration = 2800; // minimum duration
+    const interval = 20; 
     
     let currentProgress = 0;
+    let synReady = false;
+
+    const handleSynLoaded = () => { synReady = true; };
+    window.addEventListener('syn-loaded', handleSynLoaded);
+    
+    // Safety timeout: don't hang preloader if Syn fails to load
+    const safetyTimer = setTimeout(() => { synReady = true; }, 5000);
     
     const timer = setInterval(() => {
-      // Create an easing effect where it slows down towards the end
       const remaining = 100 - currentProgress;
-      const step = Math.max(0.5, remaining * 0.05); // Ease out
+      const step = Math.max(0.5, remaining * 0.05); 
       
       currentProgress += step;
       
+      // Don't go past 90% until Syn is ready
+      if (currentProgress >= 90 && !synReady) {
+        currentProgress = 90;
+      }
+
       if (currentProgress >= 99.5) {
         currentProgress = 100;
         clearInterval(timer);
@@ -39,13 +50,15 @@ export default function Preloader() {
           setIsLoading(false);
           document.body.style.overflow = "";
           sessionStorage.setItem("hasSeenPreloader", "true");
-        }, 400); // short delay at 100% before fading out
+        }, 400); 
       }
       setProgress(Math.round(currentProgress));
     }, interval);
 
     return () => {
       clearInterval(timer);
+      clearTimeout(safetyTimer);
+      window.removeEventListener('syn-loaded', handleSynLoaded);
       document.body.style.overflow = "";
     };
   }, []);

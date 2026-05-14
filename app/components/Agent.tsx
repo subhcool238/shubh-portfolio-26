@@ -74,6 +74,7 @@ export default function Agent({ isSticky }: { isSticky?: boolean }) {
     // 2. Wake up Syn by listening to the load event
     const handleLoad = () => {
       setLoading(false);
+      window.dispatchEvent(new CustomEvent('syn-loaded'));
       
       // Aggressively try to trigger Normal a few times
       let attempts = 0;

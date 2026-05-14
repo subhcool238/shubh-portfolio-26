@@ -317,7 +317,7 @@ export default function AboutPage() {
           
           <div className="relative group/gallery-wrapper transition-all duration-700 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.35),0_30px_60px_-30px_rgba(0,0,0,0.4),0_-2px_20px_rgba(255,255,255,0.01)] hover:shadow-[0_80px_150px_-30px_rgba(0,0,0,0.45)] rounded-[40px]">
           <div ref={galleryRef} className="relative h-[700px] md:h-[650px] flex items-center justify-center bg-surface/40 backdrop-blur-md rounded-[40px] border border-white/5 overflow-hidden">
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] text-sm md:text-lg text-white text-center max-w-[90%] md:max-w-2xl font-normal pointer-events-none select-none tracking-tight leading-relaxed opacity-100">
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] text-sm md:text-lg text-white text-center max-w-[90%] md:max-w-2xl font-normal pointer-events-none select-none tracking-tight leading-relaxed opacity-100 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
               Screens are where I work — but mountains are where I think. I ride Obsidian, my motorbike, into places with no signal and no plan. Some of my clearest ideas come from the middle of nowhere, halfway up a pass. The patience needed for a long trek is the same patience it takes to architect something that actually lasts.
             </p>
             
@@ -489,8 +489,8 @@ function GalleryCard({ img, i, galleryRef, bringToFront, zIndex, setAnyHover }: 
       data-cursor-hide
     >
       <div className="w-full h-full relative rounded-[40px] overflow-hidden bg-stone-900">
-          <img src={img.src} alt={img.alt} className={`w-full h-full object-cover transition-all duration-1000 pointer-events-none select-none rounded-[40px] ${isDragging ? 'grayscale-0 brightness-100' : 'grayscale brightness-[0.4] group-hover:grayscale-0 group-hover:brightness-100'}`} />
-          <div className={`absolute inset-0 transition-colors duration-700 ${isDragging ? 'bg-transparent' : 'bg-black/40 group-hover:bg-transparent'}`}></div>
+          <img src={img.src} alt={img.alt} className={`w-full h-full object-cover transition-all duration-1000 pointer-events-none select-none rounded-[40px] ${isDragging ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} />
+          <div className={`absolute inset-0 transition-colors duration-700 ${isDragging ? 'bg-transparent' : 'bg-black/20 group-hover:bg-transparent'}`}></div>
           <div className="absolute bottom-6 left-6">
               <div className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 flex items-center shadow-2xl">
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">{img.alt}</span>

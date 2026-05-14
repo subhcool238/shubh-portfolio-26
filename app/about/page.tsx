@@ -489,8 +489,8 @@ function GalleryCard({ img, i, galleryRef, bringToFront, zIndex, setAnyHover }: 
       data-cursor-hide
     >
       <div className="w-full h-full relative rounded-[40px] overflow-hidden bg-stone-900">
-          <img src={img.src} alt={img.alt} className={`w-full h-full object-cover transition-all duration-1000 pointer-events-none select-none rounded-[40px] ${isDragging ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} />
-          <div className={`absolute inset-0 transition-colors duration-700 ${isDragging ? 'bg-transparent' : 'bg-black/20 group-hover:bg-transparent'}`}></div>
+          <img src={img.src} alt={img.alt} className={`w-full h-full object-cover transition-all duration-1000 pointer-events-none select-none rounded-[40px] ${isDragging ? 'grayscale-0 brightness-100' : 'grayscale brightness-[0.4] group-hover:grayscale-0 group-hover:brightness-100'}`} />
+          <div className={`absolute inset-0 transition-colors duration-700 ${isDragging ? 'bg-transparent' : 'bg-black/40 group-hover:bg-transparent'}`}></div>
           <div className="absolute bottom-6 left-6">
               <div className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 flex items-center shadow-2xl">
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">{img.alt}</span>

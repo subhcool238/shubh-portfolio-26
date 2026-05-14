@@ -376,7 +376,10 @@ export default function AboutPage() {
                 Experience the intersection of digital identity and spatial interaction. Trigger the interactive Lab-Cam to capture a high-fidelity snapshot within this system.
               </p>
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                  setIsModalOpen(true);
+                  window.dispatchEvent(new CustomEvent('stop-all-music'));
+                }}
                 className="px-8 py-4 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 transition-all duration-300 text-[11px] font-bold uppercase tracking-[0.3em] text-white flex items-center gap-3 active:scale-95 group/btn"
               >
                 Open Lab-Cam

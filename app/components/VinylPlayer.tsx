@@ -184,7 +184,18 @@ export default function VinylPlayer() {
     ytPollRef.current = setInterval(tryCreate, 200);
     tryCreate();
 
-    return () => clearInterval(ytPollRef.current);
+    const handleStopMusic = () => {
+      if (ytPlayerRef.current && typeof ytPlayerRef.current.pauseVideo === 'function') {
+        ytPlayerRef.current.pauseVideo();
+      }
+    };
+
+    window.addEventListener('stop-all-music', handleStopMusic);
+
+    return () => {
+      clearInterval(ytPollRef.current);
+      window.removeEventListener('stop-all-music', handleStopMusic);
+    };
   }, []);
 
   // --- 3. ROTATION ENGINE ---

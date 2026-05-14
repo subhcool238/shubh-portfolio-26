@@ -317,8 +317,9 @@ export default function AboutPage() {
           
           <div className="relative group/gallery-wrapper transition-all duration-700 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.35),0_30px_60px_-30px_rgba(0,0,0,0.4),0_-2px_20px_rgba(255,255,255,0.01)] hover:shadow-[0_80px_150px_-30px_rgba(0,0,0,0.45)] rounded-[40px]">
           <div ref={galleryRef} className="relative h-[700px] md:h-[650px] flex items-center justify-center bg-surface/40 backdrop-blur-md rounded-[40px] border border-white/5 overflow-hidden">
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] text-sm md:text-xl text-white text-center max-w-[90%] md:max-w-2xl font-normal pointer-events-none select-none tracking-tight leading-relaxed opacity-100">
-              The best systems are built by those who explore multiple disciplines. Outside of design, I focus on human performance through physical training and high-altitude exploration.
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] text-sm md:text-lg text-white text-center max-w-[90%] md:max-w-2xl font-normal pointer-events-none select-none tracking-tight leading-relaxed opacity-100">
+              Screens are where I work — but mountains are where I think. I ride Obsidian, my motorbike, into places with no signal and no plan. Some of my clearest ideas about systems and design have come from the middle of nowhere, halfway up a pass.<br/><br/>
+              The patience you need to get through a long trek? That's the same patience it takes to architect something that actually lasts.
             </p>
             
             <div className="relative w-full h-full flex items-center justify-center">

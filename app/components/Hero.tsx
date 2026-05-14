@@ -66,7 +66,7 @@ export default function Hero() {
           </div>
           <div className="w-full mt-6 md:mt-10 font-sans">
             <p className="text-base md:text-lg tracking-wide font-normal text-white/80 leading-relaxed max-w-2xl">
-              AI Product Designer & Spatial UX Specialist. With an M.Des in Immersive Media Design, I bridge physical environments and AI ecosystems to build scalable, zero-learning-curve products.
+              AI Product Designer & Spatial UX Specialist. I build AI-driven interfaces that live beyond the screen. From interactive projection mapping to generative XR tools, I design scalable spatial products that feel natural to use.
             </p>
           </div>
         </div>

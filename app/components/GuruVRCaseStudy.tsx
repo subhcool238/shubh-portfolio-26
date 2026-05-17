@@ -192,7 +192,7 @@ const sections: Section[] = [
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Timeline</h3>
         <div className="w-full mt-8 overflow-x-auto pb-6">
-          <div className="min-w-[700px] md:min-w-full w-full relative px-2">
+          <div className="min-w-[950px] md:min-w-full w-full relative px-2">
             {/* Header */}
             <div className="grid grid-cols-5 text-center mb-6 px-2">
               {['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY'].map((month) => (
@@ -233,7 +233,7 @@ const sections: Section[] = [
                       style={{ left: task.left, width: task.width }}
                     >
                       <div className={`h-full w-full flex items-center px-2 border rounded-md transition-all duration-300 hover:scale-[1.02] hover:z-10 hover:brightness-125 ${task.color}`}>
-                        <span className="text-[11px] md:text-xs font-bold tracking-tight whitespace-nowrap overflow-visible z-20 relative">{task.name}</span>
+                        <span className="text-[11px] md:text-xs font-bold tracking-tight truncate z-20 relative w-full">{task.name}</span>
                       </div>
                     </div>
                   </div>

@@ -168,8 +168,8 @@ const sections: Section[] = [
         </div>
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Timeline</h3>
-        <div className="w-full mt-8">
-          <div className="w-full relative px-0">
+        <div className="w-full mt-8 overflow-x-auto pb-6">
+          <div className="min-w-[950px] md:min-w-full w-full relative px-0">
             {/* Header */}
             <div className="grid grid-cols-6 text-center mb-6">
               {['WEEK 1', 'WEEK 2', 'WEEK 3', 'WEEK 4', 'WEEK 5', 'WEEK 6'].map((week) => (
@@ -208,7 +208,7 @@ const sections: Section[] = [
                       style={{ left: task.left, width: task.width }}
                     >
                       <div className={`h-full w-full flex items-center px-2 border rounded-md transition-all duration-300 hover:scale-[1.02] hover:z-10 hover:brightness-125 ${task.color} overflow-hidden`}>
-                        <span className="text-[10px] md:text-[11px] font-medium tracking-tight truncate">{task.name}</span>
+                        <span className="text-[11.5px] md:text-[11px] font-semibold tracking-tight truncate w-full z-20 relative">{task.name}</span>
                       </div>
                     </div>
                   </div>

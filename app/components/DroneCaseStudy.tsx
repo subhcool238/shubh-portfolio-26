@@ -62,10 +62,10 @@ const ProblemCard = ({ content }: { content: string }) => (
 );
 
 const StatBox = ({ value, label, sub, colorClass = "text-white", accent = "border-white/10 bg-white/5" }: { value: string; label: string; sub?: string; colorClass?: string; accent?: string }) => (
-  <div className={`p-8 rounded-2xl border ${accent} flex flex-col items-start transition-all duration-300 hover:scale-[1.02] hover:brightness-110 w-full`}>
-    <p className={`text-5xl font-bold tracking-tight ${colorClass}`}>{value}</p>
-    {sub && <p className="text-xs tracking-wider uppercase text-white/40 mt-4 font-bold">{sub}</p>}
-    <p className="text-sm text-white/60 mt-1 font-medium">{label}</p>
+  <div className={`p-4 sm:p-6 md:p-8 rounded-2xl border ${accent} flex flex-col items-start transition-all duration-300 hover:scale-[1.02] hover:brightness-110 w-full`}>
+    <p className={`text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight ${colorClass}`}>{value}</p>
+    {sub && <p className="text-[10px] sm:text-xs tracking-wider uppercase text-white/40 mt-2 sm:mt-4 font-bold">{sub}</p>}
+    <p className="text-xs sm:text-sm text-white/60 mt-1 font-medium">{label}</p>
   </div>
 );
 

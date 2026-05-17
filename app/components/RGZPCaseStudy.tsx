@@ -155,15 +155,15 @@ export default function RGZPCaseStudy() {
       label: "Design Tool Kit",
       title: "Strategic Implements",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 w-full justify-center justify-items-center place-items-center mx-auto">
           {[
-            { label: "Figma", desc: "UI/UX & Prototyping", icon: "/Zoo/Figma.png", accent: "border-blue-500/20 bg-blue-500/5", color: "text-blue-400" },
+            { label: "Figma", desc: "UI/UX & Prototyping", icon: "/Zoo/Figma.png", accent: "border-blue-500/20 bg-blue-500/5", color: "text-blue-400", offset: "translate-x-[5px]" },
             { label: "Miro", desc: "Mind mapping & Ideation", icon: "/Zoo/Miro.png", accent: "border-amber-500/20 bg-amber-500/5", color: "text-amber-400" },
             { label: "PowerPoint", desc: "Presentation & Delivery", icon: "/Zoo/Power Point.png", accent: "border-rose-500/20 bg-rose-500/5", color: "text-rose-400" },
           ].map((tool) => (
-            <div key={tool.label} className={`p-10 rounded-[2.5rem] border ${tool.accent} flex flex-col items-center justify-center transition-all duration-500 hover:scale-[1.02] hover:brightness-110 w-full text-center group`}>
-              <div className="h-16 w-full flex items-center justify-center mb-8">
-                <img src={tool.icon} alt={tool.label} className="h-full w-auto mx-auto object-contain group-hover:scale-110 transition-transform duration-500" />
+            <div key={tool.label} className={`p-10 rounded-[2.5rem] border ${tool.accent} flex flex-col items-center justify-center text-center transition-all duration-500 hover:scale-[1.02] hover:brightness-110 w-full group mx-auto`}>
+              <div className="h-16 w-16 flex items-center justify-center mb-8 mx-auto">
+                <img src={tool.icon} alt={tool.label} className={`max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500 ${tool.offset || ""}`} />
               </div>
               <p className={`text-xl font-bold ${tool.color} tracking-tight`}>{tool.label}</p>
               <p className="text-sm text-white/40 mt-2 font-medium">{tool.desc}</p>
@@ -413,7 +413,7 @@ export default function RGZPCaseStudy() {
           <div className="space-y-12">
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-center">RGZP App Prototype</h3>
             <div className="flex flex-col items-center gap-6">
-              <div className="relative overflow-hidden rounded-[3.5rem] bg-black/40 border border-white/10 w-full max-w-[320px] md:max-w-[448px] aspect-[1/1.94] shadow-[0_0_80px_rgba(0,0,0,0.5)]">
+              <div className="relative overflow-hidden rounded-[3.5rem] bg-black/40 border border-white/10 w-[90%] sm:w-full max-w-[320px] md:max-w-[448px] aspect-[1/1.94] shadow-[0_0_80px_rgba(0,0,0,0.5)] mx-auto">
                 <iframe
                   className="absolute border-none md:top-[-5.5%] md:left-[-11%] md:w-[122%] md:h-[111%] top-[-2%] left-[-4%] w-[108%] h-[104%]"
                   src="https://embed.figma.com/proto/j4iV2AqoFHSJuVY1MZb2lr/Zoo-Adventure-AR?node-id=23-2&p=f&viewport=251%2C395%2C0.03&scaling=scale-down&content-scaling=fixed&starting-point-node-id=23%3A2&page-id=0%3A1&embed-host=share"

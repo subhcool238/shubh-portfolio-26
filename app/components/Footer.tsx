@@ -7,10 +7,10 @@ const BALL_R        = 18;
 const PADDLE_W      = 120;
 const PADDLE_H      = 14;
 const PADDLE_BOTTOM = 110; 
-const LAUNCH_VY     = -7.5;
+const LAUNCH_VY     = -10.0;
 const SPEED_INC     = 0.015;
-const MAX_SPEED     = 13.5;
-const MISS_PAUSE    = 100;
+const MAX_SPEED     = 18.0;
+const MISS_PAUSE    = 70;
 
 type Phase = 'idle' | 'playing' | 'miss';
 

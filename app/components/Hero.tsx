@@ -17,9 +17,10 @@ const styles = {
 function TextScrambleComponent() {
   const textIndex = useRef(0);
   const skills = [
-    "Agentic AI Products",
-    "Spatial UX Systems",
     "User Experiences",
+    "System Architecture",
+    "Spatial Experiences",
+    "Agentic AI Products",
   ];
 
   function getRandomNumber() {
@@ -32,7 +33,7 @@ function TextScrambleComponent() {
   }
 
   const generateWords = () => skills[getRandomNumber()];
-  const [scrambleText, setScrambleText] = useState("Agentic AI Products");
+  const [scrambleText, setScrambleText] = useState("User Experiences");
 
   const { ref } = useScramble({
     text: scrambleText,
@@ -66,7 +67,7 @@ export default function Hero() {
           </div>
           <div className="w-full mt-6 md:mt-10 font-sans">
             <p className="text-base md:text-lg tracking-wide font-normal text-white/80 leading-relaxed max-w-2xl">
-              AI Product Designer & Spatial UX Specialist. I build AI-driven interfaces that live beyond the screen. From interactive projection mapping to generative XR tools, I design scalable spatial products that feel natural to use.
+              AI Product & Systems Architect. I design logic-driven interfaces for complex B2B SaaS platforms and spatial environments. From high-density data dashboards to generative XR tools, I build scalable information architectures that make advanced automation and telemetry feel entirely natural to use.
             </p>
           </div>
         </div>

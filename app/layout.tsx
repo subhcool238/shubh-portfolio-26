@@ -11,8 +11,8 @@ import Preloader from "./components/Preloader";
 import PersistentAgent from "./components/PersistentAgent";
 
 export const metadata: Metadata = {
-  title: "Shubhanshu | Portfolio",
-  description: "Innovative XR and UI/UX Designer",
+  title: "Shubhanshu Sahu — AI Product Designer · Spatial Experience Designer",
+  description: "AI Product Designer and Spatial Experience Designer. I design AI products, spatial experiences and design systems.",
   icons: {
     icon: "/Logo/White Logo.png",
   },

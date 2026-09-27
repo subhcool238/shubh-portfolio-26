@@ -17,10 +17,12 @@ const styles = {
 function TextScrambleComponent() {
   const textIndex = useRef(0);
   const skills = [
-    "User Experiences",
-    "System Architecture",
-    "Spatial Experiences",
-    "Agentic AI Products",
+    "AI products.",
+    "agentic systems.",
+    "spatial experiences.",
+    "user experiences.",
+    "automations.",
+    "motion graphics.",
   ];
 
   function getRandomNumber() {
@@ -33,7 +35,7 @@ function TextScrambleComponent() {
   }
 
   const generateWords = () => skills[getRandomNumber()];
-  const [scrambleText, setScrambleText] = useState("User Experiences");
+  const [scrambleText, setScrambleText] = useState("AI products.");
 
   const { ref } = useScramble({
     text: scrambleText,
@@ -64,10 +66,13 @@ export default function Hero() {
               I <span className="italic font-normal text-white/90">design</span>{" "}
               <TextScrambleComponent />
             </p>
+            <p className="text-lg sm:text-2xl font-normal mt-6 text-white/70 leading-snug">
+              Bridging the gap between AI logic and physical space.
+            </p>
           </div>
-          <div className="w-full mt-6 md:mt-10 font-sans">
+          <div className="w-full mt-6 font-sans">
             <p className="text-base md:text-lg tracking-wide font-normal text-white/80 leading-relaxed max-w-2xl">
-              AI Product & Systems Architect. I design logic-driven interfaces for complex B2B SaaS platforms and spatial environments. From high-density data dashboards to generative XR tools, I build scalable information architectures that make advanced automation and telemetry feel entirely natural to use.
+              AI Product Designer and Spatial Experience Designer, building AI products people can actually trust.
             </p>
           </div>
         </div>

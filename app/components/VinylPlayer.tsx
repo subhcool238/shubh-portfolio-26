@@ -17,6 +17,13 @@ interface Track {
 
 type Phase = 'idle' | 'searching' | 'loading' | 'playing' | 'paused';
 
+// Shared vinyl look: dark grey with a faint blue→pink tint matching the page glow,
+// under a 90% near-black shade, with grooves on top
+const vinylStyle = {
+  backgroundColor: '#1a1b22',
+  backgroundImage: 'repeating-radial-gradient(circle, rgba(255,255,255,0.04) 0 1px, transparent 1px 4px), linear-gradient(rgba(12,12,16,0.9), rgba(12,12,16,0.9)), linear-gradient(135deg, rgba(59,130,246,0.16) 0%, rgba(225,29,72,0.14) 100%)',
+};
+
 declare global {
   interface Window {
     YT: any;
@@ -393,6 +400,11 @@ export default function VinylPlayer() {
                 className="absolute inset-1.5 md:inset-2 rounded-full bg-[#050505] shadow-2xl flex items-center justify-center overflow-hidden"
                 style={{ rotate: vinylRot }}
               >
+                {/* Loaded record: same tinted grey as the album vinyls so it stands out from the black platter */}
+                <div
+                  className={`absolute inset-0 rounded-full border border-white/15 transition-opacity duration-500 ${current ? 'opacity-100' : 'opacity-0'}`}
+                  style={vinylStyle}
+                ></div>
                 {/* Grooves */}
                 <div className="absolute inset-0 rounded-full border-[0.5px] border-white/[0.03] scale-[0.98]"></div>
                 <div className="absolute inset-0 rounded-full border-[0.5px] border-white/[0.03] scale-[0.94]"></div>
@@ -431,9 +443,11 @@ export default function VinylPlayer() {
                   <div className="h-8 w-8 rounded-full bg-stone-800 border border-white/10 shadow-2xl flex items-center justify-center">
                      <div className="w-3 h-3 rounded-full bg-white/20"></div>
                   </div>
-                  <div className="ml-3 mt-1 h-40 w-[4px] origin-top rotate-12 bg-gradient-to-b from-stone-600 to-stone-800 rounded-full shadow-lg" />
-                  <div className="ml-[-10px] mt-[-4px] h-5 w-8 -rotate-12 rounded-sm bg-stone-700 border border-white/10 flex items-center justify-center shadow-lg">
-                     <div className="w-[1px] h-3 bg-white/30"></div>
+                  <div className="relative ml-3 mt-1 h-40 w-[4px] origin-top rotate-12 bg-gradient-to-b from-stone-600 to-stone-800 rounded-full shadow-lg">
+                    {/* Headshell, attached to the end of the arm so both move as one piece */}
+                    <div className="absolute left-1/2 top-[calc(100%-4px)] -translate-x-1/2 origin-top -rotate-[24deg] h-5 w-8 rounded-sm bg-stone-700 border border-white/10 flex items-center justify-center shadow-lg">
+                       <div className="w-[1px] h-3 bg-white/30"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -526,10 +540,10 @@ export default function VinylPlayer() {
                     scale: current?.name === t.name ? 0.8 : 1,
                     pointerEvents: current?.name === t.name ? 'none' : 'auto'
                   } as any}
-                  style={{ cursor: 'inherit' }}
-                  className="absolute inset-4 rounded-full bg-[#080808] border border-white/10 shadow-[0_15px_30px_rgba(0,0,0,0.5)] flex items-center justify-center z-0 group/vinyl"
+                  style={{ cursor: 'inherit', ...vinylStyle }}
+                  className="absolute inset-4 rounded-full border border-white/15 shadow-[0_15px_30px_rgba(0,0,0,0.6)] flex items-center justify-center z-0 group/vinyl"
                 >
-                   <div className="w-1/3 h-1/3 rounded-full border border-white/10 bg-stone-900 pointer-events-none"></div>
+                   <div className="w-1/3 h-1/3 rounded-full border border-white/10 bg-stone-800 pointer-events-none"></div>
                    
                    {/* Hover Prompt */}
                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover/vinyl:opacity-100 transition-opacity bg-white text-black px-2 py-1 rounded text-[8px] font-bold uppercase whitespace-nowrap pointer-events-none z-50 shadow-xl">
@@ -546,18 +560,18 @@ export default function VinylPlayer() {
                 {/* Static Album Cover Sleeve - On top of the vinyl */}
                 <div 
                   className={`relative w-full h-full rounded-2xl overflow-hidden border transition-all duration-500 bg-stone-950 shadow-xl z-10 pointer-events-none ${
-                    current?.name === t.name ? 'border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'border-white/10'
+                    current?.name === t.name ? 'border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'border-white/10 group-hover/album:shadow-[0_-10px_24px_rgba(0,0,0,0.7)]'
                   }`}
                 >
                   <img 
                     src={t.art || 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&q=80&w=300&h=300'} 
                     alt={t.name} 
                     className={`w-full h-full object-cover transition-all duration-700 ${
-                      current?.name === t.name ? 'grayscale-0' : 'grayscale'
-                    }`} 
+                      current?.name === t.name ? 'grayscale-0' : 'grayscale group-hover/album:grayscale-0'
+                    }`}
                   />
                   <div className={`absolute inset-0 transition-colors duration-500 ${
-                    current?.name === t.name ? 'bg-transparent' : 'bg-black/40'
+                    current?.name === t.name ? 'bg-transparent' : 'bg-black/40 group-hover/album:bg-transparent'
                   }`}></div>
                 </div>
               </div>

@@ -11,16 +11,21 @@ export default function About() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start relative z-10">
         <div className="lg:col-span-4">
-          <span className="text-gray-400 text-xs font-bold tracking-[0.2em] uppercase mb-2 md:mb-6 block">The System Designer</span>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Making Sense of Complex Systems</h2>
+          <span className="text-gray-400 text-xs font-bold tracking-[0.2em] uppercase mb-2 md:mb-6 block">The Pattern</span>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+            <span className="block">Complex</span>
+            <span className="block">Systems,</span>
+            <span className="block">Made</span>
+            <span className="block">Usable</span>
+          </h2>
         </div>
         
         <div className="lg:col-span-8 flex flex-col gap-8">
           <p className="text-xl md:text-3xl font-normal leading-snug md:leading-snug text-gray-300">
-            I don't just design interfaces; I figure out how things connect. I treat every design challenge as a <span className="text-white font-medium bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">spatial puzzle</span> waiting to be solved.
+            I look at a system and figure out how the pieces connect, then design the experience so nobody using it has to think about that complexity.
           </p>
           <p className="text-lg text-gray-400 leading-relaxed max-w-2xl">
-            Whether I’m mapping out the operations of a 130-acre zoo, making XR avatars communicate naturally, or building immersive VR classrooms, my goal is always the same: taking messy, complicated technology and turning it into an experience that feels completely natural for the people using it.
+            From mapping the operations of a 130-acre zoo, to making XR avatars communicate naturally, to building immersive VR classrooms, the result is the same: complicated technology that feels natural to use.
           </p>
           
           <div className="pt-4">

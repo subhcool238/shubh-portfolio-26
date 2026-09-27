@@ -297,11 +297,11 @@ export default function RGZPCaseStudy() {
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">User Personas</h3>
             <div className="flex flex-col gap-12">
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Haresh Persona.png")}>
-                <img src="/Zoo/Haresh Persona.png" alt="User Persona Haresh" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Haresh Kumar.svg")}>
+                <img src="/Zoo/Haresh Kumar.svg" alt="User Persona Haresh" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Abhishek Baccha.png")}>
-                <img src="/Zoo/Abhishek Baccha.png" alt="User Persona Abhishek" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Abhishek.svg")}>
+                <img src="/Zoo/Abhishek.svg" alt="User Persona Abhishek" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
           </div>

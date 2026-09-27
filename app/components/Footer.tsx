@@ -7,9 +7,10 @@ const BALL_R        = 18;
 const PADDLE_W      = 120;
 const PADDLE_H      = 14;
 const PADDLE_BOTTOM = 110; 
-const LAUNCH_VY     = -10.0;
-const SPEED_INC     = 0.015;
-const MAX_SPEED     = 18.0;
+const LAUNCH_VY     = -7.7;
+const SPEED_INC     = 0.05;  // +5% speed on every catch
+const MAX_SPEED     = 20.0;
+const FRAME_MS      = 1000 / 60; // speeds above are in px per 60fps frame
 const MISS_PAUSE    = 70;
 
 type Phase = 'idle' | 'playing' | 'miss';
@@ -101,6 +102,8 @@ export default function Footer() {
   const ballRef = useRef<Ball>({ x: 0, y: 0, vx: 0, vy: 0 });
   const paddleCx = useRef<number>(300);
   const spinAngle = useRef<number>(0);
+  const lastFrameTime = useRef<number | null>(null);
+  const ballSpeed = useRef<number>(Math.abs(LAUNCH_VY));
   const scoreRef = useRef<number>(0);
   const missTimer = useRef<number>(0);
   const sparks = useRef<Spark[]>([]);
@@ -167,7 +170,8 @@ export default function Footer() {
     if (phaseRef.current === 'playing') return;
     pushScore(0); const lean = (Math.random() - 0.5) * 0.55;
     ballRef.current.vx = Math.sin(lean) * Math.abs(LAUNCH_VY); 
-    ballRef.current.vy = LAUNCH_VY; 
+    ballRef.current.vy = LAUNCH_VY;
+    ballSpeed.current = Math.abs(LAUNCH_VY);
     pushPhase('playing');
     isHoveringBall.current = false;
     window.dispatchEvent(new CustomEvent('cursor-update', { detail: { state: 'default' } }));
@@ -196,8 +200,12 @@ export default function Footer() {
     const ctx = canvas.getContext('2d'); if (!ctx) { rafRef.current = requestAnimationFrame(loop); return; }
     const W = canvas.width; const H = canvas.height; const b = ballRef.current; const pcx = paddleCx.current;
     ctx.clearRect(0, 0, W, H);
+    // Scale movement by elapsed time so the ball moves at the same speed on 60Hz and high-refresh screens
+    const now = performance.now();
+    const dt = lastFrameTime.current === null ? 1 : Math.min((now - lastFrameTime.current) / FRAME_MS, 3);
+    lastFrameTime.current = now;
     if (phaseRef.current === 'playing') {
-      b.x += b.vx; b.y += b.vy; spinAngle.current += b.vx * 0.055;
+      b.x += b.vx * dt; b.y += b.vy * dt; spinAngle.current += b.vx * 0.055 * dt;
       if (b.x - BALL_R <= 0) { b.x = BALL_R; b.vx = Math.abs(b.vx); }
       if (b.x + BALL_R >= W) { b.x = W - BALL_R; b.vx = -Math.abs(b.vx); }
       if (b.y - BALL_R <= 2) { b.y = 2 + BALL_R; b.vy = Math.abs(b.vy); }
@@ -205,9 +213,9 @@ export default function Footer() {
       if (b.vy > 0 && b.y + BALL_R >= py - 4 && b.y + BALL_R <= py + PADDLE_H + 8 && b.x >= plx - BALL_R * 0.4 && b.x <= prx + BALL_R * 0.4) {
         b.y = py - BALL_R; b.vy = -Math.abs(b.vy);
         const rel = (b.x - plx) / PADDLE_W; b.vx = (rel - 0.5) * 10;
+        ballSpeed.current = Math.min(MAX_SPEED, ballSpeed.current * (1 + SPEED_INC));
         const spd = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
-        const target = Math.min(MAX_SPEED, spd * (1 + SPEED_INC));
-        const ratio = target / spd; b.vx *= ratio; b.vy *= ratio;
+        const ratio = ballSpeed.current / spd; b.vx *= ratio; b.vy *= ratio;
         const ns = scoreRef.current + 1; pushScore(ns); setBest(prev => Math.max(prev, ns));
         spawnSparks(sparks.current, b.x, py); glowFrames.current = 20;
       }

@@ -17,6 +17,26 @@ interface Track {
 
 type Phase = 'idle' | 'searching' | 'loading' | 'playing' | 'paused';
 
+// Album cover with a neutral placeholder when there is no artwork or the image fails to load
+function CoverArt({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [src]);
+
+  if (!src || failed) {
+    return (
+      <div
+        role="img"
+        aria-label={alt}
+        className={`w-full h-full flex items-center justify-center bg-[#15161c] ${className}`}
+        style={{ backgroundImage: 'linear-gradient(135deg, rgba(59,130,246,0.18) 0%, rgba(225,29,72,0.16) 100%)' }}
+      >
+        <Music className="w-1/4 h-1/4 text-white/25" />
+      </div>
+    );
+  }
+  return <img src={src} alt={alt} onError={() => setFailed(true)} className={`w-full h-full object-cover ${className}`} />;
+}
+
 // Shared vinyl look: dark grey with a faint blue→pink tint matching the page glow,
 // under a 90% near-black shade, with grooves on top
 const vinylStyle = {
@@ -90,61 +110,99 @@ export default function VinylPlayer() {
     return () => clearInterval(interval);
   }, [phase]);
 
-  // --- 1. FETCH LAST.FM RECENT TRACKS ---
+  // --- 1. FETCH RECENT TRACKS ---
+  // Primary source: YouTube Music plays sent by the Web Scrobbler webhook (/api/listening),
+  // which carry YouTube Music's own artwork. Falls back to Last.fm until the webhook has data.
   useEffect(() => {
+    async function fetchWebhookTracks(): Promise<Track[]> {
+      const r = await fetch('/api/listening', { cache: 'no-store' });
+      if (!r.ok) return [];
+      const data = await r.json();
+      const list: Track[] = [];
+      for (const t of data?.tracks ?? []) {
+        if (list.some(x => x.name === t.name)) continue;
+        list.push({ name: t.name, artist: t.artist, art: t.art || '' });
+        if (list.length >= 4) break;
+      }
+      return list;
+    }
+
+    async function fetchLastFmTracks(): Promise<Track[]> {
+      // Fetch a larger sample to find tracks with unique artwork
+      const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LFM_USER}&api_key=${LFM_KEY}&format=json&limit=50`;
+      const r = await fetch(url);
+      if (!r.ok) throw new Error('LFM Fetch Failed');
+      const data = await r.json();
+      const raw = data?.recenttracks?.track;
+      if (!Array.isArray(raw) || raw.length === 0) return [];
+
+      const uniqueTracks: Track[] = [];
+      const seenNames = new Set();
+
+      // Phase 1: Prioritize tracks WITH artwork
+      for (const t of raw) {
+        const name = t.name;
+        const art = pickArt(t.image ?? []);
+        if (!seenNames.has(name) && art !== '') {
+          seenNames.add(name);
+          uniqueTracks.push({
+            name: t.name ?? 'Unknown Track',
+            artist: t.artist?.['#text'] ?? 'Unknown Artist',
+            art: art,
+          });
+          if (uniqueTracks.length >= 4) break;
+        }
+      }
+
+      // Phase 2: If we still need more tracks, add those without artwork
+      if (uniqueTracks.length < 4) {
+        for (const t of raw) {
+          const name = t.name;
+          if (!seenNames.has(name)) {
+            seenNames.add(name);
+            uniqueTracks.push({
+              name: t.name ?? 'Unknown Track',
+              artist: t.artist?.['#text'] ?? 'Unknown Artist',
+              art: '', // Will use high-fidelity fallback in UI
+            });
+            if (uniqueTracks.length >= 4) break;
+          }
+        }
+      }
+      return uniqueTracks;
+    }
+
+    let lastJson = '';
     async function load() {
       try {
-        // Fetch a larger sample to find tracks with unique artwork
-        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LFM_USER}&api_key=${LFM_KEY}&format=json&limit=50`;
-        const r = await fetch(url);
-        if (!r.ok) throw new Error('LFM Fetch Failed');
-        const data = await r.json();
-        const raw = data?.recenttracks?.track;
-        
-        if (Array.isArray(raw) && raw.length > 0) {
-          const uniqueTracks: Track[] = [];
-          const seenNames = new Set();
-
-          // Phase 1: Prioritize tracks WITH artwork
-          for (const t of raw) {
-            const name = t.name;
-            const art = pickArt(t.image ?? []);
-            if (!seenNames.has(name) && art !== '') {
-              seenNames.add(name);
-              uniqueTracks.push({
-                name: t.name ?? 'Unknown Track',
-                artist: t.artist?.['#text'] ?? 'Unknown Artist',
-                art: art,
-              });
-              if (uniqueTracks.length >= 4) break;
+        let list: Track[] = [];
+        try { list = await fetchWebhookTracks(); } catch {}
+        // Fill any empty slots (e.g. right after setup) with recent Last.fm tracks
+        if (list.length < 4) {
+          try {
+            for (const t of await fetchLastFmTracks()) {
+              if (list.length >= 4) break;
+              if (!list.some(x => x.name.toLowerCase() === t.name.toLowerCase())) list.push(t);
             }
-          }
-
-          // Phase 2: If we still need more tracks, add those without artwork
-          if (uniqueTracks.length < 4) {
-            for (const t of raw) {
-              const name = t.name;
-              if (!seenNames.has(name)) {
-                seenNames.add(name);
-                uniqueTracks.push({
-                  name: t.name ?? 'Unknown Track',
-                  artist: t.artist?.['#text'] ?? 'Unknown Artist',
-                  art: '', // Will use high-fidelity fallback in UI
-                });
-                if (uniqueTracks.length >= 4) break;
-              }
-            }
-          }
-          
-          setTracks(uniqueTracks);
-          setFetching(false);
+          } catch {}
+        }
+        // Only update when the list actually changed, so polling doesn't re-render the grid
+        const json = JSON.stringify(list);
+        if (list.length > 0 && json !== lastJson) {
+          lastJson = json;
+          setTracks(list);
         }
       } catch (err) {
-        console.error("LFM Fetch Error:", err);
+        console.error("Recent tracks fetch error:", err);
+      } finally {
         setFetching(false);
       }
     }
+
     load();
+    // Pick up newly played songs while the page is open
+    const interval = setInterval(load, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   // --- 2. YOUTUBE API INIT (POLLING) ---
@@ -427,7 +485,7 @@ export default function VinylPlayer() {
                       exit={{ scale: 0, opacity: 0 }}
                       className="w-[35%] h-[35%] relative rounded-full overflow-hidden border-2 md:border-4 border-[#080808] shadow-lg z-20"
                     >
-                      <img src={current.art || 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17'} alt="Label" className="w-full h-full object-cover" />
+                      <CoverArt src={current.art} alt="Label" />
                       <div className="absolute inset-0 bg-black/10"></div>
                       {/* Center Hole */}
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-black z-30 shadow-inner" />
@@ -563,10 +621,10 @@ export default function VinylPlayer() {
                     current?.name === t.name ? 'border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'border-white/10 group-hover/album:shadow-[0_-10px_24px_rgba(0,0,0,0.7)]'
                   }`}
                 >
-                  <img 
-                    src={t.art || 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&q=80&w=300&h=300'} 
-                    alt={t.name} 
-                    className={`w-full h-full object-cover transition-all duration-700 ${
+                  <CoverArt
+                    src={t.art}
+                    alt={t.name}
+                    className={`transition-all duration-700 ${
                       current?.name === t.name ? 'grayscale-0' : 'grayscale group-hover/album:grayscale-0'
                     }`}
                   />

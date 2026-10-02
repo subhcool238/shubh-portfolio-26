@@ -296,8 +296,11 @@ export default function Footer() {
   return (
     <footer ref={wrapRef} className="relative w-full overflow-hidden bg-[#0c0e15] min-h-[90vh] flex flex-col pt-32 pb-48" style={{ marginLeft: 'calc(-50vw + 50%)', width: '100vw' }}>
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-[1] block" />
-      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#7dadff] via-[#a78bdb] to-[#d21d53] shadow-[0_0_24px_rgba(125,173,255,0.55)] pointer-events-none z-[6]" />
-      <div className="absolute top-0 left-0 w-full h-48 bg-[linear-gradient(180deg,rgba(125,173,255,0.10)_0%,rgba(210,29,83,0.04)_45%,transparent_100%)] pointer-events-none z-[5]" />
+      {/* Soft blue-to-pink wash in the top 20% of the footer, fading out downwards, to set it apart from the section above */}
+      <div
+        className="absolute top-0 left-0 w-full h-[20%] bg-gradient-to-r from-[#7dadff] via-[#a78bdb] to-[#d21d53] opacity-[0.16] pointer-events-none z-[5]"
+        style={{ maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)' }}
+      />
       <div className="absolute inset-0 pointer-events-none z-[2] bg-[radial-gradient(ellipse_70%_60%_at_50%_110%,rgba(125,173,255,0.15)_0%,transparent_80%)]" />
 
       <div className="relative z-10 w-full max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-12 pointer-events-none">

@@ -1,4 +1,5 @@
 import ScrollToTopButton from "@/app/components/ScrollToTopButton";
+import ZoomableImages from "@/app/components/ZoomableImages";
 
 export default function CaseStudyLayout({
   children,
@@ -7,7 +8,7 @@ export default function CaseStudyLayout({
 }) {
   return (
     <>
-      {children}
+      <ZoomableImages>{children}</ZoomableImages>
       <ScrollToTopButton />
     </>
   )

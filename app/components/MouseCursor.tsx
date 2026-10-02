@@ -22,25 +22,40 @@ const MouseCursor = () => {
   const [cursorIcon, setCursorIcon] = useState<string | null>(null);
   const [cursorColor, setCursorColor] = useState<string | null>(null);
   const [cursorState, setCursorState] = useState<"default" | "hover" | "text">("default");
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   const pathname = usePathname();
   const isCaseStudy = pathname.includes('/case-study');
 
-  // Scroll progress tracker
+  // Scroll progress ring (case studies only): written straight to the SVG, at most once per frame,
+  // so scrolling never re-renders the cursor
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
+    const circle = progressCircleRef.current;
+    if (!circle) return;
+    const circumference = 2 * Math.PI * 18;
+    if (!isCaseStudy) {
+      circle.style.strokeDashoffset = "0";
+      return;
+    }
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const progress = height > 0 ? scrollY / height : 0;
-      setScrollProgress(progress);
+      const progress = height > 0 ? window.scrollY / height : 0;
+      circle.style.strokeDashoffset = String(circumference - progress * circumference);
+    };
+    const handleScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    update();
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [isCaseStudy, pathname]);
 
   // Butter smooth animation loop
   const animate = useCallback(() => {
@@ -50,12 +65,12 @@ const MouseCursor = () => {
     }
 
     // Dot follows faster for precision
-    dotPos.current.x += (mousePos.current.x - dotPos.current.x) * 0.45;
-    dotPos.current.y += (mousePos.current.y - dotPos.current.y) * 0.45;
+    dotPos.current.x += (mousePos.current.x - dotPos.current.x) * 0.35;
+    dotPos.current.y += (mousePos.current.y - dotPos.current.y) * 0.35;
 
     // Ring lags with damping for premium feel
-    ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.15;
-    ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.15;
+    ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.09;
+    ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.09;
 
     dotRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(-50%, -50%)`;
     ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%)`;
@@ -97,6 +112,20 @@ const MouseCursor = () => {
         setCursorText(textContainer?.getAttribute('data-cursor-text') || "");
         setCursorIcon(iconType || null);
         setCursorColor(null); // Reset color on standard hover
+        setCursorState("text");
+        return;
+      }
+
+      // Zoom icon over images that open in the large viewer (case studies)
+      if (
+        target.tagName === "IMG" &&
+        target.closest("[data-zoomable-images]") &&
+        !target.closest("a, button, [data-no-zoom]") &&
+        target.getBoundingClientRect().width >= 120
+      ) {
+        setCursorText("");
+        setCursorIcon("zoom");
+        setCursorColor(null);
         setCursorState("text");
         return;
       }
@@ -147,7 +176,7 @@ const MouseCursor = () => {
         height: 100,
         backgroundColor: "rgba(255, 255, 255, 0)", // Outline instead of filled
         border: "1px solid rgba(255, 255, 255, 0.25)",
-        duration: 0.4,
+        duration: 0.7,
         ease: "power3.out"
       });
       gsap.to(textRef.current, { opacity: 1, scale: 1, duration: 0.3 });
@@ -160,7 +189,7 @@ const MouseCursor = () => {
         height: 70,
         backgroundColor: "rgba(255, 255, 255, 0)",
         border: "1px solid rgba(255, 255, 255, 0.5)",
-        duration: 0.4,
+        duration: 0.7,
         ease: "power3.out"
       });
       gsap.to(textRef.current, { opacity: 0, scale: 0.8, duration: 0.2 });
@@ -173,7 +202,7 @@ const MouseCursor = () => {
         height: 40,
         backgroundColor: "rgba(255, 255, 255, 0)",
         border: "1px solid rgba(255, 255, 255, 0.3)",
-        duration: 0.4,
+        duration: 0.7,
         ease: "power3.out"
       });
       gsap.to(textRef.current, { opacity: 0, scale: 0.8, duration: 0.2 });
@@ -181,20 +210,6 @@ const MouseCursor = () => {
       gsap.to(dotRef.current, { opacity: 1, scale: 1, duration: 0.3 });
     }
   }, [cursorState]);
-
-  // Update SVG scroll progress
-  useEffect(() => {
-    if (progressCircleRef.current) {
-      const radius = 18;
-      const circumference = 2 * Math.PI * radius;
-      const offset = isCaseStudy ? circumference - scrollProgress * circumference : 0;
-      gsap.to(progressCircleRef.current, {
-        strokeDashoffset: offset,
-        duration: 0.15,
-        ease: "none"
-      });
-    }
-  }, [scrollProgress, isCaseStudy]);
 
   const renderIcon = () => {
     switch (cursorIcon) {
@@ -219,6 +234,15 @@ const MouseCursor = () => {
             <path fill="url(#insta-grad)" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3" />
           </svg>
         );
+      case 'zoom':
+        return (
+          <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="21" y1="21" x2="16.2" y2="16.2" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        );
       case 'behance':
         return (
           <svg viewBox="0 0 24 24" className="w-8 h-8 fill-[#0057ff]">
@@ -235,7 +259,7 @@ const MouseCursor = () => {
       {/* Precision Dot */}
       <div
         ref={dotRef}
-        className="custom-cursor-element fixed pointer-events-none z-[10001] hidden md:block mix-blend-difference"
+        className="custom-cursor-element fixed pointer-events-none z-[10001] hidden md:block [@media(pointer:coarse)]:hidden! mix-blend-difference"
         style={{
           left: 0,
           top: 0,
@@ -250,7 +274,7 @@ const MouseCursor = () => {
       {/* Trailing Ring with Negative Effect */}
       <div
         ref={ringRef}
-        className={`custom-cursor-element fixed pointer-events-none z-[10000] hidden md:flex items-center justify-center overflow-hidden ${!cursorColor ? 'mix-blend-difference' : ''}`}
+        className={`custom-cursor-element fixed pointer-events-none z-[10000] hidden md:flex [@media(pointer:coarse)]:hidden! items-center justify-center overflow-hidden ${!cursorColor ? 'mix-blend-difference' : ''}`}
         style={{
           left: 0,
           top: 0,

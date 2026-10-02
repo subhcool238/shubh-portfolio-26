@@ -1,5 +1,6 @@
 "use client";
 
+import { smoothScrollTo } from "./SmoothScroll";
 import { useEffect, useState } from "react";
 import { 
   BookOpen, Target, User, Palette, Route, Search, Layers, Lightbulb, Rocket, 
@@ -27,6 +28,36 @@ const SECTION_ICONS: Record<string, any> = {
   "develop": Lightbulb,
   "deliver": Rocket
 };
+
+// Live Figma prototype inside a phone frame.
+// Figma's embed adds ~60px of empty margin around the prototype on desktop browsers, but none on
+// phones and tablets. The embed is therefore only enlarged (to push that margin outside the frame)
+// on devices with a mouse and no touch; everywhere else it sits exactly in the frame.
+// "scaling=contain" means Figma always shows the whole screen and never crops it.
+function PrototypeEmbed() {
+  const [desktopMargin, setDesktopMargin] = useState(false);
+
+  useEffect(() => {
+    const mobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    setDesktopMargin(!mobileUA && navigator.maxTouchPoints === 0 && window.matchMedia("(pointer: fine)").matches);
+  }, []);
+
+  return (
+    <div className="relative overflow-hidden rounded-[2.5rem] md:rounded-[3rem] bg-black border border-white/10 w-full max-w-[300px] sm:max-w-[340px] md:max-w-[400px] aspect-[375/812] shadow-[0_0_80px_rgba(0,0,0,0.5)] mx-auto">
+      <iframe
+        title="RGZP app prototype"
+        loading="lazy"
+        className={
+          desktopMargin
+            ? "absolute -left-[60px] -top-[60px] w-[calc(100%+120px)] h-[calc(100%+120px)] max-w-none border-none"
+            : "absolute inset-0 w-full h-full border-none"
+        }
+        src="https://embed.figma.com/proto/j4iV2AqoFHSJuVY1MZb2lr/Zoo-Adventure-AR?node-id=23-2&p=f&viewport=251%2C395%2C0.03&scaling=contain&content-scaling=fixed&starting-point-node-id=23%3A2&page-id=0%3A1&embed-host=share&hide-ui=1&footer=false&device-frame=false&bg-color=000000"
+        allowFullScreen
+      />
+    </div>
+  );
+}
 
 const ProblemCard = ({ content }: { content: string }) => (
   <div className="my-12 p-10 rounded-2xl border border-rose-500/30 bg-[#0a0a0c] relative overflow-hidden group">
@@ -163,7 +194,7 @@ export default function RGZPCaseStudy() {
           ].map((tool) => (
             <div key={tool.label} className={`p-10 rounded-[2.5rem] border ${tool.accent} flex flex-col items-center justify-center text-center transition-all duration-500 hover:scale-[1.02] hover:brightness-110 w-full group mx-auto`}>
               <div className="h-16 w-16 flex items-center justify-center mb-8 mx-auto">
-                <img src={tool.icon} alt={tool.label} className={`max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500 ${tool.offset || ""}`} />
+                <img loading="lazy" decoding="async" src={tool.icon} alt={tool.label} className={`max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500 ${tool.offset || ""}`} />
               </div>
               <p className={`text-xl font-bold ${tool.color} tracking-tight`}>{tool.label}</p>
               <p className="text-sm text-white/40 mt-2 font-medium">{tool.desc}</p>
@@ -200,8 +231,8 @@ export default function RGZPCaseStudy() {
               </div>
             ))}
           </div>
-          <div className="my-16 cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Double Diamond jpg-01 1.png")}>
-            <img src="/Zoo/Double Diamond jpg-01 1.png" alt="Double Diamond Diagram" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+          <div className="my-16 cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Double Diamond jpg-01 1.webp")}>
+            <img loading="lazy" decoding="async" src="/Zoo/Double Diamond jpg-01 1.webp" alt="Double Diamond Diagram" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
           </div>
         </div>
       ),
@@ -213,8 +244,8 @@ export default function RGZPCaseStudy() {
       title: "Immersive Research",
       content: (
         <div className="space-y-12">
-          <div className="w-full mb-12 cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Mind Map.png")}>
-             <img src="/Zoo/Mind Map.png" alt="Mind Map" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+          <div className="w-full mb-12 cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Mind Map.webp")}>
+             <img loading="lazy" decoding="async" src="/Zoo/Mind Map.webp" alt="Mind Map" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
           </div>
           <p className="text-xl tracking-wide font-normal text-white/80 leading-relaxed">
             Multiple visits to RGZP allowed us to interview directors and visitors, uncovering the true operational heart of the zoo.
@@ -260,8 +291,8 @@ export default function RGZPCaseStudy() {
             ))}
           </div>
 
-          <div className="my-16 cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Feedback Loop-01 1.png")}>
-             <img src="/Zoo/Feedback Loop-01 1.png" alt="Feedback Loop" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+          <div className="my-16 cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Feedback Loop-01 1.webp")}>
+             <img loading="lazy" decoding="async" src="/Zoo/Feedback Loop-01 1.webp" alt="Feedback Loop" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
           </div>
         </div>
       ),
@@ -276,21 +307,21 @@ export default function RGZPCaseStudy() {
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">Management Architecture</h3>
             <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Zoo management.svg")}>
-              <img src="/Zoo/Zoo management.svg" alt="Zoo Management Diagram" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+              <img loading="lazy" decoding="async" src="/Zoo/Zoo management.svg" alt="Zoo Management Diagram" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
             </div>
           </div>
 
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">Visitor Typology</h3>
-            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Visitors journey Map.png")}>
-              <img src="/Zoo/Visitors journey Map.png" alt="Types of Visitors" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Visitors journey Map.webp")}>
+              <img loading="lazy" decoding="async" src="/Zoo/Visitors journey Map.webp" alt="Types of Visitors" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
             </div>
           </div>
           
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">Visitor Journey Map</h3>
             <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/vistors journey map.svg")}>
-              <img src="/Zoo/vistors journey map.svg" alt="Visitors Journey Map" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+              <img loading="lazy" decoding="async" src="/Zoo/vistors journey map.svg" alt="Visitors Journey Map" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
             </div>
           </div>
           
@@ -298,18 +329,18 @@ export default function RGZPCaseStudy() {
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">User Personas</h3>
             <div className="flex flex-col gap-12">
               <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Haresh Kumar.svg")}>
-                <img src="/Zoo/Haresh Kumar.svg" alt="User Persona Haresh" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+                <img loading="lazy" decoding="async" src="/Zoo/Haresh Kumar.svg" alt="User Persona Haresh" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
               <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Abhishek.svg")}>
-                <img src="/Zoo/Abhishek.svg" alt="User Persona Abhishek" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+                <img loading="lazy" decoding="async" src="/Zoo/Abhishek.svg" alt="User Persona Abhishek" className="w-full h-auto rounded-3xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
           </div>
 
           <div>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">Iceberg Model</h3>
-            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Iceberb Model.png")}>
-              <img src="/Zoo/Iceberb Model.png" alt="Iceberg Model" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
+            <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Iceberb Model.webp")}>
+              <img loading="lazy" decoding="async" src="/Zoo/Iceberb Model.webp" alt="Iceberg Model" className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" />
             </div>
           </div>
         </div>
@@ -363,11 +394,11 @@ export default function RGZPCaseStudy() {
           <div className="space-y-12">
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Drawing Competition</h3>
             <div className="flex flex-col gap-8">
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Ticket Design-01 1.png")}>
-                <img src="/Zoo/Ticket Design-01 1.png" alt="Ticket Design 1" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Ticket Design-01 1.webp")}>
+                <img loading="lazy" decoding="async" src="/Zoo/Ticket Design-01 1.webp" alt="Ticket Design 1" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Ticket Design-02 1.png")}>
-                <img src="/Zoo/Ticket Design-02 1.png" alt="Ticket Design 2" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Ticket Design-02 1.webp")}>
+                <img loading="lazy" decoding="async" src="/Zoo/Ticket Design-02 1.webp" alt="Ticket Design 2" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
           </div>
@@ -375,11 +406,11 @@ export default function RGZPCaseStudy() {
           <div className="space-y-12">
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Unique Themed QR Codes</h3>
             <div className="grid grid-cols-2 gap-8">
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Unique Themed QR Code 1.png")}>
-                <img src="/Zoo/Unique Themed QR Code 1.png" alt="QR Code 1" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Unique Themed QR Code 1.webp")}>
+                <img loading="lazy" decoding="async" src="/Zoo/Unique Themed QR Code 1.webp" alt="QR Code 1" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Unique Themed QR Code 2.png")}>
-                <img src="/Zoo/Unique Themed QR Code 2.png" alt="QR Code 2" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Unique Themed QR Code 2.webp")}>
+                <img loading="lazy" decoding="async" src="/Zoo/Unique Themed QR Code 2.webp" alt="QR Code 2" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
           </div>
@@ -391,21 +422,21 @@ export default function RGZPCaseStudy() {
             </p>
             <div className="relative inline-block group">
               <div className="absolute inset-0 bg-orange-500/20 blur-[100px] rounded-full opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
-              <img src="/Zoo/TIgo 1.png" alt="Mascot Tigo" className="relative z-10 w-full max-w-[350px] h-auto object-contain mx-auto drop-shadow-[0_0_50px_rgba(249,115,22,0.3)] transition-transform duration-700 group-hover:scale-105" />
+              <img loading="lazy" decoding="async" src="/Zoo/TIgo 1.webp" alt="Mascot Tigo" className="relative z-10 w-full max-w-[350px] h-auto object-contain mx-auto drop-shadow-[0_0_50px_rgba(249,115,22,0.3)] transition-transform duration-700 group-hover:scale-105" />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <h3 className="text-2xl md:text-3xl font-bold tracking-tight">DIY Kit</h3>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/DIY Kit.png")}>
-                <img src="/Zoo/DIY Kit.png" alt="DIY Kit" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/DIY Kit.webp")}>
+                <img loading="lazy" decoding="async" src="/Zoo/DIY Kit.webp" alt="DIY Kit" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
             <div className="space-y-6">
               <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Badge & Keychain</h3>
-              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Badge & Keychain 1.png")}>
-                <img src="/Zoo/Badge & Keychain 1.png" alt="Badge and Keychain" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
+              <div className="cursor-zoom-in group" onClick={() => setSelectedImage("/Zoo/Badge and Keychain 1.webp")}>
+                <img loading="lazy" decoding="async" src="/Zoo/Badge and Keychain 1.webp" alt="Badge and Keychain" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10 transition-transform duration-700 group-hover:scale-[1.01]" />
               </div>
             </div>
           </div>
@@ -413,13 +444,7 @@ export default function RGZPCaseStudy() {
           <div className="space-y-12">
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-center">RGZP App Prototype</h3>
             <div className="flex flex-col items-center gap-6">
-              <div className="relative overflow-hidden rounded-[3.5rem] bg-black/40 border border-white/10 w-[90%] sm:w-full max-w-[320px] md:max-w-[448px] aspect-[1/1.94] shadow-[0_0_80px_rgba(0,0,0,0.5)] mx-auto">
-                <iframe
-                  className="absolute border-none md:top-[-5.5%] md:left-[-11%] md:w-[122%] md:h-[111%] top-[-2%] left-[-4%] w-[108%] h-[104%]"
-                  src="https://embed.figma.com/proto/j4iV2AqoFHSJuVY1MZb2lr/Zoo-Adventure-AR?node-id=23-2&p=f&viewport=251%2C395%2C0.03&scaling=scale-down&content-scaling=fixed&starting-point-node-id=23%3A2&page-id=0%3A1&embed-host=share"
-                  allowFullScreen
-                />
-              </div>
+              <PrototypeEmbed />
               <a 
                 href="https://www.figma.com/proto/j4iV2AqoFHSJuVY1MZb2lr/Zoo-Adventure-AR?node-id=23-2&p=f&viewport=251%2C395%2C0.03&scaling=scale-down&content-scaling=fixed&starting-point-node-id=23%3A2&page-id=0%3A1" 
                 target="_blank" 
@@ -481,7 +506,7 @@ export default function RGZPCaseStudy() {
     if (el) {
       setActiveSection(id);
       const y = el.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      smoothScrollTo(y);
     }
   };
 
@@ -516,10 +541,10 @@ export default function RGZPCaseStudy() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
           className="w-full mb-20 cursor-zoom-in group" 
-          onClick={() => setSelectedImage("/Zoo/Zoo UI Mockup top hero image.png")}
+          onClick={() => setSelectedImage("/Zoo/Zoo UI Mockup top hero image.webp")}
         >
-          <img 
-            src="/Zoo/Zoo UI Mockup top hero image.png" 
+          <img loading="lazy" decoding="async" 
+            data-no-zoom src="/Zoo/Zoo UI Mockup top hero image.webp" 
             alt="RGZP Hero" 
             className="w-full h-auto rounded-3xl object-cover shadow-2xl transition-transform duration-700 group-hover:scale-[1.01]" 
           />
@@ -554,7 +579,7 @@ export default function RGZPCaseStudy() {
       <div className="max-w-[800px] mx-auto relative px-6 pb-40">
         
         {/* Left Sidebar Container */}
-        <div className="hidden lg:block absolute right-full mr-72 top-0 bottom-0 w-[220px]">
+        <div className="hidden min-[1360px]:block absolute right-full mr-[clamp(2rem,calc((100vw_-_800px)_/_2_-_260px),18rem)] top-0 bottom-0 w-[220px]">
           <div className="sticky top-0 h-screen flex flex-col justify-center">
             <nav className="flex flex-col gap-4">
               {sections.map((section) => {
@@ -596,7 +621,7 @@ export default function RGZPCaseStudy() {
         {/* Content Area */}
         <div className="w-full">
           {/* Mobile Navigation */}
-          <div className="lg:hidden mb-16">
+          <div data-section-tabs className="min-[1360px]:hidden mb-16">
             <nav className="flex flex-wrap gap-4">
               {sections.map((section) => {
                 const isActive = activeSection === section.id;
@@ -655,37 +680,6 @@ export default function RGZPCaseStudy() {
       </div>
 
 
-      {/* Image Modal */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/95 backdrop-blur-sm cursor-zoom-out"
-            onClick={() => setSelectedImage(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="relative max-w-7xl w-full h-full flex items-center justify-center"
-            >
-              <button
-                className="absolute top-0 right-0 p-4 text-white/50 hover:text-white transition-colors z-[110]"
-                onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
-              >
-                <X size={32} />
-              </button>
-              <img
-                src={selectedImage}
-                alt="Enlarged view"
-                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

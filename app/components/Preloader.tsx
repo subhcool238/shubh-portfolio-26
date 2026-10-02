@@ -19,33 +19,18 @@ export default function Preloader() {
     // Body scroll lock
     document.body.style.overflow = "hidden";
 
-    // Simulate loading
-    const duration = 2800; // minimum duration
-    const interval = 20; 
-    
-    let currentProgress = 0;
-    let synReady = false;
+    // Short intro (~1.5s). The page itself is already rendered underneath, and Syn (the 3D agent)
+    // loads in the background afterwards, so nothing here waits on the network.
+    // Progress follows real elapsed time, so it stays ~1.1s even if the browser throttles timers
+    const interval = 20;
+    const duration = 1100;
+    const startedAt = performance.now();
 
-    const handleSynLoaded = () => { synReady = true; };
-    window.addEventListener('syn-loaded', handleSynLoaded);
-    
-    // Safety timeout: don't hang preloader if Syn fails to load
-    const safetyTimer = setTimeout(() => { synReady = true; }, 5000);
-    
+    let currentProgress = 0;
+
     const timer = setInterval(() => {
-      // Gradual, more linear increment
-      let step = 0.35; // Takes ~6 seconds to reach 100% naturally
-      
-      if (synReady) {
-        // Accelerate to finish once Syn is ready
-        step = Math.max(0.8, (100 - currentProgress) * 0.3);
-      } else if (currentProgress >= 88) {
-        // Slow down to a crawl near the end if Syn isn't ready yet
-        step = (98 - currentProgress) * 0.05;
-      }
-      
-      currentProgress += step;
-      
+      currentProgress = ((performance.now() - startedAt) / duration) * 100;
+
       if (currentProgress >= 99.8) {
         currentProgress = 100;
         clearInterval(timer);
@@ -53,15 +38,14 @@ export default function Preloader() {
           setIsLoading(false);
           document.body.style.overflow = "";
           sessionStorage.setItem("hasSeenPreloader", "true");
-        }, 500); 
+          window.dispatchEvent(new CustomEvent('preloader-done'));
+        }, 300);
       }
       setProgress(Math.min(100, Math.round(currentProgress)));
     }, interval);
 
     return () => {
       clearInterval(timer);
-      clearTimeout(safetyTimer);
-      window.removeEventListener('syn-loaded', handleSynLoaded);
       document.body.style.overflow = "";
     };
   }, []);
@@ -71,7 +55,7 @@ export default function Preloader() {
       {isLoading && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
+          exit={{ opacity: 0, transition: { duration: 0.5, ease: "easeInOut" } }}
           className="fixed inset-0 z-[9999] bg-[#0a0a0c] flex flex-col items-center justify-center skip-preloader-hide"
         >
           <div className="flex flex-col items-center max-w-sm w-full px-6">

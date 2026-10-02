@@ -1,5 +1,6 @@
 "use client";
 
+import { smoothScrollTo } from "./SmoothScroll";
 import { useEffect, useState } from "react";
 import { 
   Building2, Users, Route, Search, Target, User, Lightbulb, 
@@ -8,6 +9,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import InViewVideo from "./InViewVideo";
 import { ChevronRight } from "lucide-react";
 
 interface Section {
@@ -37,6 +39,144 @@ const SECTION_ICONS: Record<string, any> = {
   "userflow": Route,
   "outcomes": TestTube
 };
+
+// User Flow: one phase at a time, steps laid out as a numbered grid
+const userFlowPhases = [
+  {
+    label: "Phase 01",
+    title: "Setup & Recording",
+    text: "text-blue-400",
+    tint: "bg-blue-500/10",
+    active: "bg-blue-500/10 border-blue-500/40 text-blue-300",
+    steps: [
+      { icon: <User size={18} />, text: "Saleha has a meeting to attend." },
+      { icon: <Glasses size={18} />, text: "Puts on the Samsung VR headset and turns it on." },
+      { icon: <Settings size={18} />, text: "Goes to settings." },
+      { icon: <BookOpen size={18} />, text: "Opens the \"Gesture Dictionary.\"" },
+      { icon: <Sparkles size={18} />, text: "\"Add New Gesture\"." },
+      { icon: <Video size={18} />, text: "\"Record New Gesture\"." },
+      { icon: <Settings size={18} />, text: "The device asks permission to use the camera." },
+      { icon: <Camera size={18} />, text: "\"Enable Device Camera\"." },
+      { icon: <Target size={18} />, text: "Press X to start the recording." },
+      { icon: <Target size={18} />, text: "Press Y to finish the recording." },
+      { icon: <Layout size={18} />, text: "Type a phrase for the gesture in the Text panel." },
+      { icon: <Settings size={18} />, text: "\"Save Gestures\"." },
+    ],
+  },
+  {
+    label: "Phase 02",
+    title: "Calibration & Enabling",
+    text: "text-purple-400",
+    tint: "bg-purple-500/10",
+    active: "bg-purple-500/10 border-purple-500/40 text-purple-300",
+    steps: [
+      { icon: <TestTube size={18} />, text: "To test the added gestures." },
+      { icon: <Target size={18} />, text: "Clicks the test button for one of the added gestures in the dictionary (I am sorry)." },
+      { icon: <Accessibility size={18} />, text: "Performs the gestures and checks them." },
+      { icon: <Settings size={18} />, text: "The gestures could be edited/ saved if now changes are made." },
+      { icon: <Accessibility size={18} />, text: "Then in settings \"Accessibility Section\"" },
+      { icon: <Accessibility size={18} />, text: "\"Hearing enhancement\"." },
+      { icon: <Globe size={18} />, text: "\"Preferred Language\" turns on the feature." },
+      { icon: <Settings size={18} />, text: "A pop-up comes indicating \"Avatar Translator Feature is Off\"." },
+      { icon: <Settings size={18} />, text: "\"Enable Avatar Translator\"." },
+      { icon: <Sparkles size={18} />, text: "The feature is enabled." },
+      { icon: <Globe size={18} />, text: "Chooses the preferred language, ASL (American Sign Language)." },
+      { icon: <Settings size={18} />, text: "Closes the setting tab." },
+    ],
+  },
+  {
+    label: "Phase 03",
+    title: "The Meeting",
+    text: "text-rose-400",
+    tint: "bg-rose-500/10",
+    active: "bg-rose-500/10 border-rose-500/40 text-rose-300",
+    steps: [
+      { icon: <Video size={18} />, text: "Clicks on \"Google Meet Application\"." },
+      { icon: <Settings size={18} />, text: "Enable the accessibility features from Samsung XR headset settings in Navigation Panel." },
+      { icon: <Video size={18} />, text: "Clicks on \"New Meeting\" to generate a meeting link." },
+      { icon: <Globe size={18} />, text: "Share the link with the participant to join the meeting." },
+      { icon: <Users size={18} />, text: "The participant joins, and the meeting begins." },
+      { icon: <Accessibility size={18} />, text: "Saleha makes gestures that are converted into speech by the avatar." },
+      { icon: <User size={18} />, text: "Abhishek speaks, and his speech is converted into sign language." },
+      { icon: <Sparkles size={18} />, text: "At the end of the meeting, Saleha selects the Heart gesture from the reaction options." },
+      { icon: <Sparkles size={18} />, text: "Heart emojis appear around the avatar, conveying user's emotions." },
+      { icon: <Target size={18} />, text: "The meeting ends." },
+    ],
+  },
+];
+
+function UserFlowExplorer() {
+  const [active, setActive] = useState(0);
+  const phase = userFlowPhases[active];
+
+  return (
+    <div className="space-y-6">
+      {/* Phase tabs */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {userFlowPhases.map((p, i) => (
+          <button
+            key={p.label}
+            onClick={() => setActive(i)}
+            className={`text-left px-5 py-4 rounded-2xl border transition-all duration-500 ${
+              i === active ? p.active : "bg-white/[0.03] border-white/10 text-white/40 hover:bg-white/[0.06] hover:text-white/70"
+            }`}
+          >
+            <span className="block text-[10px] uppercase tracking-[0.2em] font-black mb-1">{p.label}</span>
+            <span className="block text-sm font-bold tracking-tight">{p.title}</span>
+            <span className="block text-[10px] uppercase tracking-[0.2em] font-bold mt-2 opacity-60">{p.steps.length} steps</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Steps of the selected phase */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
+        >
+          {phase.steps.map((step, i) => (
+            <div key={i} className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.03] border border-white/10 transition-all duration-500 hover:bg-white/[0.06] group">
+              <div className={`w-10 h-10 rounded-xl ${phase.tint} ${phase.text} flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shrink-0`}>
+                {step.icon}
+              </div>
+              <div>
+                <span className={`block text-[10px] font-black tracking-[0.2em] ${phase.text} mb-1`}>{String(i + 1).padStart(2, "0")}</span>
+                <p className="text-sm text-white/70 leading-relaxed font-medium">{step.text}</p>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Previous / next phase */}
+      <div className="flex items-center justify-between pt-2">
+        <button
+          onClick={() => setActive((a) => Math.max(0, a - 1))}
+          disabled={active === 0}
+          className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/50 hover:text-white disabled:opacity-20 disabled:pointer-events-none transition-colors duration-300"
+        >
+          <ChevronRight size={14} className="rotate-180" /> Previous phase
+        </button>
+        <div className="flex items-center gap-2">
+          {userFlowPhases.map((p, i) => (
+            <span key={p.label} className={`h-1 rounded-full transition-all duration-500 ${i === active ? "w-8 bg-white/70" : "w-2 bg-white/15"}`} />
+          ))}
+        </div>
+        <button
+          onClick={() => setActive((a) => Math.min(userFlowPhases.length - 1, a + 1))}
+          disabled={active === userFlowPhases.length - 1}
+          className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/50 hover:text-white disabled:opacity-20 disabled:pointer-events-none transition-colors duration-300"
+        >
+          Next phase <ChevronRight size={14} />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 const ProblemCard = ({ title, content }: { title: string; content: string }) => (
   <div className="my-12 p-8 rounded-2xl border border-rose-500/30 bg-[#0a0a0c] relative overflow-hidden group">
@@ -96,7 +236,8 @@ const sections: Section[] = [
         <div className="w-full rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden p-3 group transition-all duration-500 hover:bg-white/[0.07]">
           <div className="relative w-full aspect-video rounded-[1.8rem] overflow-hidden shadow-2xl">
             <video 
-              src="/samsung/Demo Video.mp4" 
+              src="/samsung/Demo Video_web.mp4" 
+              preload="metadata" 
               controls 
               playsInline 
               className="w-full h-full object-cover"
@@ -164,7 +305,7 @@ const sections: Section[] = [
         </p>
 
         <div className="w-full mt-12 mb-8">
-          <img src="/samsung/Design Methodology.png" alt="Design Methodology" className="w-full h-auto rounded-2xl" />
+          <img loading="lazy" decoding="async" src="/samsung/Design Methodology.png" alt="Design Methodology" className="w-full h-auto rounded-2xl" />
         </div>
 
         <h3 className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-6">Timeline</h3>
@@ -256,8 +397,8 @@ const sections: Section[] = [
         {/* Figjam Screenshot */}
         <div className="flex flex-col gap-6">
           <div className="w-full rounded-2xl bg-white/5 overflow-hidden p-2 group transition-all duration-500">
-            <img 
-              src="/samsung/Desk Research.png" 
+            <img loading="lazy" decoding="async" 
+              src="/samsung/Desk Research.webp" 
               alt="Desk Research Figjam Mapping" 
               className="w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.01]" 
             />
@@ -447,8 +588,8 @@ const sections: Section[] = [
         {/* Interview Results Visualization */}
         <div className="w-full mt-12 py-8 px-2 md:px-6 bg-white/5 rounded-[2.5rem] border border-white/10 overflow-hidden group transition-all duration-500 hover:bg-white/[0.07]">
           <div className="relative w-full max-w-[800px] mx-auto">
-            <img 
-              src="/samsung/Interview result chart.png" 
+            <img loading="lazy" decoding="async" 
+              src="/samsung/Interview result chart.webp" 
               alt="Interview Results Visualization" 
               className="w-full h-auto rounded-3xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.01]"
             />
@@ -589,8 +730,8 @@ const sections: Section[] = [
               <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
               <h4 className="text-lg font-bold text-white/90 tracking-tight">Gen-Z Students</h4>
             </div>
-            <div className="w-full rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.01] group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/Genz Students.png")}>
-              <img src="/samsung/Genz Students.png" alt="Gen Z Students Empathy Map" className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+            <div className="w-full rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.01] group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/Genz Students.webp")}>
+              <img loading="lazy" decoding="async" src="/samsung/Genz Students.webp" alt="Gen Z Students Empathy Map" className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
             </div>
           </div>
 
@@ -600,8 +741,8 @@ const sections: Section[] = [
               <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
               <h4 className="text-lg font-bold text-white/90 tracking-tight">Millennial Professionals</h4>
             </div>
-            <div className="w-full rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.01] group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/Millennials Professions.png")}>
-              <img src="/samsung/Millennials Professions.png" alt="Millennials Empathy Map" className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+            <div className="w-full rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.01] group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/Millennials Professions.webp")}>
+              <img loading="lazy" decoding="async" src="/samsung/Millennials Professions.webp" alt="Millennials Empathy Map" className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
             </div>
           </div>
         </div>
@@ -1011,9 +1152,9 @@ const sections: Section[] = [
           After pivoting to accessibility, we built a persona grounded in real research on deaf and mute communication needs — not assumptions.
         </p>
 
-        <div className="mt-8 group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/Persona.png")}>
-          <img 
-            src="/samsung/Persona.png" 
+        <div className="mt-8 group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/Persona.webp")}>
+          <img loading="lazy" decoding="async" 
+            src="/samsung/Persona.webp" 
             alt="User Persona: Saleha" 
             className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.01]" 
           />
@@ -1037,10 +1178,10 @@ const sections: Section[] = [
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-16">
           {/* XR Communication Diagram Asset */}
-          <div className="relative w-full rounded-3xl overflow-hidden group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/XR Communication.png")}>
+          <div className="relative w-full rounded-3xl overflow-hidden group cursor-zoom-in" onClick={() => (window as any).setSelectedImage("/samsung/XR Communication.webp")}>
             <div className="absolute inset-0 bg-white/5 blur-3xl opacity-20" />
-            <img 
-              src="/samsung/XR Communication.png" 
+            <img loading="lazy" decoding="async" 
+              src="/samsung/XR Communication.webp" 
               alt="XR Communication Diagram" 
               className="relative z-10 w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105" 
             />
@@ -1049,8 +1190,8 @@ const sections: Section[] = [
           {/* Right Column: Large Graphic */}
           <div className="relative group">
             <div className="absolute inset-0 bg-purple-500/10 blur-[100px] rounded-full opacity-50" />
-            <img 
-              src="/samsung/Revised Problem Statement.png" 
+            <img loading="lazy" decoding="async" 
+              src="/samsung/Revised Problem Statement.webp" 
               alt="Networked Avatars Sphere" 
               className="relative z-10 w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105" 
             />
@@ -1127,8 +1268,8 @@ const sections: Section[] = [
           {/* Right Column: Graphic */}
           <div className="relative group">
             <div className="absolute inset-0 bg-blue-500/10 blur-[100px] rounded-full opacity-50" />
-            <img 
-              src="/samsung/Technical Consideration.png" 
+            <img loading="lazy" decoding="async" 
+              src="/samsung/Technical Consideration.webp" 
               alt="Technical Interface Graphic" 
               className="relative z-10 w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105" 
             />
@@ -1186,94 +1327,7 @@ const sections: Section[] = [
     label: "Process",
     title: "User Flow",
     content: (
-      <div className="space-y-16">
-
-        
-        {/* Unified Grid Header */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-          {/* Phase 01 */}
-          <div className="space-y-6">
-            <h4 className="text-[10px] text-blue-400 uppercase tracking-[0.2em] font-black mb-4">Phase 01: Setup & Recording</h4>
-            <div className="flex flex-col gap-4">
-              {[
-                { icon: <User size={20} />, text: "Saleha has a meeting to attend." },
-                { icon: <Glasses size={20} />, text: "Puts on the Samsung VR headset and turns it on." },
-                { icon: <Settings size={20} />, text: "Goes to settings." },
-                { icon: <BookOpen size={20} />, text: "Opens the \"Gesture Dictionary.\"" },
-                { icon: <Sparkles size={20} />, text: "\"Add New Gesture\"." },
-                { icon: <Video size={20} />, text: "\"Record New Gesture\"." },
-                { icon: <Settings size={20} />, text: "The device asks permission to use the camera." },
-                { icon: <Camera size={20} />, text: "\"Enable Device Camera\"." },
-                { icon: <Target size={20} />, text: "Press X to start the recording." },
-                { icon: <Target size={20} />, text: "Press Y to finish the recording." },
-                { icon: <Layout size={20} />, text: "Type a phrase for the gesture in the Text panel." },
-                { icon: <Settings size={20} />, text: "\"Save Gestures\"." },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px]">
-                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform shrink-0">
-                    {item.icon}
-                  </div>
-                  <p className="text-sm text-white/70 leading-relaxed font-medium">{item.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Phase 02 */}
-          <div className="space-y-6">
-            <h4 className="text-[10px] text-purple-400 uppercase tracking-[0.2em] font-black mb-4">Phase 02: Calibration & Enabling</h4>
-            <div className="flex flex-col gap-4">
-              {[
-                { icon: <TestTube size={20} />, text: "To test the added gestures." },
-                { icon: <Target size={20} />, text: "Clicks the test button for one of the added gestures in the dictionary (I am sorry)." },
-                { icon: <Accessibility size={20} />, text: "Performs the gestures and checks them." },
-                { icon: <Settings size={20} />, text: "The gestures could be edited/ saved if now changes are made." },
-                { icon: <Accessibility size={20} />, text: "Then in settings \"Accessibility Section\"" },
-                { icon: <Accessibility size={20} />, text: "\"Hearing enhancement\"." },
-                { icon: <Globe size={20} />, text: "\"Preferred Language\" turns on the feature." },
-                { icon: <Settings size={20} />, text: "A pop-up comes indicating \"Avatar Translator Feature is Off\"." },
-                { icon: <Settings size={20} />, text: "\"Enable Avatar Translator\"." },
-                { icon: <Sparkles size={20} />, text: "The feature is enabled." },
-                { icon: <Globe size={20} />, text: "Chooses the preferred language, ASL (American Sign Language)." },
-                { icon: <Settings size={20} />, text: "Closes the setting tab." },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px]">
-                  <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform shrink-0">
-                    {item.icon}
-                  </div>
-                  <p className="text-sm text-white/70 leading-relaxed font-medium">{item.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Phase 03 */}
-          <div className="space-y-6">
-            <h4 className="text-[10px] text-rose-400 uppercase tracking-[0.2em] font-black mb-4">Phase 03: The Meeting</h4>
-            <div className="flex flex-col gap-4">
-              {[
-                { icon: <Video size={20} />, text: "Clicks on \"Google Meet Application\"." },
-                { icon: <Settings size={20} />, text: "Enable the accessibility features from Samsung XR headset settings in Navigation Panel." },
-                { icon: <Video size={20} />, text: "Clicks on \"New Meeting\" to generate a meeting link." },
-                { icon: <Globe size={20} />, text: "Share the link with the participant to join the meeting." },
-                { icon: <Users size={20} />, text: "The participant joins, and the meeting begins." },
-                { icon: <Accessibility size={20} />, text: "Saleha makes gestures that are converted into speech by the avatar." },
-                { icon: <User size={20} />, text: "Abhishek speaks, and his speech is converted into sign language." },
-                { icon: <Sparkles size={20} />, text: "At the end of the meeting, Saleha selects the Heart gesture from the reaction options." },
-                { icon: <Sparkles size={20} />, text: "Heart emojis appear around the avatar, conveying user's emotions." },
-                { icon: <Target size={20} />, text: "The meeting ends." },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all hover:bg-white/[0.06] group min-h-[110px]">
-                  <div className="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform shrink-0">
-                    {item.icon}
-                  </div>
-                  <p className="text-sm text-white/70 leading-relaxed font-medium">{item.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      <UserFlowExplorer />
     ),
   },
   {
@@ -1285,9 +1339,8 @@ const sections: Section[] = [
       <div className="space-y-6">
         <div className="w-full rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden p-3 group transition-all duration-500 hover:bg-white/[0.07]">
           <div className="relative w-full aspect-video rounded-[1.8rem] overflow-hidden shadow-2xl">
-            <video 
-              src="/samsung/Prototype Video.mp4" 
-              autoPlay 
+            <InViewVideo 
+              src="/samsung/Prototype Video_web.mp4" 
               loop 
               muted 
               controls 
@@ -1423,7 +1476,7 @@ export default function SamsungCaseStudy() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     const observerOptions = {
       root: null,
@@ -1458,7 +1511,7 @@ export default function SamsungCaseStudy() {
     if (el) {
       setActiveSection(id);
       const y = el.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      smoothScrollTo(y);
     }
   };
 
@@ -1546,7 +1599,7 @@ export default function SamsungCaseStudy() {
         
         <div className="w-full mb-20">
           <div className="w-full aspect-[16/9] rounded-[3rem] overflow-hidden relative">
-            <img src="/samsung/Samsung_hero.png" alt="Samsung Avatar Hero" className="w-full h-full object-contain" />
+            <img loading="lazy" decoding="async" data-no-zoom src="/samsung/Samsung_hero.webp" alt="Samsung Avatar Hero" className="w-full h-full object-contain" />
           </div>
         </div>
 
@@ -1573,7 +1626,7 @@ export default function SamsungCaseStudy() {
       <div className="max-w-[800px] mx-auto relative px-6 pb-40">
         
         {/* Left Sidebar Container - Positioned absolutely to the left of the centered content */}
-        <div className="hidden lg:block absolute right-full mr-72 top-0 bottom-0 w-[220px]">
+        <div className="hidden min-[1360px]:block absolute right-full mr-[clamp(2rem,calc((100vw_-_800px)_/_2_-_260px),18rem)] top-0 bottom-0 w-[220px]">
           <AnimatePresence>
             {showSidebar && (
               <motion.div 
@@ -1622,7 +1675,7 @@ export default function SamsungCaseStudy() {
 
         {/* Content Area */}
         <div className="w-full">
-          <div className="lg:hidden mb-16">
+          <div data-section-tabs className="min-[1360px]:hidden mb-16">
             <nav className="flex flex-wrap gap-4">
               {(() => {
                 const seenLabels = new Set();

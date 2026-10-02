@@ -54,21 +54,21 @@ const timelineData: { year: string; title: string; company?: string; image?: str
     year: "NOV 2025 – MAY 2026",
     title: "Design Consultant",
     company: "Varahe Analytics",
-    image: "/company images/Varahe.jpg",
+    image: "/company images/Varahe.webp",
     logo: "/company logos/Varahe Analytics.webp"
   },
   {
     year: "JAN 2025 – JUL 2025",
     title: "XR Designer (Internship)",
     company: "FireBird VR",
-    image: "/company images/firebird.png",
+    image: "/company images/firebird.webp",
     logo: "/company logos/firebirdvr.png"
   },
   {
     year: "JUL 2024 – AUG 2024",
     title: "XR Design Intern (Virtual)",
     company: "Samsung PRISM",
-    image: "/samsung/samsung_cover.jpg",
+    image: "/samsung/samsung_cover.webp",
     logo: "https://cdn.simpleicons.org/samsung/1428A0"
   },
   { 
@@ -82,7 +82,7 @@ const timelineData: { year: string; title: string; company?: string; image?: str
     year: "OCT 2018 – OCT 2020", 
     title: "Graphic Designer", 
     company: "Convolution Bikes", 
-    image: "/company images/Convolution.png",
+    image: "/company images/Convolution.webp",
     logo: "/company logos/Convolution.png"
   },
 ];
@@ -134,10 +134,10 @@ const techStack = [
 ];
 
 const galleryImages = [
-  { src: "/about/Obsidian.jpg", alt: "Obsidian", x: -140, y: -60, rotate: -8 },
-  { src: "/about/Mountain.jpg", alt: "Mountain", x: 110, y: 100, rotate: 5 },
-  { src: "/about/Expedition.jpg", alt: "Expedition", x: 180, y: -90, rotate: -4 },
-  { src: "/about/Trekking.jpg", alt: "Trekking", x: -150, y: 90, rotate: 6 },
+  { src: "/about/Obsidian.webp", alt: "Obsidian", x: -140, y: -60, rotate: -8 },
+  { src: "/about/Mountain.webp", alt: "Mountain", x: 110, y: 100, rotate: 5 },
+  { src: "/about/Expedition.webp", alt: "Expedition", x: 180, y: -90, rotate: -4 },
+  { src: "/about/Trekking.webp", alt: "Trekking", x: -150, y: 90, rotate: 6 },
 ];
 
 export default function AboutPage() {
@@ -150,6 +150,7 @@ export default function AboutPage() {
   const [isHeroHovered, setIsHeroHovered] = useState(false);
   const [isAnyCardHovered, setIsAnyCardHovered] = useState(false);
   const heroImageRef = useRef<HTMLDivElement>(null);
+  const canHover = useCanHover();
 
   const bringToFront = (index: number) => {
     const newZIndices = [...zIndices];
@@ -244,8 +245,8 @@ export default function AboutPage() {
               >
                 <div className="absolute -inset-4 bg-blue-500/10 blur-3xl rounded-full"></div>
                 <div className="relative lg:absolute lg:inset-x-0 lg:-top-[2.5%] lg:-bottom-[2.5%] w-full aspect-[4/5] lg:aspect-auto lg:h-auto rounded-[2rem] overflow-hidden border border-white/10 bg-stone-950 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
-                   <img 
-                    src="/about/Shubhanshu_hero.jpg" 
+                   <img fetchPriority="high" decoding="async"
+                    src="/about/Shubhanshu_hero.webp" 
                     alt="Shubhanshu Hero" 
                     className="w-full h-full object-cover transition-all duration-700 scale-105 group-hover:scale-100" 
                   />
@@ -270,7 +271,7 @@ export default function AboutPage() {
                 <div className="flex items-center gap-4 sm:gap-6">
                   <div className="w-12 h-12 shrink-0 rounded-full bg-white border border-white/10 flex items-center justify-center group-hover:border-blue-500/30 transition-colors overflow-hidden relative shadow-sm">
                     {item.logo ? (
-                      <img src={item.logo} className="w-4/5 h-4/5 object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
+                      <img loading="lazy" decoding="async" src={item.logo} className="w-4/5 h-4/5 object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
                     ) : (
                       <Briefcase className="w-5 h-5 text-stone-700 opacity-90 group-hover:opacity-100 transition-opacity" />
                     )}
@@ -290,7 +291,7 @@ export default function AboutPage() {
           </div>
 
           <AnimatePresence>
-            {hoveredTimelineImage && (
+            {hoveredTimelineImage && canHover && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -361,7 +362,7 @@ export default function AboutPage() {
                   <div className="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center group-hover:border-blue-500/50 transition-all duration-500 group-hover:-translate-y-1 relative overflow-hidden shadow-lg">
                      <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                      {tool.logo ? (
-                       <img src={tool.logo} alt={tool.name} className="w-7 h-7 object-contain opacity-50 group-hover:opacity-100 transition-all duration-500 z-10" />
+                       <img loading="lazy" decoding="async" src={tool.logo} alt={tool.name} className="w-7 h-7 object-contain opacity-50 group-hover:opacity-100 transition-all duration-500 z-10" />
                      ) : tool.customIcon ? (
                        <div className="w-7 h-7 opacity-50 group-hover:opacity-100 transition-all duration-500 z-10 text-white flex items-center justify-center">
                          <tool.customIcon />
@@ -448,9 +449,19 @@ export default function AboutPage() {
   );
 }
 
+// True only on devices with a real mouse; touch screens fire "mouse enter" on tap and never leave
+function useCanHover() {
+  const [canHover, setCanHover] = useState(false);
+  useEffect(() => {
+    setCanHover(window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+  }, []);
+  return canHover;
+}
+
 // Sub-components for Floating Interaction
-function FloatingTag({ text, isHovered }: { text: string; isHovered: boolean }) {
+function FloatingTag({ text, isHovered: hovered }: { text: string; isHovered: boolean }) {
   const [pos, setPos] = useState({ x: 0, y: 0 });
+  const isHovered = useCanHover() && hovered;
 
   useEffect(() => {
     if (!isHovered) return;
@@ -507,7 +518,7 @@ function GalleryCard({ img, i, galleryRef, bringToFront, zIndex, setAnyHover }: 
       data-cursor-hide
     >
       <div className="w-full h-full relative rounded-[40px] overflow-hidden bg-stone-900">
-          <img src={img.src} alt={img.alt} className={`w-full h-full object-cover transition-all duration-1000 pointer-events-none select-none rounded-[40px] ${isDragging ? 'grayscale-0' : 'grayscale brightness-[0.85] group-hover:grayscale-0 group-hover:brightness-100'}`} />
+          <img loading="lazy" decoding="async" src={img.src} alt={img.alt} className={`w-full h-full object-cover transition-all duration-1000 pointer-events-none select-none rounded-[40px] ${isDragging ? 'grayscale-0' : 'grayscale brightness-[0.85] group-hover:grayscale-0 group-hover:brightness-100'}`} />
           <div className={`absolute inset-0 transition-colors duration-700 ${isDragging ? 'bg-transparent' : 'bg-black/35 group-hover:bg-transparent'}`}></div>
           <div className="absolute bottom-6 left-6">
               <div className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 flex items-center shadow-2xl">

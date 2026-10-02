@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Reveal from "./Reveal";
 import { LucideIcon, ArrowUpRight, Building2, AppWindow, Home, Plane, Box, BrainCircuit, Glasses, Layers, Smartphone, Lock } from "lucide-react";
 
 interface Tag {
@@ -34,7 +35,7 @@ const projects: Project[] = [
       { name: "Drone Tech", icon: Plane },
     ],
     videoUrl: "/flytbase/flytbase_preview.mp4",
-    coverImage: "/flytbase/flytebase_cover.png",
+    coverImage: "/flytbase/flytebase_cover.webp",
     placeholderColor: "bg-stone-900",
     link: "/case-study/flytbase",
   },
@@ -48,8 +49,8 @@ const projects: Project[] = [
       { name: "VR Experience", icon: Glasses },
       { name: "EdTech", icon: Box },
     ],
-    videoUrl: "/guruvr/guruvr_preview.mp4",
-    coverImage: "/guruvr/guruvr_cover.png",
+    videoUrl: "/guruvr/guruvr_preview_web.mp4",
+    coverImage: "/guruvr/guruvr_cover.webp",
     placeholderColor: "bg-neutral-900",
     link: "/case-study/guru-vr",
   },
@@ -63,8 +64,8 @@ const projects: Project[] = [
       { name: "VR Tool", icon: Glasses },
       { name: "Innovation", icon: BrainCircuit },
     ],
-    videoUrl: "/samsung/samsung_preview.mp4",
-    coverImage: "/samsung/samsung_cover.jpg",
+    videoUrl: "/samsung/samsung_preview_web.mp4",
+    coverImage: "/samsung/samsung_cover.webp",
     placeholderColor: "bg-stone-950",
     link: "/case-study/samsung",
     isNDA: true,
@@ -79,8 +80,8 @@ const projects: Project[] = [
       { name: "Mobile App", icon: Smartphone },
       { name: "System Design", icon: Layers },
     ],
-    videoUrl: "/Zoo/rgzp_preview_video.mp4",
-    coverImage: "/Zoo/rgzp_cover.jpg",
+    videoUrl: "/Zoo/rgzp_preview_video_web.mp4",
+    coverImage: "/Zoo/rgzp_cover.webp",
     placeholderColor: "bg-zinc-900",
     link: "/case-study/rgzp",
   },
@@ -91,17 +92,17 @@ export default function ProjectGrid() {
 
   return (
     <section className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-      <div className="flex flex-col mb-20">
+      <Reveal className="flex flex-col mb-20">
         <span className="text-gray-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Case Studies</span>
         <h2 className="text-4xl md:text-6xl font-bold tracking-tight">Selected Work</h2>
-      </div>
+      </Reveal>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-32">
-        {projects.map((project) => {
+        {projects.map((project, index) => {
           const CardWrapper = project.link ? Link : 'div';
           return (
+            <Reveal key={project.id} delay={(index % 2) * 0.15}>
             <CardWrapper
-              key={project.id}
               href={project.link || "#"}
               className="group relative flex flex-col cursor-pointer block"
               onMouseEnter={() => setHoveredProject(project.id)}
@@ -113,7 +114,7 @@ export default function ProjectGrid() {
               <div className="absolute inset-0 bg-black/10 z-10 transition-opacity duration-500 group-hover:opacity-0"></div>
               
               {/* Cover Image */}
-              <img 
+              <img loading="lazy" decoding="async" 
                 src={project.coverImage} 
                 alt={project.title}
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
@@ -127,6 +128,7 @@ export default function ProjectGrid() {
                 muted
                 loop
                 playsInline
+                preload="none" // Previews are 35–50 MB each: only download one when its card is hovered
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
                   hoveredProject === project.id ? "opacity-100" : "opacity-0"
                 }`}
@@ -134,7 +136,7 @@ export default function ProjectGrid() {
                   if (el) {
                     if (hoveredProject === project.id) {
                       el.play().catch(() => {});
-                    } else {
+                    } else if (el.readyState > 0) {
                       el.pause();
                       el.currentTime = 0; // Reset video to start when not hovered
                     }
@@ -183,6 +185,7 @@ export default function ProjectGrid() {
               </div>
             </div>
           </CardWrapper>
+            </Reveal>
         )})}
       </div>
     </section>

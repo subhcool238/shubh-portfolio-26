@@ -81,6 +81,35 @@ export default function Navbar() {
     setMounted(true);
   }, []);
 
+  // Hide the navbar while scrolling down, bring it back on a small scroll up
+  const [isHidden, setIsHidden] = useState(false);
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      const delta = y - lastY;
+      if (y < 120) setIsHidden(false);
+      else if (delta > 6) setIsHidden(true);
+      else if (delta < -6) setIsHidden(false);
+      if (Math.abs(delta) > 6) lastY = y;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  // A new page always starts with the navbar visible
+  useEffect(() => {
+    setIsHidden(false);
+  }, [pathname]);
+
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "Work", href: "#work" },
@@ -93,7 +122,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-[100] pt-3 md:pt-4 pointer-events-none flex justify-center">
+      <nav className={`fixed top-0 left-0 w-full z-[100] pt-3 md:pt-4 pointer-events-none flex justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${isHidden && !isMenuOpen ? "-translate-y-[140%]" : "translate-y-0"}`}>
         <div className="max-w-[800px] w-full mx-4 md:mx-6 h-[50px] md:h-[56px] flex items-center justify-center pointer-events-auto rounded-full border border-white/10 bg-black/50 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-white/20 relative overflow-hidden">
 
           {/* Left Side: Logo — Shifted right for better breathing room */}
@@ -110,7 +139,7 @@ export default function Navbar() {
           </div>
 
           {/* Center: Desktop Navigation Links — Dead Center */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-5 -translate-x-8 lg:gap-8 lg:translate-x-0">
             {navLinks.map(({ label, href, target }) => (
               <ScrambleLink key={label} label={label} href={href} target={target} />
             ))}

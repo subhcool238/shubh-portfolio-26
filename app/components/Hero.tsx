@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useScramble } from "use-scramble";
+import Reveal from "./Reveal";
+import { smoothScrollTo } from "./SmoothScroll";
 
 const styles = {
   linearTextGradient: {
@@ -57,7 +59,7 @@ export default function Hero() {
   return (
     <section className="h-dvh flex flex-col justify-center bg-transparent w-full relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
       <div className="flex w-full items-center justify-between relative">
-        <div className="w-full lg:w-2/3 z-20">
+        <Reveal className="w-full lg:w-2/3 z-20" y={32}>
           <div className="text-left">
             <p className="text-3xl sm:text-5xl font-bold text-white leading-tight">
               Hello! I’m <span style={styles.linearTextGradient}>Shubhanshu.</span>{" "}
@@ -75,14 +77,14 @@ export default function Hero() {
               AI Product Designer and Spatial Experience Designer, building AI products people can actually trust.
             </p>
           </div>
-        </div>
+        </Reveal>
       </div>
       <div className="text-2xl text-center absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
         <a 
           href="#work" 
           onClick={(e) => {
             e.preventDefault();
-            document.querySelector('#work')?.scrollIntoView({ behavior: 'smooth' });
+            smoothScrollTo('#work');
           }}
           className="flex flex-col items-center group"
         >

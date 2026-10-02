@@ -1,5 +1,6 @@
 "use client";
 
+import { smoothScrollTo } from "./SmoothScroll";
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,19 +26,19 @@ export default function ScrollToTopButton() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToTop = () => {
-    const mobileNav = document.querySelector('.lg\\:hidden.mb-16 nav');
+    const mobileNav = document.querySelector('[data-section-tabs] nav');
     if (mobileNav) {
       // Scroll to just above the nav tags
       const y = mobileNav.getBoundingClientRect().top + window.scrollY - 120;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      smoothScrollTo(y);
     } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      smoothScrollTo(0);
     }
   };
 
@@ -49,7 +50,7 @@ export default function ScrollToTopButton() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           onClick={scrollToTop}
-          className="lg:hidden fixed bottom-6 left-6 z-[100] p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg transition-colors hover:bg-white/20"
+          className="min-[1360px]:hidden fixed bottom-6 left-6 z-[100] p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg transition-colors hover:bg-white/20"
         >
           <ArrowUp size={24} />
         </motion.button>

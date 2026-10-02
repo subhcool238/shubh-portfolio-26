@@ -11,7 +11,7 @@ const LAUNCH_VY     = -7.7;
 const SPEED_INC     = 0.05;  // +5% speed on every catch
 const MAX_SPEED     = 20.0;
 const FRAME_MS      = 1000 / 60; // speeds above are in px per 60fps frame
-const MISS_PAUSE    = 70;
+const MISS_PAUSE    = 180; // ~3 seconds (in 60fps frames) to read the result
 
 type Phase = 'idle' | 'playing' | 'miss';
 
@@ -103,6 +103,9 @@ export default function Footer() {
   const paddleCx = useRef<number>(300);
   const spinAngle = useRef<number>(0);
   const lastFrameTime = useRef<number | null>(null);
+  const inViewRef = useRef(false);
+  const emailRef = useRef<HTMLDivElement>(null);
+  const [hintY, setHintY] = useState<number | null>(null);
   const ballSpeed = useRef<number>(Math.abs(LAUNCH_VY));
   const scoreRef = useRef<number>(0);
   const missTimer = useRef<number>(0);
@@ -136,9 +139,17 @@ export default function Footer() {
     canvas.width = width; canvas.height = height;
     paddleCx.current = width / 2;
     if (phaseRef.current !== 'playing') resetBall();
-  }, [resetBall]);
+    // Midpoint between the bottom of the email and the top of the resting ball
+    if (emailRef.current) {
+      const emailBottom = emailRef.current.getBoundingClientRect().bottom - wrap.getBoundingClientRect().top;
+      const ballTop = getPaddleY() - BALL_R * 2;
+      setHintY((emailBottom + ballTop) / 2);
+    }
+  }, [resetBall, getPaddleY]);
 
   const onMove = useCallback((e: MouseEvent | TouchEvent) => {
+    // The game only reacts while the footer is on screen (avoids layout work on every mouse move site-wide)
+    if (!inViewRef.current) return;
     const canvas = canvasRef.current; if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const clientX = 'touches' in e ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX;
@@ -189,7 +200,7 @@ export default function Footer() {
   }, [launchBall]);
 
   const onKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.code === 'Space' && phaseRef.current === 'idle') {
+    if (e.code === 'Space' && phaseRef.current === 'idle' && inViewRef.current) {
       e.preventDefault();
       launchBall();
     }
@@ -221,7 +232,7 @@ export default function Footer() {
       }
       if (b.y - BALL_R > H + 50) { pushPhase('miss'); missTimer.current = MISS_PAUSE; }
     }
-    if (phaseRef.current === 'miss') { missTimer.current -= 1; if (missTimer.current <= 0) { resetBall(); pushPhase('idle'); } }
+    if (phaseRef.current === 'miss') { missTimer.current -= dt; if (missTimer.current <= 0) { resetBall(); pushPhase('idle'); } }
     if (glowFrames.current > 0) glowFrames.current -= 1;
     
     ctx.save(); ctx.setLineDash([4, 12]); ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
@@ -242,12 +253,22 @@ export default function Footer() {
     if (!wrap || !canvas) return;
     resize(); window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMove as EventListener);
-    window.addEventListener('touchmove', onMove as EventListener, { passive: false });
+    window.addEventListener('touchmove', onMove as EventListener, { passive: true });
     window.addEventListener('keydown', onKeyDown);
     canvas.addEventListener('mousedown', onDown as EventListener);
     canvas.addEventListener('touchstart', onDown as EventListener, { passive: false });
-    rafRef.current = requestAnimationFrame(loop);
+    // Only run the draw loop while the footer is visible
+    const observer = new IntersectionObserver(([entry]) => {
+      inViewRef.current = entry.isIntersecting;
+      cancelAnimationFrame(rafRef.current);
+      if (entry.isIntersecting) {
+        lastFrameTime.current = null;
+        rafRef.current = requestAnimationFrame(loop);
+      }
+    });
+    observer.observe(document.getElementById('footer-reveal-sentinel') ?? wrap);
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(rafRef.current); window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMove as EventListener); window.removeEventListener('touchmove', onMove as EventListener);
       window.removeEventListener('keydown', onKeyDown);
@@ -273,9 +294,10 @@ export default function Footer() {
   };
 
   return (
-    <footer ref={wrapRef} className="relative w-full overflow-hidden bg-[#10131b] min-h-[90vh] flex flex-col pt-32 pb-48" style={{ marginLeft: 'calc(-50vw + 50%)', width: '100vw' }}>
+    <footer ref={wrapRef} className="relative w-full overflow-hidden bg-[#0c0e15] min-h-[90vh] flex flex-col pt-32 pb-48" style={{ marginLeft: 'calc(-50vw + 50%)', width: '100vw' }}>
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-[1] block" />
-      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/40 to-transparent pointer-events-none z-[5]" />
+      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#7dadff] via-[#a78bdb] to-[#d21d53] shadow-[0_0_24px_rgba(125,173,255,0.55)] pointer-events-none z-[6]" />
+      <div className="absolute top-0 left-0 w-full h-48 bg-[linear-gradient(180deg,rgba(125,173,255,0.10)_0%,rgba(210,29,83,0.04)_45%,transparent_100%)] pointer-events-none z-[5]" />
       <div className="absolute inset-0 pointer-events-none z-[2] bg-[radial-gradient(ellipse_70%_60%_at_50%_110%,rgba(125,173,255,0.15)_0%,transparent_80%)]" />
 
       <div className="relative z-10 w-full max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-12 pointer-events-none">
@@ -294,7 +316,7 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="pointer-events-auto relative cursor-pointer" 
+        <div ref={emailRef} className="pointer-events-auto relative cursor-pointer" 
              data-cursor-text={copied ? "EMAIL COPIED!" : "COPY EMAIL"}
              onClick={copyEmail}>
           <div className="flex flex-col items-center gap-2">
@@ -305,9 +327,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="absolute bottom-[32%] left-1/2 -translate-x-1/2 w-full max-w-md text-center pointer-events-none z-[15] select-none">
+      <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md text-center pointer-events-none z-[15] select-none" style={{ top: hintY ?? '62%' }}>
         {phase === 'playing' && score > 0 && (
-          <div className="text-[140px] font-bold text-white/[0.08] leading-none transition-opacity duration-500">{score}</div>
+          <div className="text-[140px] font-bold text-white/20 leading-none transition-opacity duration-500">{score}</div>
         )}
         {phase === 'idle' && (
           <div className="animate-pulse">

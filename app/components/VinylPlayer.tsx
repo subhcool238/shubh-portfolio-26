@@ -34,7 +34,7 @@ function CoverArt({ src, alt, className = '' }: { src: string; alt: string; clas
       </div>
     );
   }
-  return <img src={src} alt={alt} onError={() => setFailed(true)} className={`w-full h-full object-cover ${className}`} />;
+  return <img loading="lazy" decoding="async" src={src} alt={alt} onError={() => setFailed(true)} className={`w-full h-full object-cover ${className}`} />;
 }
 
 // Shared vinyl look: dark grey with a faint blue→pink tint matching the page glow,
@@ -512,8 +512,8 @@ export default function VinylPlayer() {
 
               {!current && (
                 <div className="absolute bottom-[-40px] md:bottom-[-50px] left-1/2 -translate-x-1/2 w-40 md:w-48 py-2 md:py-3 rounded-2xl border border-dashed border-white/10 text-[8px] md:text-[9px] uppercase tracking-[0.4em] text-white/20 flex items-center justify-center bg-black/20 backdrop-blur-sm whitespace-nowrap">
-                  <span className="md:hidden">Click to play</span>
-                  <span className="hidden md:inline">Drag to play</span>
+                  <span className="md:hidden [@media(pointer:coarse)]:inline!">Click to play</span>
+                  <span className="hidden md:inline [@media(pointer:coarse)]:hidden!">Drag to play</span>
                 </div>
               )}
             </div>
@@ -563,7 +563,7 @@ export default function VinylPlayer() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 px-2 md:px-4">
           {fetching ? Array(4).fill(0).map((_, i) => <div key={i} className="aspect-square rounded-2xl bg-white/5 animate-pulse" />)
             : tracks.map((t) => (
-            <div key={t.name} className="flex flex-col gap-4 group/album items-center cursor-pointer md:cursor-grab md:active:cursor-grabbing" onClick={() => { if (window.innerWidth < 768) playTrack(t); }}>
+            <div key={t.name} className="flex flex-col gap-4 group/album items-center cursor-pointer md:cursor-grab md:active:cursor-grabbing" onClick={() => { if (window.innerWidth < 768 || window.matchMedia('(hover: none), (pointer: coarse)').matches) playTrack(t); }}>
               <div className="relative w-full aspect-square">
                 {/* Draggable Vinyl Disk - Behind the cover */}
                 <motion.div 
@@ -605,8 +605,8 @@ export default function VinylPlayer() {
                    
                    {/* Hover Prompt */}
                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover/vinyl:opacity-100 transition-opacity bg-white text-black px-2 py-1 rounded text-[8px] font-bold uppercase whitespace-nowrap pointer-events-none z-50 shadow-xl">
-                     <span className="md:hidden">Click</span>
-                     <span className="hidden md:inline">Drag</span>
+                     <span className="md:hidden [@media(pointer:coarse)]:inline!">Click</span>
+                     <span className="hidden md:inline [@media(pointer:coarse)]:hidden!">Drag</span>
                    </div>
 
                    {/* Active Indicator Dot */}

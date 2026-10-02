@@ -6,7 +6,7 @@ import Agent from "./Agent";
 
 export default function PersistentAgent() {
   const pathname = usePathname();
-  const [scrollPos, setScrollPos] = useState(0);
+  const [isPastHero, setIsPastHero] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [showAgent, setShowAgent] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
@@ -16,42 +16,63 @@ export default function PersistentAgent() {
     setIsMounted(true);
     const hasSeen = typeof window !== 'undefined' && sessionStorage.getItem("hasSeenPreloader");
     
-    const reveal = () => setShowAgent(true);
+    // Mount Syn (which downloads the 3D viewer and scene) once the browser is idle,
+    // so it never competes with the page's own content for the first paint
+    let idleId = 0;
+    const reveal = () => {
+      if ('requestIdleCallback' in window) {
+        idleId = window.requestIdleCallback(() => setShowAgent(true), { timeout: 1500 });
+      } else {
+        setShowAgent(true);
+      }
+    };
 
+    let timer: ReturnType<typeof setTimeout> | undefined;
     if (hasSeen) {
       reveal();
     } else {
-      window.addEventListener('syn-loaded', reveal);
+      window.addEventListener('preloader-done', reveal);
       // Fallback reveal in case event is missed
-      const timer = setTimeout(reveal, 6000);
-      return () => {
-        window.removeEventListener('syn-loaded', reveal);
-        clearTimeout(timer);
-      };
+      timer = setTimeout(reveal, 3000);
     }
+    return () => {
+      window.removeEventListener('preloader-done', reveal);
+      if (timer) clearTimeout(timer);
+      if (idleId && 'cancelIdleCallback' in window) window.cancelIdleCallback(idleId);
+    };
   }, []);
 
   // 2. Handle Scroll & Footer Visibility
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollPos(window.scrollY);
-      
-      const footer = document.querySelector('footer');
-      if (footer) {
-        const footerTop = footer.getBoundingClientRect().top;
-        setIsFooterVisible(footerTop < window.innerHeight);
+    // Checked at most once per frame; state only changes when a threshold is crossed,
+    // so scrolling does not re-render the agent
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      // The threshold should match the Hero section height logic
+      setIsPastHero(window.scrollY >= 300);
+
+      // The footer is revealed once the end of the page content rises above the bottom of the screen
+      const contentEnd = document.getElementById('footer-reveal-sentinel');
+      if (contentEnd) {
+        setIsFooterVisible(contentEnd.getBoundingClientRect().top < window.innerHeight);
       }
+    };
+    const handleScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    update();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(frame);
+    };
   }, [pathname]);
 
   // 3. Determine Mode Instantly during Render to avoid Navigation Flicker
   const isHome = pathname === "/";
-  // The threshold should match the Hero section height logic
-  const isHeroActive = isHome && scrollPos < 300; 
+  const isHeroActive = isHome && !isPastHero;
   
   let mode: "hero" | "sticky" | "hidden" = "sticky";
   if (isFooterVisible) mode = "hidden";
@@ -67,8 +88,10 @@ export default function PersistentAgent() {
     }
 
     if (mode === "hero") {
-      // Hero Mode: Positioned for the Home Page Hero Section
-      return `${base} opacity-100 bottom-[-61px] right-[-36px] w-[192px] h-[192px] md:bottom-auto md:right-[-10%] md:top-[55%] md:translate-y-[calc(-50%+20px)] md:translate-x-[-30px] md:w-[560px] md:h-[560px]`;
+      // Hero Mode: Positioned for the Home Page Hero Section.
+      // Phones and tablets: small, in the bottom-right corner (the hero text spans the full width there).
+      // Wide screens (xl+): large, beside the text, which only takes two thirds of the width.
+      return `${base} opacity-100 w-[192px] h-[192px] bottom-[-61px] right-[-36px] md:w-[240px] md:h-[240px] md:bottom-[-50px] md:right-[calc(min(0px,640px-50vw)-10px)] xl:bottom-auto xl:right-[-10%] xl:top-[55%] xl:translate-y-[calc(-50%+20px)] xl:translate-x-[-30px] xl:w-[560px] xl:h-[560px]`;
     }
 
     // Sticky mode: Default for all other pages and scrolled-down home page

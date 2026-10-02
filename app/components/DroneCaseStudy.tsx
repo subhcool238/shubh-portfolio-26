@@ -1,5 +1,6 @@
 "use client";
 
+import { smoothScrollTo } from "./SmoothScroll";
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import {
@@ -293,7 +294,7 @@ export default function DroneCaseStudy() {
             </div>
           </div>
           <div className="my-12 cursor-zoom-in" onClick={() => setSelectedImage("/flytbase/briefing.png")}>
-            <img src="/flytbase/briefing.png" alt="Shift Briefing Interface" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10" />
+            <img loading="lazy" decoding="async" src="/flytbase/briefing.png" alt="Shift Briefing Interface" className="w-full h-auto rounded-3xl shadow-2xl border border-white/10" />
           </div>
         </div>
       ),
@@ -310,10 +311,10 @@ export default function DroneCaseStudy() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 mt-12">
             {[
-              { img: "/flytbase/dashboard.png", name: "Dashboard", desc: "Live incidents & AI triage" },
-              { img: "/flytbase/fleet.png", name: "Fleet Management", desc: "Drone health & docking" },
-              { img: "/flytbase/manual.png", name: "Manual Control", desc: "Direct piloting overrides" },
-              { img: "/flytbase/patrol.png", name: "Patrols", desc: "Autonomous route library" },
+              { img: "/flytbase/dashboard.webp", name: "Dashboard", desc: "Live incidents & AI triage" },
+              { img: "/flytbase/fleet.webp", name: "Fleet Management", desc: "Drone health & docking" },
+              { img: "/flytbase/manual.webp", name: "Manual Control", desc: "Direct piloting overrides" },
+              { img: "/flytbase/patrol.webp", name: "Patrols", desc: "Autonomous route library" },
               { img: "/flytbase/incidents.png", name: "Incidents", desc: "Historical forensic logs" },
               { img: "/flytbase/settings.png", name: "System Settings", desc: "Zones & SLA thresholds" },
             ].map((screen) => (
@@ -323,7 +324,7 @@ export default function DroneCaseStudy() {
                 onClick={() => setSelectedImage(screen.img)}
               >
                 <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-white/5 mb-4 group-hover:border-white/20 group-hover:scale-[1.02] transition-all duration-500">
-                  <img src={screen.img} alt={screen.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                  <img loading="lazy" decoding="async" src={screen.img} alt={screen.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                 </div>
                 <div className="px-1">
                   <h4 className="text-base font-bold text-white/90 mb-1">{screen.name}</h4>
@@ -492,7 +493,7 @@ export default function DroneCaseStudy() {
     if (el) {
       setActiveSection(id);
       const y = el.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      smoothScrollTo(y);
     }
   };
 
@@ -512,8 +513,8 @@ export default function DroneCaseStudy() {
         </p>
         
         {/* Project Hero Image */}
-        <div className="w-full mb-20 relative group cursor-zoom-in" onClick={() => setSelectedImage("/flytbase/flytbase_hero.png")}>
-          <img src="/flytbase/flytbase_hero.png" alt="FlytBase Drone Security" className="w-full h-auto rounded-3xl object-cover relative" />
+        <div className="w-full mb-20 relative group cursor-zoom-in" onClick={() => setSelectedImage("/flytbase/flytbase_hero.webp")}>
+          <img loading="lazy" decoding="async" data-no-zoom src="/flytbase/flytbase_hero.webp" alt="FlytBase Drone Security" className="w-full h-auto rounded-3xl object-cover relative" />
         </div>
 
         {/* Project Metadata Box */}
@@ -540,7 +541,7 @@ export default function DroneCaseStudy() {
       {/* Main Layout */}
       <div className="max-w-[800px] mx-auto relative px-6 pb-40">
         {/* Left Sidebar Container */}
-        <div className="hidden lg:block absolute right-full mr-72 top-0 bottom-0 w-[220px]">
+        <div className="hidden min-[1360px]:block absolute right-full mr-[clamp(2rem,calc((100vw_-_800px)_/_2_-_260px),18rem)] top-0 bottom-0 w-[220px]">
           <div className="sticky top-0 h-screen flex flex-col justify-center">
             <nav className="flex flex-col gap-4">
               {sections.map((section) => {
@@ -581,7 +582,7 @@ export default function DroneCaseStudy() {
         {/* Content Area */}
         <div className="w-full">
           {/* Mobile Navigation */}
-          <div className="lg:hidden mb-16">
+          <div data-section-tabs className="min-[1360px]:hidden mb-16">
             <nav className="flex flex-wrap gap-4">
               {sections.map((section) => {
                 const isActive = activeSection === section.id;
@@ -641,37 +642,6 @@ export default function DroneCaseStudy() {
         </div>
       </div>
 
-      {/* Image Modal */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/95 backdrop-blur-sm cursor-zoom-out"
-            onClick={() => setSelectedImage(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="relative max-w-7xl w-full h-full flex items-center justify-center"
-            >
-              <button
-                className="absolute top-0 right-0 p-4 text-white/50 hover:text-white transition-colors z-[110]"
-                onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
-              >
-                <X size={32} />
-              </button>
-              <img
-                src={selectedImage}
-                alt="Enlarged view"
-                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

@@ -4,6 +4,10 @@
 @theme {
   --font-sans: "Metropolis", sans-serif;
 
+  /* Softer, slightly slower default for every hover/transition on the site */
+  --default-transition-duration: 350ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+
   /* Colors mapped to CSS variables */
   --color-surface: var(--surface);
   --color-surface-dim: var(--surface-dim);
@@ -212,6 +216,16 @@
     overflow-x: hidden;
     scroll-behavior: smooth;
   }
+
+  /* Lenis smooth scrolling */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+    scroll-behavior: auto;
+  }
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
 }
 
 /* Glassmorphism Classes for reuse */
@@ -275,6 +289,12 @@
   @media (pointer: fine) {
     *, a, button {
       cursor: none !important;
+    }
+
+    /* The custom cursor is not part of a full-screen element, so show the system pointer there */
+    :fullscreen,
+    :fullscreen * {
+      cursor: auto !important;
     }
   }
 
